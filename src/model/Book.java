@@ -1,17 +1,19 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Book {
     private String isbn;
     private String title;
     private String author;
-    private String date;
+    private LocalDate date;
     private String type;
     private boolean isAvailable;
     private String urlImage;
 
     public Book() {}
 
-    public Book(String isbn, String title, String author, String date, String type, boolean isAvailable, String urlImage) {
+    public Book(String isbn, String title, String author, LocalDate date, String type, boolean isAvailable, String urlImage) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
@@ -24,7 +26,7 @@ public class Book {
     public String getIsbn() { return isbn; }
     public String getTitle() { return title; }
     public String getAuthor() { return author; }
-    public String getDate() { return date; }
+    public LocalDate getDate() { return date; }
     public String getType() { return type; }
     public boolean isAvailable() { return isAvailable; }
     public String getUrlImage() { return urlImage; }
@@ -32,7 +34,7 @@ public class Book {
     public void setIsbn(String isbn) { this.isbn = isbn; }
     public void setTitle(String title) { this.title = title; }
     public void setAuthor(String author) { this.author = author; }
-    public void setDate(String date) { this.date = date; }
+    public void setDate(LocalDate date) { this.date = date; }
     public void setType(String type) { this.type = type; }
     public void setAvailable(boolean available) { isAvailable = available; }
     public void setUrlImage(String urlImage) { this.urlImage = urlImage; }
