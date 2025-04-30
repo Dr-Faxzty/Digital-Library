@@ -39,14 +39,14 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "isbn='" + isbn + '\'' +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", date='" + date + '\'' +
-                ", type='" + type + '\'' +
-                ", isAvailable=" + isAvailable +
-                ", urlImage='" + urlImage + '\'' +
+        return "Book {" +
+                "isbn = '" + isbn + '\'' +
+                ", title = '" + title + '\'' +
+                ", author = '" + author + '\'' +
+                ", date = '" + date + '\'' +
+                ", type = '" + type + '\'' +
+                ", isAvailable = " + isAvailable +
+                ", urlImage = '" + urlImage + '\'' +
                 '}';
     }
 }
