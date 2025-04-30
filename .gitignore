@@ -1,0 +1,30 @@
+# === Java ===
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# === VS Code ===
+.vscode/
+.history/
+
+# === MacOS ===
+.DS_Store
+
+# === Windows ===
+Thumbs.db
+
+# === Cartelle di build ===
+bin/
+build/
+out/
+target/
+
+# === File temporanei ===
+*.tmp
+*.swp
+*.bak
+
+# === Librerie (se usi lib/ esterna) ===
+lib/
