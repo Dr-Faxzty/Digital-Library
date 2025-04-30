@@ -1,7 +1,6 @@
 package model;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Loan{
     private Book book;
