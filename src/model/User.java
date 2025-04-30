@@ -1,47 +1,47 @@
 package model;
 
-public enum Ruolo{
-    ADMIN,
-    USER
-}
-
 public class User{
-    private String nome;
-    private String cognome;
-    private String codiceFiscale;
+    private String name;
+    private String surname;
+    private String taxIdCode;
     private String email;
-    private Ruolo ruolo;
+    private String password;
+    private Role role;
 
     public User() {}
 
-    public User(String nome, String cognome, String codiceFiscale, String email, Ruolo ruolo){
-        this.nome = nome;
-        this.cognome = cognome;
-        this.codiceFiscale = codiceFiscale;
+    public User(String name, String surname, String taxIdCode, String email, String password, Role role){
+        this.name = name;
+        this.surname = surname;
+        this.taxIdCode = taxIdCode;
         this.email = email;
-        this.ruolo = ruolo;
+        this.password = password;
+        this.role = role;
     }
 
-    public String getNome(){return this.nome;}
-    public String getNome(){return this.cognome;}
-    public String getNome(){return this.codiceFiscale;}
-    public String getNome(){return this.email;}
-    public Ruolo getNome(){return this.ruolo;}
+    public String getName(){return this.name;}
+    public String getSurname(){return this.surname;}
+    public String gettaxIdCode(){return this.taxIdCode;}
+    public String getEmail(){return this.email;}
+    public String getPassword(){return this.password;}
+    public Role getRole(){return this.role;}
 
-    public void setNome(String nome){this.nome = nome;}
-    public void setNome(String nome){this.cognome = cognome;}
-    public void setNome(String nome){this.codiceFiscale = codiceFiscale;}
-    public void setNome(String nome){this.email = email;}
-    public void setNome(Ruolo ruolo){this.ruolo = ruolo;}
+    public void setName(String name){this.name = name;}
+    public void setSurname(String surname){this.surname = surname;}
+    public void settaxIdCode(String taxIdCode){this.taxIdCode = taxIdCode;}
+    public void setEmail(String email){this.email = email;}
+    public void setPassword(String password){this.password = password;}
+    public void setRole(Role role){this.role = role;}
 
     @Override
     public String toString(){
         return "User{" +
-                "Nome = '" + nome + '\'' +
-                "Cognome = '" + cognome + '\'' +
-                "Codice Fiscale = '" + codiceFiscale + '\'' +
-                "Email = '" + email + '\'' +
-                "Ruolo = '" + ruolo + '\'' +
+                "name = '" + name + '\'' +
+                ", surname = '" + surname + '\'' +
+                ", taxIdCode = '" + taxIdCode + '\'' +
+                ", email = '" + email + '\'' +
+                ", password = '" + password + '\'' +
+                ", role = '" + role + '\'' +
                 '}';
     }
 }
