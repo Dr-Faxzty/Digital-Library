@@ -1,9 +1,13 @@
-package model;
+package manager;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import model.Loan;
+import model.Book;
+import model.User;
 
 public class LoanManager{
     private List<Loan> loans = new ArrayList<>();
@@ -23,27 +27,9 @@ public class LoanManager{
         return false;
     }
 
-    public List<Loan> getActiveLoans(){
-        return loans.stream() 
-                .filter(Loan::isInProgress)
-                .collect(Collectors.toList());
-    }
-
-    public List<Loan> getActiveLoansByUser(User user){
-        return loans.stream() 
-                .filter(loan -> loan.isInProgress() && loan.getUser().equals(user))
-                .collect(Collectors.toList());
-    }
-
-    public List<Loan> getActiveLoansByBook(Book book){
-        return loans.stream() 
-                .filter(loan -> loan.isInProgress() && loan.getBook().equals(book))
-                .collect(Collectors.toList());
-    }
-
-    public List<Loan> getExpiredLoans(){
-        return loans.stream() 
-                .filter(Loan::isExpired)
+    public List<Loan> search(Predicate<Loan> filter) {
+        return loans.stream()
+                .filter(filter)
                 .collect(Collectors.toList());
     }
 
