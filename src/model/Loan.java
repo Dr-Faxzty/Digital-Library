@@ -50,6 +50,12 @@ public class Loan{
         return LoanState.IN_PROGRESS;
     }
 
+    public boolean isReturned() { return getLoanState() == LoanState.RETURNED; }
+
+    public boolean isExpired() { return getLoanState() == LoanState.EXPIRED; }
+
+    public boolean isInProgress() { return getLoanState() == LoanState.IN_PROGRESS; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

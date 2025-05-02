@@ -16,7 +16,7 @@ public class LoanManager{
     }
 
     public boolean returnBook(Loan loan){
-        if(loan.getLoanState() != LoanState.RETURNED){
+        if(!loan.isReturned()){
             loan.setReturnDate(LocalDate.now());
             return true;
         }
@@ -25,31 +25,29 @@ public class LoanManager{
 
     public List<Loan> getActiveLoans(){
         return loans.stream() 
-                .filter(loan -> loan.getLoanState() == LoanState.IN_PROGRESS)
+                .filter(Loan::isInProgress)
                 .collect(Collectors.toList());
     }
 
     public List<Loan> getActiveLoansByUser(User user){
         return loans.stream() 
-                .filter(loan -> loan.getLoanState() == LoanState.IN_PROGRESS && loan.getUser().equals(user))
+                .filter(loan -> loan.isInProgress() && loan.getUser().equals(user))
                 .collect(Collectors.toList());
     }
 
     public List<Loan> getActiveLoansByBook(Book book){
         return loans.stream() 
-                .filter(loan -> loan.getLoanState() == LoanState.IN_PROGRESS && loan.getBook().equals(book))
+                .filter(loan -> loan.isInProgress() && loan.getBook().equals(book))
                 .collect(Collectors.toList());
     }
 
     public List<Loan> getExpiredLoans(){
         return loans.stream() 
-                .filter(loan -> loan.getLoanState() == LoanState.EXPIRED)
+                .filter(Loan::isExpired)
                 .collect(Collectors.toList());
     }
 
-    public List<Loan> getAllLoans() {
-        return new ArrayList<>(loans);
-    }
+    public List<Loan> getAllLoans() { return new ArrayList<>(loans); }
 
     public boolean removeLoanById(int id) {
         return loans.removeIf(loan -> loan.getId() == id);
