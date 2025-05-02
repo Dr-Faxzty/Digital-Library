@@ -1,17 +1,23 @@
 package model;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class LoanManager{
     private List<Loan> loans = new ArrayList<>();
+    private int nextId = 1;
 
-    public Loan loanBook(Book book, User user, int loanPeriodDays){
-        Loan loan = new Loan(book, user, LocalDate.now(), loanPeriodDays);
+    public Loan loanBook(Book book, User user, LocalDate expirationDate){
+        Loan loan = new Loan(nextId++, book, user, LocalDate.now(), expirationDate);
         loans.add(loan);
         return loan;
     }
 
     public boolean returnBook(Loan loan){
-        if(!loan.isReturned()){
-            loan.DateReturnBook();
+        if(loan.getLoanState() != LoanState.RETURNED){
+            loan.setReturnDate(LocalDate.now());
             return true;
         }
         return false;
@@ -19,25 +25,33 @@ public class LoanManager{
 
     public List<Loan> getActiveLoans(){
         return loans.stream() 
-                .filter(loan -> !loan.isReturned()) //Use of filter to take the loans that have not yet been returned
-                .collect(Collectors.toList()); //Collects the results in a new object, of type Collectors, that is a list 
+                .filter(loan -> loan.getLoanState() == LoanState.IN_PROGRESS)
+                .collect(Collectors.toList());
     }
 
     public List<Loan> getActiveLoansByUser(User user){
         return loans.stream() 
-                .filter(loan -> !loan.isReturned() && loan.getUser().equals(user)) //Use of filter to take the loans that have not yet been returned
-                .collect(Collectors.toList()); //Collects the results in a new object, of type Collectors, that is a list 
+                .filter(loan -> loan.getLoanState() == LoanState.IN_PROGRESS && loan.getUser().equals(user))
+                .collect(Collectors.toList());
     }
 
     public List<Loan> getActiveLoansByBook(Book book){
         return loans.stream() 
-                .filter(loan -> !loan.isReturned() && loan.getBook().equals(book)) //Use of filter to take the loans that have not yet been returned
-                .collect(Collectors.toList()); //Collects the results in a new object, of type Collectors, that is a list 
+                .filter(loan -> loan.getLoanState() == LoanState.IN_PROGRESS && loan.getBook().equals(book))
+                .collect(Collectors.toList());
     }
 
-    public List<Loan> getOverdueLoans(){
+    public List<Loan> getExpiredLoans(){
         return loans.stream() 
-                .filter(loan -> !loan.isReturned() && loan.isOverdue()) //Use of filter to take the loans that have not yet been returned
-                .collect(Collectors.toList()); //Collects the results in a new object, of type Collectors, that is a list 
+                .filter(loan -> loan.getLoanState() == LoanState.EXPIRED)
+                .collect(Collectors.toList());
+    }
+
+    public List<Loan> getAllLoans() {
+        return new ArrayList<>(loans);
+    }
+
+    public boolean removeLoanById(int id) {
+        return loans.removeIf(loan -> loan.getId() == id);
     }
 }
