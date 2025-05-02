@@ -25,6 +25,3 @@ target/
 *.tmp
 *.swp
 *.bak
-
-# === Librerie (se usi lib/ esterna) ===
-lib/
