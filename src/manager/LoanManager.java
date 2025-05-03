@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import model.Loan;
 import model.Book;
+import model.Loan;
 import model.User;
 
 public class LoanManager{
-    private List<Loan> loans = new ArrayList<>();
+    private final List<Loan> loans = new ArrayList<>();
     private int nextId = 1;
 
     public Loan loanBook(Book book, User user, LocalDate expirationDate){

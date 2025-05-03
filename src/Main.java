@@ -1,18 +1,14 @@
-import java.util.ArrayList;
-import java.util.List;
+import manager.UserList;
 import manager.UserManager;
-import manager.UserMap;
 import model.Role;
 import model.User;
 
 public class Main {
     public static void main(String[] args) { 
         System.out.println("Hello World"); 
-
-        List<User> users = new ArrayList<>();
         
-        UserMap userMap = new UserMap();
-        UserManager userM = new UserManager(users, userMap);
+        UserList userList = new UserList();
+        UserManager userM = new UserManager(userList);
 
         userM.register("John", "Smith", "ABC123", "john@example.com", "password123", Role.USER);
 
