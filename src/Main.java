@@ -1,4 +1,5 @@
-import manager.UserList;
+import java.util.ArrayList;
+import java.util.List;
 import manager.UserManager;
 import model.Role;
 import model.User;
@@ -7,7 +8,7 @@ public class Main {
     public static void main(String[] args) { 
         System.out.println("Hello World"); 
         
-        UserList userList = new UserList();
+        List<User> userList = new ArrayList<>();
         UserManager userM = new UserManager(userList);
 
         userM.register("John", "Smith", "ABC123", "john@example.com", "password123", Role.USER);

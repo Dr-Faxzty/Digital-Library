@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -7,26 +8,46 @@ import model.Role;
 import model.User;
 
 public class UserManager {
-    private final UserList users;
+    private final List<User> users = new ArrayList<>();
 
-    public UserManager(UserList initialUsers) {
-        this.users = initialUsers;
+    public UserManager(List<User> initialUsers) {
+        if(initialUsers != null){
+            users.addAll(initialUsers);
+        }
+    }
+
+    public void save(User user){
+        users.add(user);
+    }
+
+    public User findByEmail(String email){
+        for(User user : users){
+            if(user.getEmail().equals(email)) return user;
+        }
+        return null;
+    }
+
+    public boolean existsByEmail(String email) {
+        for(User user : users) {
+            if(user.getEmail().equals(email)) return true;
+        }
+        return false;
     }
 
     public boolean register(String name, String surname, String taxIdCode, String email, String password, Role role){
-        if(users.existsByEmail(email)){
+        if(existsByEmail(email)){
             System.out.println("Registration failed: Email already exists.");
             return false;
         }
 
         User user = new User(name, surname, taxIdCode, email, password, role);
-        users.save(user);
+        save(user);
         System.out.println("User registered successfully.");
         return true;
     }
 
     public User login(String email, String password){
-        User user = users.findByEmail(email);
+        User user = findByEmail(email);
         if(user != null && user.getPassword().equals(password)){
             System.out.println("Login successful.");
             return user;
@@ -42,5 +63,5 @@ public class UserManager {
                 .collect(Collectors.toList());
     }
 
-    public List<User> getAllUsers() { return users.toList(); }
+    public List<User> getAllUsers() { return new ArrayList<>(users); }
 }
