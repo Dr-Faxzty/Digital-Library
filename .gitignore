@@ -9,6 +9,9 @@
 .vscode/
 .history/
 
+# === IntelliJ IDEA ===
+.idea/
+
 # === MacOS ===
 .DS_Store
 
