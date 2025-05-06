@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class JsonLoanManager {
-    private static final String FILE_PATH = "db/loans.json";
+    private static final String FILE_PATH = "database/loans.json";
 
     private static final Gson gson = new GsonBuilder()
             .setPrettyPrinting()

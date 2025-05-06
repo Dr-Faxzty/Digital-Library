@@ -1,0 +1,72 @@
+.root {
+    -fx-background-color: #ffffff;
+    -fx-font-family: 'Segoe UI', sans-serif;
+}
+
+.login-container {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4);
+}
+
+.register-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222;
+}
+
+.register-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+}
+
+.input {
+    -fx-pref-width: 280;
+    -fx-font-size: 13px;
+    -fx-background-color: #f9f9f9;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 6 10;
+}
+
+.register-row {
+    -fx-spacing: 16;
+}
+
+.role-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #333;
+    -fx-alignment: center-left;
+}
+
+.radio-button {
+    -fx-font-size: 13px;
+    -fx-text-fill: #333;
+}
+
+.register-button {
+    -fx-pref-width: 280;
+    -fx-background-color: #2962ff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 0;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.register-button:hover {
+    -fx-background-color: #0039cb;
+}
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2962ff;
+    -fx-font-size: 12px;
+    -fx-underline: true;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}

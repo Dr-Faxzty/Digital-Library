@@ -6,14 +6,22 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import model.Role;
 import model.User;
+import persistence.JsonUserManager;
 
 public class UserManager {
+    private static UserManager instance;
     private final List<User> users = new ArrayList<>();
 
-    public UserManager(List<User> initialUsers) {
-        if(initialUsers != null){
-            users.addAll(initialUsers);
+    public UserManager() {
+        List<User> initialUsers = JsonUserManager.loadUsers();
+        users.addAll(initialUsers);
+    }
+
+    public static UserManager getInstance() {
+        if (instance == null) {
+            instance = new UserManager();
         }
+        return instance;
     }
 
     public void save(User user){
@@ -34,25 +42,19 @@ public class UserManager {
         return false;
     }
 
-    public boolean register(String name, String surname, String taxIdCode, String email, String password, Role role){
-        if(existsByEmail(email)){
-            System.out.println("Registration failed: Email already exists.");
-            return false;
-        }
+    public User register(String name, String surname, String taxIdCode, String email, String password, Role role){
+        if(existsByEmail(email)){ return null; }
 
         User user = new User(name, surname, taxIdCode, email, password, role);
         save(user);
-        System.out.println("User registered successfully.");
-        return true;
+        return user;
     }
 
     public User login(String email, String password){
         User user = findByEmail(email);
         if(user != null && user.getPassword().equals(password)){
-            System.out.println("Login successful.");
             return user;
         }else{
-            System.out.println("Login failed: Incorrect email or password.");
             return null;
         }
     }

@@ -10,17 +10,18 @@ import java.util.Arrays;
 import java.util.List;
 
 public class JsonUserManager {
-    private static final String FILE_PATH = "db/users.json";
+    private static final String FILE_PATH = "database/users.json";
 
     private static final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .create();
 
-    public static void saveUsers(List<User> users) {
+    public static boolean saveUsers(List<User> users) {
         try (Writer writer = new FileWriter(FILE_PATH)) {
             gson.toJson(users, writer);
+            return true;
         } catch (IOException e) {
-            System.out.println("Error while saving users");
+            return false;
         }
     }
 

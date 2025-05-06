@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class JsonBookManager {
-    private static final String FILE_PATH = "db/books.json";
+    private static final String FILE_PATH = "database/books.json";
     private static final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
             .setPrettyPrinting()
             .create();
