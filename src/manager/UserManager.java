@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import model.Role;
 import model.User;
 import persistence.JsonUserManager;
+import utils.HashUtil;
 
 public class UserManager {
     private static UserManager instance;
@@ -44,15 +45,16 @@ public class UserManager {
 
     public User register(String name, String surname, String taxIdCode, String email, String password, Role role){
         if(existsByEmail(email)){ return null; }
-
-        User user = new User(name, surname, taxIdCode, email, password, role);
+        String hashedPassword = HashUtil.hashPassword(password);
+        User user = new User(name, surname, taxIdCode, email, hashedPassword, role);
         save(user);
         return user;
     }
 
     public User login(String email, String password){
+        String hashedPassword = HashUtil.hashPassword(password);
         User user = findByEmail(email);
-        if(user != null && user.getPassword().equals(password)){
+        if(user != null && user.getPassword().equals(hashedPassword)){
             return user;
         }else{
             return null;
