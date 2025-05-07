@@ -6,6 +6,7 @@ import model.Role;
 import manager.UserManager;
 import model.User;
 import persistence.JsonUserManager;
+import utils.InputValidator;
 import view.LoginView;
 
 
@@ -17,8 +18,22 @@ public class RegistrationController {
     }
 
     public void handleRegistration(String name, String surname, String username, String email, String password, Role role, Stage stage) {
-        if (name.isEmpty() || surname.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if(!InputValidator.areFieldsFilled(name, surname, username, email, password)) {
             showAlert(Alert.AlertType.ERROR, "Error", "All fields are required.");
+            return;
+        }
+        if(!InputValidator.isEmailValid(email)) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Invalid email format.");
+            return;
+        }
+
+        if(!InputValidator.isTaxCodeValid(username)) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Invalid TaxCode format.");
+            return;
+        }
+
+        if(!InputValidator.isPasswordValid(password)) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Password must be at least 6 characters long.");
             return;
         }
 
