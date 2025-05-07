@@ -1,6 +1,7 @@
 package manager;
 
 import model.Book;
+import persistence.JsonBookManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,12 +9,19 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class BookManager {
+    private static BookManager instance;
     private final List<Book> books = new ArrayList<>();
 
-    public BookManager(List<Book> initialBooks) {
-        if (initialBooks != null) {
-            books.addAll(initialBooks);
+    public BookManager() {
+        List<Book> initialBooks = JsonBookManager.loadBooks();
+        books.addAll(initialBooks);
+    }
+
+    public static BookManager getInstance() {
+        if (instance == null) {
+            instance = new BookManager();
         }
+        return instance;
     }
 
     public boolean addBook(Book book) {

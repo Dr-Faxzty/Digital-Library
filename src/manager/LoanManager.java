@@ -8,10 +8,24 @@ import java.util.stream.Collectors;
 import model.Book;
 import model.Loan;
 import model.User;
+import persistence.JsonLoanManager;
 
 public class LoanManager{
+    private static LoanManager instance;
     private final List<Loan> loans = new ArrayList<>();
     private int nextId = 1;
+
+    public LoanManager() {
+        List<Loan> initialLoans = JsonLoanManager.loadLoans();
+        loans.addAll(initialLoans);
+    }
+
+    public static LoanManager getInstance() {
+        if (instance == null) {
+            instance = new LoanManager();
+        }
+        return instance;
+    }
 
     public Loan loanBook(Book book, User user, LocalDate expirationDate){
         Loan loan = new Loan(nextId++, book, user, LocalDate.now(), expirationDate);

@@ -25,7 +25,7 @@ public class JsonBookManager {
         }
     }
 
-    public static List<Book> loadUsers() {
+    public static List<Book> loadBooks() {
         try (Reader reader = new FileReader(FILE_PATH)) {
             Book[] array = gson.fromJson(reader, Book[].class);
             List<Book> list = new ArrayList<>();
