@@ -1,4 +1,3 @@
-// File: view/RegistrationView.java
 package view;
 
 import controller.RegistrationController;

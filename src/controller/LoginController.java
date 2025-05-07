@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import manager.SessionManager;
 import manager.UserManager;
 import model.User;
+import view.AdminView;
 
 
 public class LoginController {
@@ -25,7 +26,8 @@ public class LoginController {
             SessionManager.getInstance().login(user);
 
             if (user.getRole().name().equals("ADMIN")) {
-                showAlert( Alert.AlertType.INFORMATION, "Admin View", "Welcome to the admin view, " + user.getName() + "!");
+                AdminView adminView = new AdminView();
+                adminView.start(stage);
             } else {
                 showAlert(Alert.AlertType.INFORMATION, "User View", "Welcome to the user view, " + user.getName() + "!");
             }
