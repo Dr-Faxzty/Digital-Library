@@ -16,7 +16,8 @@ public class UserManager implements Manager<User> {
     private final List<User> users = new ArrayList<>();
 
     public UserManager() {
-        List<User> initialUsers = JsonUserManager.loadUsers();
+        JsonUserManager jsonUserManager = new JsonUserManager();
+        List<User> initialUsers = jsonUserManager.load();
         users.addAll(initialUsers);
     }
 

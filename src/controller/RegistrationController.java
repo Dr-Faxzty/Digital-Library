@@ -12,9 +12,11 @@ import view.LoginView;
 
 public class RegistrationController {
     private final UserManager userManager;
+    private final JsonUserManager jsonUserManager;
 
     public RegistrationController() {
         this.userManager = UserManager.getInstance();
+        this.jsonUserManager = new JsonUserManager();
     }
 
     public void handleRegistration(String name, String surname, String username, String email, String password, Role role, Stage stage) {
@@ -39,7 +41,7 @@ public class RegistrationController {
 
         User user = userManager.register(name, surname, username, email, password, role);
         if (user != null) {
-            boolean saved = JsonUserManager.saveUsers(userManager.getAll());
+            boolean saved = jsonUserManager.save(userManager.getAll());
             if (saved) {
                 showAlert(Alert.AlertType.INFORMATION, "Registration succeeded", "Now you can login.");
                 new LoginView().start(stage);

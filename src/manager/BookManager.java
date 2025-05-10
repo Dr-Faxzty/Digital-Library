@@ -14,7 +14,8 @@ public class BookManager implements Manager<Book> {
     private final List<Book> books = new ArrayList<>();
 
     public BookManager() {
-        List<Book> initialBooks = JsonBookManager.loadBooks();
+        JsonBookManager jsonBookManager = new JsonBookManager();
+        List<Book> initialBooks = jsonBookManager.load();
         books.addAll(initialBooks);
     }
 

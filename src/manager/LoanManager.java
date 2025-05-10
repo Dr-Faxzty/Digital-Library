@@ -18,7 +18,8 @@ public class LoanManager implements Manager<Loan> {
     private int nextId = 1;
 
     public LoanManager() {
-        List<Loan> initialLoans = JsonLoanManager.loadLoans();
+        JsonLoanManager jsonLoanManager = new JsonLoanManager();
+        List<Loan> initialLoans = jsonLoanManager.load();
         loans.addAll(initialLoans);
     }
 
