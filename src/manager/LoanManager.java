@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import common.interfaces.Manager;
 import model.Book;
 import model.Loan;
 import model.User;
 import persistence.JsonLoanManager;
 
-public class LoanManager{
+public class LoanManager implements Manager<Loan> {
     private static LoanManager instance;
     private final List<Loan> loans = new ArrayList<>();
     private int nextId = 1;
@@ -41,15 +43,17 @@ public class LoanManager{
         return false;
     }
 
+    public boolean removeLoanById(int id) {
+        return loans.removeIf(loan -> loan.getId() == id);
+    }
+
+    @Override
     public List<Loan> search(Predicate<Loan> filter) {
         return loans.stream()
                 .filter(filter)
                 .collect(Collectors.toList());
     }
 
-    public List<Loan> getAllLoans() { return new ArrayList<>(loans); }
-
-    public boolean removeLoanById(int id) {
-        return loans.removeIf(loan -> loan.getId() == id);
-    }
+    @Override
+    public List<Loan> getAll() { return new ArrayList<>(loans); }
 }

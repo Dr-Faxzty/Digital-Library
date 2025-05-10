@@ -39,7 +39,7 @@ public class RegistrationController {
 
         User user = userManager.register(name, surname, username, email, password, role);
         if (user != null) {
-            boolean saved = JsonUserManager.saveUsers(userManager.getAllUsers());
+            boolean saved = JsonUserManager.saveUsers(userManager.getAll());
             if (saved) {
                 showAlert(Alert.AlertType.INFORMATION, "Registration succeeded", "Now you can login.");
                 new LoginView().start(stage);

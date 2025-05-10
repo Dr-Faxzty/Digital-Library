@@ -1,5 +1,6 @@
 package manager;
 
+import common.interfaces.Manager;
 import model.Book;
 import persistence.JsonBookManager;
 
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class BookManager {
+public class BookManager implements Manager<Book> {
     private static BookManager instance;
     private final List<Book> books = new ArrayList<>();
 
@@ -45,13 +46,15 @@ public class BookManager {
         return false;
     }
 
+    @Override
     public List<Book> search(Predicate<Book> filter) {
         return books.stream()
                 .filter(filter)
                 .collect(Collectors.toList());
     }
 
-    public List<Book> getAllBooks() {
+    @Override
+    public List<Book> getAll() {
         return new ArrayList<>(books);
     }
 }

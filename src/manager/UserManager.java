@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import common.interfaces.Manager;
 import model.Role;
 import model.User;
 import persistence.JsonUserManager;
 import utils.HashUtil;
 
-public class UserManager {
+public class UserManager implements Manager<User> {
     private static UserManager instance;
     private final List<User> users = new ArrayList<>();
 
@@ -61,11 +63,13 @@ public class UserManager {
         }
     }
 
+    @Override
     public List<User> search(Predicate<User> filter) {
         return users.stream()
                 .filter(filter)
                 .collect(Collectors.toList());
     }
 
-    public List<User> getAllUsers() { return new ArrayList<>(users); }
+    @Override
+    public List<User> getAll() { return new ArrayList<>(users); }
 }
