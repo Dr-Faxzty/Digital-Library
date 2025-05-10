@@ -2,6 +2,11 @@ package model;
 
 import java.time.LocalDate;
 
+import common.interfaces.LoanState;
+import model.state.ExpiredState;
+import model.state.InProgressState;
+import model.state.ReturnedState;
+
 public class Loan{
     private final int id;
     private Book book;
@@ -9,6 +14,7 @@ public class Loan{
     private LocalDate loanDate;
     private LocalDate expirationDate;
     private LocalDate returnDate;
+    private LoanState state;
 
     public Loan() { this.id = 0; }
 
@@ -38,23 +44,34 @@ public class Loan{
     }
     public void setExpirationDate(LocalDate expirationDate) { this.expirationDate = expirationDate; }
     public void setReturnDate(LocalDate returnDate) { 
-        if (getLoanState() == LoanState.RETURNED) {
+        if (isReturned()) {
             throw new IllegalStateException("Book has already been returned.");
         }
         this.returnDate = returnDate; 
     }
 
-    public LoanState getLoanState() {
-        if (returnDate != null) return LoanState.RETURNED;
-        if (LocalDate.now().isAfter(expirationDate)) return LoanState.EXPIRED;
-        return LoanState.IN_PROGRESS;
+    public LoanState getState() {
+        if (state == null) {
+            updateState();
+        }
+        return state;
     }
 
-    public boolean isReturned() { return getLoanState() == LoanState.RETURNED; }
+    private void updateState() {
+        if (returnDate != null) {
+            state = new ReturnedState();
+        } else if (LocalDate.now().isAfter(expirationDate)) {
+            state = new ExpiredState();
+        } else {
+            state = new InProgressState();
+        }
+    }
 
-    public boolean isExpired() { return getLoanState() == LoanState.EXPIRED; }
+    public boolean isReturned() { return state.isReturned(); }
 
-    public boolean isInProgress() { return getLoanState() == LoanState.IN_PROGRESS; }
+    public boolean isExpired() { return state.isExpired(expirationDate); }
+
+    public boolean isInProgress() { return state.isInProgress(); }
 
     @Override
     public boolean equals(Object o) {
@@ -72,6 +89,7 @@ public class Loan{
                 ", Loan Date = '" + loanDate + '\'' +
                 ", Expiration Date = '" + expirationDate + '\'' +
                 ", Return Date = '" + returnDate + '\'' +
+                ", State = '" + state.getName() + '\'' +
                 "}";
     }
 }
