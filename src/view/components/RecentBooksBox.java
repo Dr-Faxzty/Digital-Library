@@ -64,6 +64,15 @@ public class RecentBooksBox {
             box.getChildren().add(row);
         });
 
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+
+        Label viewAll = new Label("View All");
+        viewAll.setStyle("-fx-text-fill: #007BFF; -fx-font-size: 12px; -fx-cursor: hand;");
+        VBox.setMargin(viewAll, new Insets(10, 0, 0, 2));
+
+        box.getChildren().addAll(spacer, viewAll);
+
         return box;
     }
 }

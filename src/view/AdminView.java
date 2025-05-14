@@ -31,7 +31,7 @@ public class AdminView {
         HBox root = new HBox(sidebar, scrollPane);
         HBox.setHgrow(scrollPane, Priority.ALWAYS);
 
-        Scene scene = new Scene(root, 900, 600);
+        Scene scene = new Scene(root, 1000, 600);
         stage.setTitle("Digital Library - Admin Dashboard");
         stage.setResizable(true);
         stage.setScene(scene);

@@ -4,14 +4,15 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import manager.BookManager;
 import manager.LoanManager;
 import manager.UserManager;
 import view.components.RecentBooksBox;
+import view.components.RecentUsersBox;
 
 public class AdminDashboard extends VBox {
-
     public AdminDashboard() {
         setMaxWidth(Double.MAX_VALUE);
         setStyle("-fx-background-color: #e5e5e5;");
@@ -19,7 +20,7 @@ public class AdminDashboard extends VBox {
         createTopBar();
         createPanoramic();
         createStats();
-        createRecentBooks();
+        createRecentSections();
     }
 
     private void createTopBar() {
@@ -57,10 +58,19 @@ public class AdminDashboard extends VBox {
         getChildren().add(statsBox);
     }
 
-    private void createRecentBooks() {
+    private void createRecentSections() {
+        HBox recentSection = new HBox(24);
+        recentSection.setPadding(new Insets(20, 24, 24, 24));
+        recentSection.setAlignment(Pos.TOP_CENTER);
+
         VBox recentBooks = RecentBooksBox.create();
-        VBox.setMargin(recentBooks, new Insets(20, 24, 24, 24));
-        getChildren().add(recentBooks);
+        VBox recentUsers = RecentUsersBox.create();
+
+        HBox.setHgrow(recentBooks, Priority.ALWAYS);
+        HBox.setHgrow(recentUsers, Priority.ALWAYS);
+
+        recentSection.getChildren().addAll(recentBooks, recentUsers);
+        getChildren().add(recentSection);
     }
 
     private VBox statCard(String icon, String title, String value) {
