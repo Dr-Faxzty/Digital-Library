@@ -8,8 +8,11 @@ import javafx.stage.Stage;
 import model.User;
 import manager.SessionManager;
 import view.LoginView;
+import common.interfaces.observer.ViewObserver;
+import common.interfaces.observer.ViewSubject;
 
-public class Sidebar extends VBox {
+public class Sidebar extends VBox implements ViewSubject {
+    private ViewObserver observer;
 
     public Sidebar(User user) {
         setStyle("-fx-background-color: #0D1B2A; -fx-padding: 10 20 0 20; -fx-spacing: 20;");
@@ -25,6 +28,11 @@ public class Sidebar extends VBox {
         );
     }
 
+    @Override
+    public void setObserver(ViewObserver observer) {
+        this.observer = observer;
+    }
+
     private Label createTitle() {
         Label title = new Label("📚 Digital Library");
         title.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;");
@@ -36,15 +44,26 @@ public class Sidebar extends VBox {
         Button dashboardBtn = new Button("📊 Dashboard");
         Button booksBtn = new Button("📚 Books");
         Button usersBtn = new Button("👥 Users");
-        Button settingsBtn = new Button("⚙ Settings");
+        Button loansBtn = new Button("🔄 Loans");
 
-        for (Button btn : new Button[]{dashboardBtn, booksBtn, usersBtn, settingsBtn}) {
+        dashboardBtn.setOnAction(e -> notifyObserver("dashboard"));
+        booksBtn.setOnAction(e -> notifyObserver("books"));
+        usersBtn.setOnAction(e -> notifyObserver("users"));
+        loansBtn.setOnAction(e -> notifyObserver("loans"));
+
+        for (Button btn : new Button[]{dashboardBtn, booksBtn, usersBtn, loansBtn}) {
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-cursor: hand;");
         }
 
-        buttonsBox.getChildren().addAll(dashboardBtn, booksBtn, usersBtn, settingsBtn);
+        buttonsBox.getChildren().addAll(dashboardBtn, booksBtn, usersBtn, loansBtn);
         return buttonsBox;
+    }
+
+    private void notifyObserver(String viewName) {
+        if (observer != null) {
+            observer.onViewChange(viewName);
+        }
     }
 
     private Region createSpacer() {
