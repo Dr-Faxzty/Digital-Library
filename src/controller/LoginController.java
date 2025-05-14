@@ -6,6 +6,7 @@ import manager.SessionManager;
 import manager.UserManager;
 import model.User;
 import view.AdminView;
+import view.UserView;
 
 
 public class LoginController {
@@ -29,7 +30,8 @@ public class LoginController {
                 AdminView adminView = new AdminView();
                 adminView.start(stage);
             } else {
-                showAlert(Alert.AlertType.INFORMATION, "User View", "Welcome to the user view, " + user.getName() + "!");
+                UserView userView = new UserView();
+                userView.start(stage);
             }
         } else {
             showAlert(Alert.AlertType.ERROR, "Login failed", "Incorrect email or password.");

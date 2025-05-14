@@ -5,6 +5,6 @@ import model.Book;
 
 public class JsonBookManager extends JsonTemplateManager<Book> {
     public JsonBookManager() {
-        super("database/books.json", Book[].class);
+        super("C:\\Users\\marti\\OneDrive\\Desktop\\Digital-Library\\Digital-Library\\database\\books.json", Book[].class);
     }
 }
