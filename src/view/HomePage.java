@@ -173,7 +173,7 @@ public class HomePage extends VBox {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         Label orderLabel = new Label("Order by:");
-        orderLabel.setStyle("-fx-font-size: 12px; -fx-text-fill_ #333;");
+        orderLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #333;");
 
         orderCombo.getItems().addAll("Most recent", "Author", "Titles A-Z");
         orderCombo.setValue("Most recent");
