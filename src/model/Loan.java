@@ -25,6 +25,7 @@ public class Loan{
         this.loanDate = loanDate;
         this.expirationDate = expirationDate;
         this.returnDate = null;
+        updateState();
     }
 
     public int getId() { return this.id; }
@@ -42,12 +43,16 @@ public class Loan{
         }
         this.loanDate = loanDate; 
     }
-    public void setExpirationDate(LocalDate expirationDate) { this.expirationDate = expirationDate; }
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
+        updateState();
+    }
     public void setReturnDate(LocalDate returnDate) { 
         if (isReturned()) {
             throw new IllegalStateException("Book has already been returned.");
         }
-        this.returnDate = returnDate; 
+        this.returnDate = returnDate;
+        updateState();
     }
 
     public LoanState getState() {
@@ -67,11 +72,11 @@ public class Loan{
         }
     }
 
-    public boolean isReturned() { return state.isReturned(); }
+    public boolean isReturned() { return getState().isReturned(); }
 
-    public boolean isExpired() { return state.isExpired(expirationDate); }
+    public boolean isExpired() { return getState().isExpired(expirationDate); }
 
-    public boolean isInProgress() { return state.isInProgress(); }
+    public boolean isInProgress() { return getState().isInProgress(); }
 
     @Override
     public boolean equals(Object o) {

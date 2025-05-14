@@ -8,18 +8,18 @@ public class Book {
     private String author;
     private LocalDate date;
     private String type;
-    private boolean isAvailable;
+    private boolean available;
     private String urlImage;
 
     public Book() {}
 
-    public Book(String isbn, String title, String author, LocalDate date, String type, boolean isAvailable, String urlImage) {
+    public Book(String isbn, String title, String author, LocalDate date, String type, boolean available, String urlImage) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.date = date;
         this.type = type;
-        this.isAvailable = isAvailable;
+        this.available = available;
         this.urlImage = urlImage;
     }
 
@@ -28,7 +28,7 @@ public class Book {
     public String getAuthor() { return author; }
     public LocalDate getDate() { return date; }
     public String getType() { return type; }
-    public boolean isAvailable() { return isAvailable; }
+    public boolean available() { return available; }
     public String getUrlImage() { return urlImage; }
     
     public void setIsbn(String isbn) { this.isbn = isbn; }
@@ -36,7 +36,7 @@ public class Book {
     public void setAuthor(String author) { this.author = author; }
     public void setDate(LocalDate date) { this.date = date; }
     public void setType(String type) { this.type = type; }
-    public void setAvailable(boolean available) { isAvailable = available; }
+    public void setAvailable(boolean available) { available = available; }
     public void setUrlImage(String urlImage) { this.urlImage = urlImage; }
 
     @Override
@@ -47,7 +47,7 @@ public class Book {
                 ", author = '" + author + '\'' +
                 ", date = '" + date + '\'' +
                 ", type = '" + type + '\'' +
-                ", isAvailable = " + isAvailable +
+                ", available = " + available +
                 ", urlImage = '" + urlImage + '\'' +
                 '}';
     }

@@ -14,7 +14,10 @@ import manager.BookManager;
 import manager.SessionManager;
 import model.Book;
 import model.User;
-
+import model.Loan;
+import manager.LoanManager;
+import model.state.*;
+import java.util.function.Predicate;
 import java.util.List;
 
 public class HomePage extends VBox {
@@ -26,18 +29,19 @@ public class HomePage extends VBox {
 
     public HomePage() {
         setMaxWidth(Double.MAX_VALUE);
-        setStyle("-fx-background-color: #e5e5e5;");
+        setStyle("-fx-background-color: white;");
         setSpacing(16);
 
         createTopBar();
         createCategories();
         createLoanSection();
+        createLoanListSection();
     }
 
     private void createTopBar() {
         HBox topBar = new HBox();
         topBar.setAlignment(Pos.CENTER_LEFT);
-        topBar.setStyle("-fx-background-color: #f6f3f3; -fx-padding: 16 24; -fx-border-color: #fdfafa; -fx-border-width: 0 0 1 0;");
+        topBar.setStyle("-fx-background-color: white; -fx-padding: 16 24; -fx-border-color: #f4f4f4; -fx-border-width: 0 0 1 0;");
         topBar.setPrefHeight(50);
         topBar.setMaxHeight(Double.MAX_VALUE);
         topBar.setSpacing(8);
@@ -80,13 +84,21 @@ public class HomePage extends VBox {
         emailLabel.setStyle("-fx-font-size: 9px; -fx-text-fill: #777;");
 
         VBox textBox = new VBox(2, nameLabel, emailLabel);
-        textBox.setStyle("-fx-font-size: 13px; -fx-background-color: transparent; -fx-padding: 8 16 8 16;");
+        textBox.setStyle("""
+             -fx-font-size: 13px; 
+             -fx-background-color: transparent; 
+             -fx-padding: 8 16 8 16;
+        """);
         CustomMenuItem userInfoItem = new CustomMenuItem(textBox, false);
 
         MenuItem profile = new MenuItem("My Profile");
+        profile.setStyle("-fx-font-size: 12px");
+
         MenuItem favorites = new MenuItem("Favorites");
+        favorites.setStyle("-fx-font-size:12px");
+
         MenuItem logout = new MenuItem("↩ Logout");
-        logout.setStyle("-fx-text-fill: red;");
+        logout.setStyle("-fx-text-fill: red; -fx-font-size: 12px");
         logout.setOnAction(e -> {
             SessionManager.getInstance().logout();
             new LoginView().start((Stage) getScene().getWindow());
@@ -100,13 +112,22 @@ public class HomePage extends VBox {
         });
 
         topBar.getChildren().addAll(icon, title, spacer, searchBox, userIcon);
+
         getChildren().add(topBar);
     }
 
     private void createCategories() {
+        VBox sectionWrapper = new VBox();
+        sectionWrapper.setStyle("""
+            -fx-background-color: white;
+            -fx-background-radius: 16;
+            -fx-border-radius: 16;
+            -fx-padding: 24 32 24 32;
+            -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0.15, 0, 2);
+        """);
+
         VBox container = new VBox();
         container.setSpacing(12);
-        container.setStyle("-fx-padding: 24 32 0 32;");
 
         Label categoryTitle = new Label("Categories");
         categoryTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
@@ -119,45 +140,45 @@ public class HomePage extends VBox {
         for (String name : categoryNames) {
             Button btn = new Button(name);
             btn.setStyle("""
-                -fx-background-color: #f5f5f5;
-                -fx-border-color: #e0e0e0;
-                -fx-border-radius: 15;
-                -fx-background-radius: 15;
-                -fx-padding: 6 12;
-                -fx-font-size: 12px;
-            """);
+            -fx-background-color: #f5f5f5;
+            -fx-border-color: #e0e0e0;
+            -fx-border-radius: 15;
+            -fx-background-radius: 15;
+            -fx-padding: 6 12;
+            -fx-font-size: 12px;
+        """);
             btn.setOnMouseEntered(e -> btn.setStyle("""
-                       -fx-background-color: #e0e0e0;
-                       -fx-border-color: #bbb;
-                       -fx-border-radius: 15;
-                       -fx-background-radius: 15;
-                       -fx-padding: 6 12;
-                       -fx-font-size: 12px;
-            """));
+            -fx-background-color: #e0e0e0;
+            -fx-border-color: #bbb;
+            -fx-border-radius: 15;
+            -fx-background-radius: 15;
+            -fx-padding: 6 12;
+            -fx-font-size: 12px;
+        """));
             btn.setOnMouseExited(e -> btn.setStyle("""
-                -fx-background-color: #f5f5f5;
-                -fx-border-color: #e0e0e0;
-                -fx-border-radius: 15;
-                -fx-background-radius: 15;
-                -fx-padding: 6 12;
-                -fx-font-size: 12px;
-            """));
+            -fx-background-color: #f5f5f5;
+            -fx-border-color: #e0e0e0;
+            -fx-border-radius: 15;
+            -fx-background-radius: 15;
+            -fx-padding: 6 12;
+            -fx-font-size: 12px;
+        """));
             btn.setOnMousePressed(e -> btn.setStyle("""
-                -fx-background-color: #d0d0d0;
-                -fx-border-color: #aaa;
-                -fx-border-radius: 15;
-                -fx-background-radius: 15;
-                -fx-padding: 6 12;
-                -fx-font-size: 12px;
-            """));
+            -fx-background-color: #d0d0d0;
+            -fx-border-color: #aaa;
+            -fx-border-radius: 15;
+            -fx-background-radius: 15;
+            -fx-padding: 6 12;
+            -fx-font-size: 12px;
+        """));
             btn.setOnMouseReleased(e -> btn.setStyle("""
-                -fx-background-color: #e0e0e0;
-                -fx-border-color: #bbb;
-                -fx-border-radius: 15;
-                -fx-background-radius: 15;
-                -fx-padding: 6 12;
-                -fx-font-size: 12px;
-            """));
+            -fx-background-color: #e0e0e0;
+            -fx-border-color: #bbb;
+            -fx-border-radius: 15;
+            -fx-background-radius: 15;
+            -fx-padding: 6 12;
+            -fx-font-size: 12px;
+        """));
 
             btn.setOnAction(e -> {
                 selectedCategory[0] = name;
@@ -173,52 +194,52 @@ public class HomePage extends VBox {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         Label orderLabel = new Label("Order by:");
-        orderLabel.setStyle("-fx-font-size: 12px; -fx-text-fill_ #333;");
+        orderLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #333;");
 
         orderCombo.getItems().addAll("Most recent", "Author", "Titles A-Z");
         orderCombo.setValue("Most recent");
 
         orderCombo.setStyle("""
-            -fx-background-color: white;
-            -fx-border-color: #ccc;
-            -fx-border-radius: 8;
-            -fx-background-radius: 8;
-            -fx-padding: 4 8;
-            -fx-font-size: 12px;
-            -fx-cursor: hand;
-        """);
-
+        -fx-background-color: white;
+        -fx-border-color: #ccc;
+        -fx-border-radius: 8;
+        -fx-background-radius: 8;
+        -fx-padding: 4 8;
+        -fx-font-size: 12px;
+        -fx-cursor: hand;
+    """);
 
         orderCombo.setOnMouseEntered(e -> orderCombo.setStyle("""
-            -fx-background-color: #f0f0f0;
+        -fx-background-color: #f0f0f0;
+        -fx-border-color: #aaa;
+        -fx-border-radius: 8;
+        -fx-background-radius: 8;
+        -fx-padding: 4 8;
+        -fx-font-size: 12px;
+        -fx-cursor: hand;
+    """));
+
+        orderCombo.setOnMouseExited(e -> orderCombo.setStyle("""
+        -fx-background-color: white;
+        -fx-border-color: #ccc;
+        -fx-border-radius: 8;
+        -fx-background-radius: 8;
+        -fx-padding: 4 8;
+        -fx-font-size: 12px;
+        -fx-cursor: hand;
+    """));
+
+        orderCombo.setOnAction(e -> {
+            refreshBooks();
+            orderCombo.setStyle("""
+            -fx-background-color: #e0e0e0;
             -fx-border-color: #aaa;
             -fx-border-radius: 8;
             -fx-background-radius: 8;
             -fx-padding: 4 8;
             -fx-font-size: 12px;
             -fx-cursor: hand;
-        """));
-
-        orderCombo.setOnMouseExited(e -> orderCombo.setStyle("""
-            -fx-background-color: white;
-            -fx-border-color: #ccc;
-            -fx-border-radius: 8;
-            -fx-background-radius: 8;
-            -fx-padding: 4 8;
-            -fx-font-size: 12px;
-            -fx-cursor: hand;
-        """));
-        orderCombo.setOnAction(e -> {
-            refreshBooks();
-            orderCombo.setStyle("""
-                -fx-background-color: #e0e0e0;
-                -fx-border-color: #aaa;
-                -fx-border-radius: 8;
-                -fx-background-radius: 8;
-                -fx-padding: 4 8;
-                -fx-font-size: 12px;
-                -fx-cursor: hand;
-            """);
+        """);
         });
 
         orderBox.getChildren().addAll(spacer, orderLabel, orderCombo);
@@ -229,8 +250,10 @@ public class HomePage extends VBox {
         HBox.setHgrow(orderBox, Priority.ALWAYS);
 
         container.getChildren().addAll(categoryTitle, topRow);
-        getChildren().add(container);
+        sectionWrapper.getChildren().add(container);
+        getChildren().add(sectionWrapper);
     }
+
 
     private void createLoanSection() {
         VBox section = new VBox();
@@ -244,6 +267,7 @@ public class HomePage extends VBox {
         refreshBooks(); // initial load
 
         section.getChildren().addAll(recentLabel, bookGrid);
+
         getChildren().add(section);
     }
 
@@ -265,6 +289,14 @@ public class HomePage extends VBox {
             bookCard.setPrefWidth(140);
             bookCard.setAlignment(Pos.TOP_LEFT);
 
+            bookCard.setOnMouseClicked(e -> {
+                new BookDetailView().show((Stage) getScene().getWindow(), book);
+            });
+            bookCard.setOnMouseEntered(ev -> bookCard.setStyle("-fx-background-color: #f9f9f9; -fx-background-radius: 12; -fx-padding: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.1, 0, 1); -fx-cursor: hand"));
+            bookCard.setOnMouseExited(ev -> bookCard.setStyle("-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.1, 0, 1);"));
+
+
+
             ImageView image = new ImageView(new Image(book.getUrlImage()));
             image.setFitWidth(140);
             image.setFitHeight(180);
@@ -275,8 +307,8 @@ public class HomePage extends VBox {
             Label author = new Label(book.getAuthor());
             author.setStyle("-fx-font-size: 12px; -fx-text-fill: #555;");
 
-            Label availability = new Label(book.isAvailable() ? "✓ Available" : "✗ Not Available");
-            availability.setStyle("-fx-font-size: 12px; -fx-text-fill: " + (book.isAvailable() ? "#28a745" : "#dc3545") + ";");
+            Label availability = new Label(book.available() ? "✓ Available" : "✗ Not Available");
+            availability.setStyle("-fx-font-size: 12px; -fx-text-fill: " + (book.available() ? "#28a745" : "#dc3545") + ";");
 
             bookCard.getChildren().addAll(image, title, author, availability);
             bookGrid.getChildren().add(bookCard);
@@ -289,10 +321,83 @@ public class HomePage extends VBox {
         if (!searchBar.getText().isBlank()) {
             String search = searchBar.getText().toLowerCase();
             filtered = filtered.stream()
-                    .filter(book -> book.getTitle().toLowerCase().contains(search))
+                    .filter(book ->
+                            book.getTitle().toLowerCase().contains(search) ||
+                                    book.getAuthor().toLowerCase().contains(search) ||
+                                    book.getType().toLowerCase().contains(search)
+                    )
                     .toList();
         }
 
         updateBooksUI(filtered);
     }
+
+
+    private void createLoanListSection() {
+        VBox section = new VBox();
+        section.setSpacing(24);
+        section.setStyle("-fx-padding: 32 32 32 32;");
+
+        section.getChildren().addAll(
+                createLoanSubsection("📚 In Progress", loan -> loan.isInProgress(), "#28a745"),
+                createLoanSubsection("⌛ Expired", loan -> loan.isExpired(), "#dc3545"),
+                createLoanSubsection("✔ Returned", loan -> loan.isReturned(), "#007bff")
+        );
+
+        getChildren().add(section);
+    }
+
+    private VBox createLoanSubsection(String title, Predicate<Loan> filter, String color) {
+        VBox box = new VBox();
+        box.setSpacing(12);
+
+        Label label = new Label(title);
+        label.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+        FlowPane loanGrid = new FlowPane();
+        loanGrid.setHgap(16);
+        loanGrid.setVgap(16);
+        loanGrid.setPrefWrapLength(800);
+        loanGrid.setPadding(new Insets(4, 0, 0, 0));
+
+        List<Loan> filteredLoans = LoanManager.getInstance().search(loan ->
+                loan.getUser().equals(SessionManager.getInstance().getLoggedUser()) && filter.test(loan)
+        );
+
+        for (Loan loan : filteredLoans) {
+            VBox card = new VBox();
+            card.setSpacing(6);
+            card.setStyle("-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.1, 0, 1);");
+            card.setPrefWidth(180);
+            card.setOnMouseClicked(e -> new BookDetailView().show((Stage) getScene().getWindow(), loan.getBook()));
+
+            Label bookTitle = new Label(loan.getBook().getTitle());
+            bookTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 13px;");
+
+            Label dueDate = new Label(
+                    loan.isReturned() ?
+                            "Returned on: " + loan.getReturnDate() :
+                            "Due: " + loan.getExpirationDate()
+            );
+            dueDate.setStyle("-fx-font-size: 12px; -fx-text-fill: #777;");
+
+            String statusText = "Status: " + title.replaceAll("^[^a-zA-Z]+", "");
+            Label status = new Label(statusText);
+            status.setStyle("-fx-font-size: 12px; -fx-text-fill: " + color + ";");
+
+            if (loan.isExpired()) {
+                status.setText(status.getText() + " ⚠");
+                Tooltip tip = new Tooltip("This loan has expired. Please return the book.");
+                Tooltip.install(card, tip);
+                card.setStyle(card.getStyle() + "-fx-border-color: red; -fx-border-width: 1;");
+            }
+
+            card.getChildren().addAll(bookTitle, dueDate, status);
+            loanGrid.getChildren().add(card);
+        }
+
+        box.getChildren().addAll(label, loanGrid);
+        return box;
+    }
+
 }

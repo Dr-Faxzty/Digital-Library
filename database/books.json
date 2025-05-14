@@ -5,7 +5,7 @@
     "author": "Umberto Eco",
     "date": "2025-05-05",
     "type": "Narrative",
-    "available": true,
+    "available": false,
     "urlImage": "https://images-na.ssl-images-amazon.com/images/I/71g40mlbinL._AC_UL600_SR600,600_.jpg"
   },
   {
@@ -28,11 +28,11 @@
   },
   {
     "isbn": "978-1-234567-04",
-    "title": "L'amica geniale",
+    "title": "L\u0027amica geniale",
     "author": "Elena Ferrante",
     "date": "2025-05-05",
     "type": "Narrative",
-    "available": true,
+    "available": false,
     "urlImage": "https://images-na.ssl-images-amazon.com/images/I/91S9mV9UJiL.jpg"
   },
   {

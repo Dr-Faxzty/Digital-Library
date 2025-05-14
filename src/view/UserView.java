@@ -27,9 +27,7 @@ public class UserView {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setStyle("-fx-background-color: transparent;");
 
-        VBox vBox = new VBox(dashboard, scrollPane);
-
-        Scene scene = new Scene(vBox, 1000, 600);
+        Scene scene = new Scene(scrollPane, 1000, 600);
         stage.setTitle("Digital Library");
         stage.setResizable(true);
         stage.setScene(scene);

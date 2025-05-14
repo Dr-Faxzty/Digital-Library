@@ -58,4 +58,8 @@ public class BookManager implements Manager<Book> {
     public List<Book> getAll() {
         return new ArrayList<>(books);
     }
+
+    public void saveBooks() {
+        new JsonBookManager().save(books);
+    }
 }
