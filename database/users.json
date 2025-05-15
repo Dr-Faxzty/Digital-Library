@@ -14,5 +14,13 @@
     "email": "gloria@gmail.com",
     "password": "d922b9cc939edb49c970bd71d4d92335c2130d56f69a8446c2c0c094f671562b",
     "role": "ADMIN"
+  },
+  {
+    "name": "andrea",
+    "surname": "tirenti",
+    "taxIdCode": "TRNNDR04D28E017O",
+    "email": "andrea@gmail.com",
+    "password": "b7216e948f6d6060a682680bbe0210ad4d9ecf8f5218fd60244af9a4e349b387",
+    "role": "ADMIN"
   }
 ]

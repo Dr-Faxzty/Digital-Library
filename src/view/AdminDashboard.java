@@ -11,8 +11,12 @@ import manager.LoanManager;
 import manager.UserManager;
 import view.components.RecentBooksBox;
 import view.components.RecentUsersBox;
+import common.interfaces.observer.ViewObserver;
+import common.interfaces.observer.ViewSubject;
 
-public class AdminDashboard extends VBox {
+public class AdminDashboard extends VBox implements ViewSubject{
+    private ViewObserver observer;
+
     public AdminDashboard() {
         setMaxWidth(Double.MAX_VALUE);
         setStyle("-fx-background-color: #e5e5e5;");
@@ -21,6 +25,11 @@ public class AdminDashboard extends VBox {
         createPanoramic();
         createStats();
         createRecentSections();
+    }
+
+    @Override
+    public void setObserver(ViewObserver observer) {
+        this.observer = observer;
     }
 
     private void createTopBar() {
@@ -50,9 +59,9 @@ public class AdminDashboard extends VBox {
         statsBox.setPadding(new Insets(0, 24, 24, 24));
 
         statsBox.getChildren().addAll(
-                statCard("📚", "Total Books", String.valueOf(BookManager.getInstance().getAll().size())),
-                statCard("👥", "Registered Users", String.valueOf(UserManager.getInstance().getAll().size())),
-                statCard("🔄", "Total Loans", String.valueOf(LoanManager.getInstance().getAll().size()))
+                statCard("📚", "Total Books", String.valueOf(BookManager.getInstance().getAll().size()), "books"),
+                statCard("👥", "Registered Users", String.valueOf(UserManager.getInstance().getAll().size()), "users"),
+                statCard("🔄", "Total Loans", String.valueOf(LoanManager.getInstance().getAll().size()), "loans")
         );
 
         getChildren().add(statsBox);
@@ -73,7 +82,7 @@ public class AdminDashboard extends VBox {
         getChildren().add(recentSection);
     }
 
-    private VBox statCard(String icon, String title, String value) {
+    private VBox statCard(String icon, String title, String value, String viewName) {
         VBox content = new VBox(4);
         content.setAlignment(Pos.CENTER_LEFT);
         content.setPadding(new Insets(10, 12, 10, 12));
@@ -95,10 +104,18 @@ public class AdminDashboard extends VBox {
         actionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #007BFF; -fx-padding: 8 0 8 12;");
         actionLabel.setOnMouseEntered(e -> actionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #0056b3; -fx-padding: 8 0 8 12; -fx-cursor: hand;"));
         actionLabel.setOnMouseExited(e -> actionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #007BFF; -fx-padding: 8 0 8 12;"));
+        actionLabel.setOnMouseClicked(e -> notifyObserver(viewName));
+
 
         VBox card = new VBox(content, actionLabel);
         card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 0; -fx-border-color: #ccc; -fx-border-radius: 10;");
         card.setPrefSize(200, 100);
         return card;
+    }
+
+    private void notifyObserver(String viewName) {
+        if (observer != null) {
+            observer.onViewChange(viewName);
+        }
     }
 }
