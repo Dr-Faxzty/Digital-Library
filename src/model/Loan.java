@@ -14,7 +14,7 @@ public class Loan{
     private LocalDate loanDate;
     private LocalDate expirationDate;
     private LocalDate returnDate;
-    private LoanState state;
+    private transient LoanState state;
 
     public Loan() { this.id = 0; }
 
