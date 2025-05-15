@@ -13,14 +13,15 @@ import model.User;
 import java.util.List;
 
 public class RecentUsersBox {
+
     public static VBox create() {
         VBox box = new VBox(10);
         box.setPadding(new Insets(10));
         box.setPrefWidth(450);
-        box.setStyle("-fx-background-color: white; -fx-padding: 16; -fx-background-radius: 10;");
+        box.getStyleClass().add("recentuserbox-style-1");
 
         Label title = new Label("Recent Users");
-        title.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        title.getStyleClass().add("recentuserbox-style-1");
 
         box.getChildren().add(title);
 
@@ -36,16 +37,15 @@ public class RecentUsersBox {
 
             String initialsText = ("" + user.getName().charAt(0) + user.getSurname().charAt(0)).toUpperCase();
             Label initials = new Label(initialsText);
-            initials.setStyle("-fx-background-color: #eee; -fx-text-fill: #222; -fx-font-weight: bold; " +
-                    "-fx-alignment: center; -fx-font-size: 16px; -fx-padding: 6 10; -fx-background-radius: 20;");
+            initials.getStyleClass().add("recentuserbox-style-3");
             initials.setMinWidth(30);
             initials.setAlignment(Pos.CENTER);
 
             Label nameLabel = new Label(user.getName() + " " + user.getSurname());
-            nameLabel.setStyle("-fx-font-weight: bold;");
+            nameLabel.getStyleClass().add("recentuserbox-style-4");
 
             Label emailLabel = new Label(user.getEmail());
-            emailLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #777;");
+            emailLabel.getStyleClass().add("recentuserbox-style-5");
 
             VBox textBox = new VBox(2, nameLabel, emailLabel);
 
@@ -58,7 +58,7 @@ public class RecentUsersBox {
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
         Label viewAll = new Label("View All");
-        viewAll.setStyle("-fx-text-fill: #007BFF; -fx-font-size: 12px; -fx-cursor: hand;");
+        viewAll.getStyleClass().add("recentuserbox-style-6");
         VBox.setMargin(viewAll, new Insets(10, 0, 0, 2));
 
         box.getChildren().addAll(spacer, viewAll);

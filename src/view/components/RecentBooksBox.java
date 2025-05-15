@@ -18,10 +18,10 @@ public class RecentBooksBox {
         VBox box = new VBox(10);
         box.setPadding(new Insets(10));
         box.setPrefWidth(450);
-        box.setStyle("-fx-background-color: white; -fx-padding: 16; -fx-background-radius: 10;");
+        box.getStyleClass().add("recentbookbox-style-1");
 
         Label title = new Label("Books Recently Added");
-        title.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+        title.getStyleClass().add("recentbookbox-style-2");
 
         box.getChildren().add(title);
 
@@ -46,15 +46,15 @@ public class RecentBooksBox {
             cover.setFitHeight(48);
 
             Label titleLabel = new Label(book.getTitle());
-            titleLabel.setStyle("-fx-font-weight: bold;");
+            titleLabel.getStyleClass().add("recentbookbox-style-3");
 
             Label subtitle = new Label(book.getAuthor() + " • Added on " + book.getDate().format(formatter));
-            subtitle.setStyle("-fx-font-size: 11px; -fx-text-fill: #777;");
+            subtitle.getStyleClass().add("recentbookbox-style-4");
 
             VBox textBox = new VBox(2, titleLabel, subtitle);
 
             Label editBtn = new Label("edit");
-            editBtn.setStyle("-fx-text-fill: #007BFF; -fx-cursor: hand;");
+            editBtn.getStyleClass().add("recentbookbox-style-5");
 
             Region spacer = new Region();
             HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -68,7 +68,7 @@ public class RecentBooksBox {
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
         Label viewAll = new Label("View All");
-        viewAll.setStyle("-fx-text-fill: #007BFF; -fx-font-size: 12px; -fx-cursor: hand;");
+        viewAll.getStyleClass().add("recentbookbox-style-6");
         VBox.setMargin(viewAll, new Insets(10, 0, 0, 2));
 
         box.getChildren().addAll(spacer, viewAll);

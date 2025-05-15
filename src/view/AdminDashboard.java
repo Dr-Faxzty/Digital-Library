@@ -19,7 +19,7 @@ public class AdminDashboard extends VBox implements ViewSubject{
 
     public AdminDashboard() {
         setMaxWidth(Double.MAX_VALUE);
-        setStyle("-fx-background-color: #e5e5e5;");
+        getStyleClass().add("adminDashboard-style-1");
 
         createTopBar();
         createPanoramic();
@@ -34,13 +34,13 @@ public class AdminDashboard extends VBox implements ViewSubject{
 
     private void createTopBar() {
         HBox topbar = new HBox();
-        topbar.setStyle("-fx-background-color: white; -fx-padding: 16 24; -fx-border-color: #ddd; -fx-border-width: 0 0 1 0;");
         topbar.setAlignment(Pos.CENTER_LEFT);
         topbar.setPrefHeight(60);
         topbar.setMaxWidth(Double.MAX_VALUE);
+        topbar.getStyleClass().add("adminDashboard-style-2");
 
         Label dashboardTitle = new Label("Dashboard");
-        dashboardTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #222;");
+        dashboardTitle.getStyleClass().add("adminDashboard-style-3");
         topbar.getChildren().add(dashboardTitle);
 
         getChildren().add(topbar);
@@ -48,7 +48,7 @@ public class AdminDashboard extends VBox implements ViewSubject{
 
     private void createPanoramic() {
         Label panoramicTitle = new Label("Panoramic");
-        panoramicTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #222; -fx-padding: 24 0 8 24;");
+        panoramicTitle.getStyleClass().add("adminDashboard-style-4");
         getChildren().add(panoramicTitle);
     }
 
@@ -89,26 +89,26 @@ public class AdminDashboard extends VBox implements ViewSubject{
 
         HBox top = new HBox(8);
         Label iconLabel = new Label(icon);
-        iconLabel.setStyle("-fx-font-size: 18px;");
+        iconLabel.getStyleClass().add("adminDashboard-style-5");
         Label titleLabel = new Label(title);
-        titleLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #666;");
+        titleLabel.getStyleClass().add("adminDashboard-style-6");
         top.getChildren().addAll(iconLabel, titleLabel);
         top.setAlignment(Pos.CENTER_LEFT);
 
         Label valueLabel = new Label(value);
-        valueLabel.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #000;");
+        valueLabel.getStyleClass().add("adminDashboard-style-7");
 
         content.getChildren().addAll(top, valueLabel);
 
         Label actionLabel = new Label("View All");
-        actionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #007BFF; -fx-padding: 8 0 8 12;");
-        actionLabel.setOnMouseEntered(e -> actionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #0056b3; -fx-padding: 8 0 8 12; -fx-cursor: hand;"));
-        actionLabel.setOnMouseExited(e -> actionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #007BFF; -fx-padding: 8 0 8 12;"));
+        actionLabel.getStyleClass().add("adminDashboard-style-8");
+        actionLabel.setOnMouseEntered(e -> actionLabel.getStyleClass().add("adminDashboard-style-9"));
+        actionLabel.setOnMouseExited(e -> actionLabel.getStyleClass().add("adminDashboard-style-8"));
         actionLabel.setOnMouseClicked(e -> notifyObserver(viewName));
 
 
         VBox card = new VBox(content, actionLabel);
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 0; -fx-border-color: #ccc; -fx-border-radius: 10;");
+        card.getStyleClass().add("adminDashboard-style-10");
         card.setPrefSize(200, 100);
         return card;
     }

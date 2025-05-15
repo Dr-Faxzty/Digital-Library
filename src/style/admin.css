@@ -1,0 +1,208 @@
+/* ========== ADMINDASHBOARD ========== */
+.adminDashboard-style-1 {
+    -fx-background-color: #e5e5e5;
+}
+
+.adminDashboard-style-2 {
+    -fx-background-color: white;
+    -fx-padding: 16 24;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 0 1 0;
+}
+
+.adminDashboard-style-3 {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222;
+}
+
+.adminDashboard-style-4 {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222;
+    -fx-padding: 24 0 8 24;
+}
+
+.adminDashboard-style-5 {
+    -fx-font-size: 18px;
+}
+
+.adminDashboard-style-6 {
+    -fx-font-size: 13px;
+    -fx-text-fill: #666;
+}
+
+.adminDashboard-style-7 {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000;
+}
+
+.adminDashboard-style-8 {
+    -fx-font-size: 12px;
+    -fx-text-fill: #007BFF;
+    -fx-padding: 8 0 8 12;
+}
+
+.adminDashboard-style-9 {
+    -fx-font-size: 12px;
+    -fx-text-fill: #0056b3;
+    -fx-padding: 8 0 8 12;
+    -fx-cursor: hand;
+}
+
+.adminDashboard-style-10 {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 0;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 10;
+}
+
+
+/* ========== ADMINBOOKS ========== */
+.adminBooks-style-1 {
+    -fx-background-color: #f3f4f6;
+}
+
+.adminBooks-style-2 {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.adminBooks-style-3 {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+}
+
+.adminBooks-style-4 {
+    -fx-background-color: #1d4ed8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+}
+
+.adminBooks-style-5 {
+    -fx-text-fill: goldenrod;
+    -fx-font-weight: bold;
+}
+
+.adminBooks-style-6 {
+    -fx-cursor: hand;
+}
+
+.adminBooks-style-7 {
+    -fx-cursor: hand;
+    -fx-text-fill: red;
+}
+
+
+/* ========== RECENTBOOKBOX ========== */
+.recentbookbox-style-1 {
+    -fx-background-color: white;
+    -fx-padding: 16;
+    -fx-background-radius: 10;
+}
+
+.recentbookbox-style-2 {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.recentbookbox-style-3 {
+    -fx-font-weight: bold;
+}
+
+.recentbookbox-style-4 {
+    -fx-font-size: 11px;
+    -fx-text-fill: #777;
+}
+
+.recentbookbox-style-5 {
+    -fx-text-fill: #007BFF;
+    -fx-cursor: hand;
+}
+
+.recentbookbox-style-6 {
+    -fx-text-fill: #007BFF;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+
+/* ========== RECENTUSERBOX ========== */
+.recentuserbox-style-1 {
+    -fx-background-color: white;
+    -fx-padding: 16;
+    -fx-background-radius: 10;
+}
+
+.recentuserbox-style-2 {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.recentuserbox-style-3 {
+    -fx-background-color: #eee;
+    -fx-text-fill: #222;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-font-size: 16px;
+    -fx-padding: 6 10;
+    -fx-background-radius: 20;
+}
+
+.recentuserbox-style-4 {
+    -fx-font-weight: bold;
+}
+
+.recentuserbox-style-5 {
+    -fx-font-size: 11px;
+    -fx-text-fill: #777;
+}
+
+.recentuserbox-style-6 {
+    -fx-text-fill: #007BFF;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+
+/* ========== SIDEBAR ========== */
+.sidebar-style-1 {
+    -fx-background-color: #0D1B2A;
+    -fx-padding: 10 20 0 20;
+    -fx-spacing: 20;
+}
+
+.sidebar-style-2 {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.sidebar-style-3 {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.sidebar-style-4 {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+.sidebar-style-5 {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+.sidebar-style-6 {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ff4d4d;
+    -fx-font-size: 24px;
+    -fx-cursor: hand;
+}

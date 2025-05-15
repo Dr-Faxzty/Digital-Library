@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import manager.SessionManager;
 import model.User;
 import view.components.Sidebar;
+import common.interfaces.observer.ViewSubject;
 import common.interfaces.observer.ViewObserver;
 
 public class AdminView implements ViewObserver {
@@ -19,52 +20,57 @@ public class AdminView implements ViewObserver {
     }
 
     public void start(Stage stage) {
-        Sidebar sidebar = new Sidebar(user);
-        sidebar.setObserver(this);
-
-        AdminDashboard dashboard = new AdminDashboard();
-        dashboard.setObserver(this);
-
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(dashboard);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setStyle("-fx-background-color: transparent;");
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        Sidebar sidebar = createSidebar();
+        Pane initialView = createView("dashboard");
 
         layout.setLeft(sidebar);
-        layout.setCenter(scrollPane);
+        layout.setCenter(wrapInScrollPane(initialView));
 
         Scene scene = new Scene(layout, 1000, 600);
+        scene.getStylesheets().add(getClass().getResource("/style/admin.css").toExternalForm());
+
         stage.setTitle("Digital Library");
         stage.setScene(scene);
         stage.setResizable(true);
         stage.show();
     }
 
-    @Override
-    public void onViewChange(String viewName) {
-        Pane view;
-        switch (viewName) {
-            case "dashboard" -> view = new AdminDashboard();
-            case "books" -> view = new Pane();
-            case "users" -> view = new Pane();
-            case "settings" -> view = new Pane();
-            default -> view = new Pane();
-        }
+    private Sidebar createSidebar() {
+        Sidebar sidebar = new Sidebar(user);
+        sidebar.setObserver(this);
+        return sidebar;
+    }
 
-        if (view instanceof common.interfaces.observer.ViewSubject subject) {
-            subject.setObserver(this);
-        }
-
+    private ScrollPane wrapInScrollPane(Pane view) {
         ScrollPane scrollPane = new ScrollPane(view);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.setStyle("-fx-background-color: transparent;");
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        return scrollPane;
+    }
 
-        layout.setCenter(scrollPane);
+    private Pane createView(String viewName) {
+        Pane view;
+        switch (viewName) {
+            case "dashboard" -> view = new AdminDashboard();
+            case "books" -> view = new AdminBooks();
+            case "users" -> view = new Pane(); // TODO: Replace with UsersView
+            case "settings" -> view = new Pane(); // TODO: Replace with SettingsView
+            default -> view = new Pane();
+        }
+
+        if (view instanceof ViewSubject subject) {
+            subject.setObserver(this);
+        }
+
+        return view;
+    }
+
+    @Override
+    public void onViewChange(String viewName) {
+        Pane view = createView(viewName);
+        layout.setCenter(wrapInScrollPane(view));
     }
 }

@@ -15,7 +15,7 @@ public class Sidebar extends VBox implements ViewSubject {
     private ViewObserver observer;
 
     public Sidebar(User user) {
-        setStyle("-fx-background-color: #0D1B2A; -fx-padding: 10 20 0 20; -fx-spacing: 20;");
+        getStyleClass().add("sidebar-style-1");
         setPrefWidth(220);
         setMinWidth(220);
         setMaxWidth(220);
@@ -35,7 +35,7 @@ public class Sidebar extends VBox implements ViewSubject {
 
     private Label createTitle() {
         Label title = new Label("📚 Digital Library");
-        title.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;");
+        title.getStyleClass().add("sidebar-style-2");
         return title;
     }
 
@@ -53,7 +53,7 @@ public class Sidebar extends VBox implements ViewSubject {
 
         for (Button btn : new Button[]{dashboardBtn, booksBtn, usersBtn, loansBtn}) {
             btn.setMaxWidth(Double.MAX_VALUE);
-            btn.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-cursor: hand;");
+            btn.getStyleClass().add("sidebar-style-3");
         }
 
         buttonsBox.getChildren().addAll(dashboardBtn, booksBtn, usersBtn, loansBtn);
@@ -74,15 +74,15 @@ public class Sidebar extends VBox implements ViewSubject {
 
     private HBox createUserBar(User user) {
         Label emailLabel = new Label(user.getEmail());
-        emailLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
+        emailLabel.getStyleClass().add("sidebar-style-4");
         Label initials = new Label(user.getName() + " " + user.getSurname());
-        initials.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
+        initials.getStyleClass().add("sidebar-style-5");
 
         VBox userInfo = new VBox(initials, emailLabel);
         userInfo.setSpacing(4);
 
         Button logoutButton = new Button("⎋");
-        logoutButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #ff4d4d; -fx-font-size: 24px; -fx-cursor: hand;");
+        logoutButton.getStyleClass().add("sidebar-style-5");
         logoutButton.setOnAction(e -> {
             SessionManager.getInstance().logout();
             new LoginView().start((Stage) getScene().getWindow());
