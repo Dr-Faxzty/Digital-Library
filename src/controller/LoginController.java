@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import manager.SessionManager;
 import manager.UserManager;
 import model.User;
-import view.AdminView;
+import view.admin.AdminView;
 import view.UserView;
 
 

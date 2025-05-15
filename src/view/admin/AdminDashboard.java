@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,10 +9,10 @@ import javafx.scene.layout.VBox;
 import manager.BookManager;
 import manager.LoanManager;
 import manager.UserManager;
-import view.components.RecentBooksBox;
-import view.components.RecentUsersBox;
 import common.interfaces.observer.ViewObserver;
 import common.interfaces.observer.ViewSubject;
+import view.admin.components.RecentBooksBox;
+import view.admin.components.RecentUsersBox;
 
 public class AdminDashboard extends VBox implements ViewSubject{
     private ViewObserver observer;

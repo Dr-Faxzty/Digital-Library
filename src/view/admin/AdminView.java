@@ -1,4 +1,4 @@
-package view;
+package view.admin;
 
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -7,9 +7,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import manager.SessionManager;
 import model.User;
-import view.components.Sidebar;
 import common.interfaces.observer.ViewSubject;
 import common.interfaces.observer.ViewObserver;
+import view.admin.components.Sidebar;
 
 public class AdminView implements ViewObserver {
     private final User user;
