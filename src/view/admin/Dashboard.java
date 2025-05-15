@@ -14,10 +14,10 @@ import common.interfaces.observer.ViewSubject;
 import view.admin.components.RecentBooksBox;
 import view.admin.components.RecentUsersBox;
 
-public class AdminDashboard extends VBox implements ViewSubject{
+public class Dashboard extends VBox implements ViewSubject{
     private ViewObserver observer;
 
-    public AdminDashboard() {
+    public Dashboard() {
         setMaxWidth(Double.MAX_VALUE);
         getStyleClass().add("adminDashboard-style-1");
 

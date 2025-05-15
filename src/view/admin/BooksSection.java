@@ -10,9 +10,9 @@ import model.Book;
 import manager.BookManager;
 import javafx.beans.property.SimpleStringProperty;
 
-public class AdminBooks extends VBox {
+public class BooksSection extends VBox {
 
-    public AdminBooks() {
+    public BooksSection() {
         styleContainer();
         getChildren().addAll(createTitle(), createTopBar(), createTable());
     }
