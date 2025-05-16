@@ -18,7 +18,7 @@ public class UserManager implements Manager<User> {
     public UserManager() {
         JsonUserManager jsonUserManager = new JsonUserManager();
         List<User> initialUsers = jsonUserManager.load();
-        users.addAll(initialUsers);
+        setAll(initialUsers);
     }
 
     public static UserManager getInstance() {
@@ -28,7 +28,7 @@ public class UserManager implements Manager<User> {
         return instance;
     }
 
-    public void save(User user){
+    public void addUser(User user){
         users.add(user);
     }
 
@@ -50,7 +50,7 @@ public class UserManager implements Manager<User> {
         if(existsByEmail(email)){ return null; }
         String hashedPassword = HashUtil.hashPassword(password);
         User user = new User(name, surname, taxIdCode, email, hashedPassword, role);
-        save(user);
+        addUser(user);
         return user;
     }
 
@@ -71,6 +71,13 @@ public class UserManager implements Manager<User> {
                 .collect(Collectors.toList());
     }
 
+    public void setAll(List<User> users) {
+        this.users.clear();
+        this.users.addAll(users);
+    }
+
     @Override
     public List<User> getAll() { return new ArrayList<>(users); }
+
+
 }

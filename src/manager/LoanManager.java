@@ -10,23 +10,13 @@ import common.interfaces.Manager;
 import model.Book;
 import model.Loan;
 import model.User;
-import persistence.JsonLoanManager;
-import persistence.JsonBookManager;
 
 public class LoanManager implements Manager<Loan> {
     private static LoanManager instance;
     private final List<Loan> loans = new ArrayList<>();
-    private final JsonLoanManager jsonLoanManager;
-    private final JsonBookManager jsonBookManager;
     private int nextId = 1;
 
-    public LoanManager() {
-        this.jsonLoanManager = new JsonLoanManager();
-        this.jsonBookManager = new JsonBookManager();
-        List<Loan> initialLoans = jsonLoanManager.load();
-        loans.addAll(initialLoans);
-        nextId = loans.stream().mapToInt(Loan::getId).max().orElse(0) + 1;
-    }
+    public LoanManager() {}
 
     public static LoanManager getInstance() {
         if (instance == null) {
@@ -35,24 +25,25 @@ public class LoanManager implements Manager<Loan> {
         return instance;
     }
 
+    public void setInitialLoans(List<Loan> initialLoans) {
+        loans.clear();
+        loans.addAll(initialLoans);
+        nextId = loans.stream().mapToInt(Loan::getId).max().orElse(0) + 1;
+    }
+
     public Loan loanBook(Book book, User user, LocalDate expirationDate){
         Loan loan = new Loan(nextId++, book, user, LocalDate.now(), expirationDate);
         loans.add(loan);
         book.setAvailable(false);
-        saveLoans();
-        saveBooks();
         return loan;
     }
 
     public boolean returnBook(Loan loan){
-        if (!loan.isReturned()) {
-            loan.setReturnDate(LocalDate.now());
-            loan.getBook().setAvailable(true);
-            saveLoans();
-            saveBooks();
-            return true;
-        }
-        return false;
+        if (loan.isReturned()) return false;
+
+        loan.setReturnDate(LocalDate.now());
+        loan.getBook().setAvailable(true);
+        return true;
     }
 
     public boolean removeLoanById(int id) {
@@ -68,12 +59,4 @@ public class LoanManager implements Manager<Loan> {
 
     @Override
     public List<Loan> getAll() { return new ArrayList<>(loans); }
-
-    private void saveLoans() {
-        jsonLoanManager.save(loans);
-    }
-
-    private void saveBooks() {
-        BookManager.getInstance().saveBooks();
-    }
 }

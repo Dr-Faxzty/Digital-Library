@@ -76,7 +76,7 @@ public class BookDetailView {
 
         Loan existingLoan = loanManager.search(l ->
                 l.getBook().equals(book) && l.getUser().equals(user) && l.isInProgress()
-        ).stream().findFirst().orElse(null);
+        ).stream().findFirst().orElse(null);  // TODO: use Null Object
 
         Button loanButton = new Button();
         loanButton.setStyle("""

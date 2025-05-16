@@ -62,10 +62,17 @@
 
 /* ========== ADMINBOOKS ========== */
 .adminBooks-style-1 {
-    -fx-background-color: #f3f4f6;
+    -fx-background-color: #e5e5e5;
 }
 
 .adminBooks-style-2 {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 16 24;
+}
+
+.adminBooks-style-2-1 {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
 }
@@ -74,14 +81,14 @@
     -fx-background-color: #2563eb;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 6;
+    -fx-background-radius: 3;
 }
 
 .adminBooks-style-4 {
-    -fx-background-color: #1d4ed8;
+    -fx-background-color: #2563eb;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 6;
+    -fx-background-radius: 3;
 }
 
 .adminBooks-style-5 {
@@ -91,11 +98,13 @@
 
 .adminBooks-style-6 {
     -fx-cursor: hand;
+    -fx-font-size: 18px;
 }
 
 .adminBooks-style-7 {
     -fx-cursor: hand;
     -fx-text-fill: red;
+    -fx-font-size: 18px;
 }
 
 

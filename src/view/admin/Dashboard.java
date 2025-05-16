@@ -6,18 +6,25 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import manager.BookManager;
-import manager.LoanManager;
-import manager.UserManager;
+import controller.BookController;
+import controller.UserController;
+import controller.LoanController;
 import common.interfaces.observer.ViewObserver;
 import common.interfaces.observer.ViewSubject;
 import view.admin.components.RecentBooksBox;
 import view.admin.components.RecentUsersBox;
 
-public class Dashboard extends VBox implements ViewSubject{
+public class Dashboard extends VBox implements ViewSubject {
+    private final BookController bookController;
+    private final UserController userController;
+    private final LoanController loanController;
     private ViewObserver observer;
 
     public Dashboard() {
+        this.bookController = new BookController();
+        this.userController = new UserController();
+        this.loanController = new LoanController();
+
         setMaxWidth(Double.MAX_VALUE);
         getStyleClass().add("adminDashboard-style-1");
 
@@ -59,9 +66,9 @@ public class Dashboard extends VBox implements ViewSubject{
         statsBox.setPadding(new Insets(0, 24, 24, 24));
 
         statsBox.getChildren().addAll(
-                statCard("📚", "Total Books", String.valueOf(BookManager.getInstance().getAll().size()), "books"),
-                statCard("👥", "Registered Users", String.valueOf(UserManager.getInstance().getAll().size()), "users"),
-                statCard("🔄", "Total Loans", String.valueOf(LoanManager.getInstance().getAll().size()), "loans")
+                statCard("📚", "Total Books", String.valueOf(bookController.getAllBooks().size()), "books"),
+                statCard("👥", "Registered Users", String.valueOf(userController.getAllUsers().size()), "users"),
+                statCard("🔄", "Total Loans", String.valueOf(loanController.getAllLoans().size()), "loans")
         );
 
         getChildren().add(statsBox);
@@ -72,8 +79,8 @@ public class Dashboard extends VBox implements ViewSubject{
         recentSection.setPadding(new Insets(20, 24, 24, 24));
         recentSection.setAlignment(Pos.TOP_CENTER);
 
-        VBox recentBooks = RecentBooksBox.create();
-        VBox recentUsers = RecentUsersBox.create();
+        VBox recentBooks = RecentBooksBox.create(bookController.getAllBooks());
+        VBox recentUsers = RecentUsersBox.create(userController.getAllUsers());
 
         HBox.setHgrow(recentBooks, Priority.ALWAYS);
         HBox.setHgrow(recentUsers, Priority.ALWAYS);

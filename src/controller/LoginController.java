@@ -3,17 +3,16 @@ package controller;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import manager.SessionManager;
-import manager.UserManager;
 import model.User;
 import view.admin.AdminView;
 import view.UserView;
 
 
 public class LoginController {
-    private final UserManager userManager;
+    private final UserController userController;
 
     public LoginController() {
-        this.userManager = UserManager.getInstance();
+        this.userController = new UserController();
     }
 
     public void handleLogin(String email, String password, Stage stage) {
@@ -22,7 +21,7 @@ public class LoginController {
             return;
         }
 
-        User user = userManager.login(email, password);
+        User user = userController.login(email, password);
         if (user != null) {
             SessionManager.getInstance().login(user);
 

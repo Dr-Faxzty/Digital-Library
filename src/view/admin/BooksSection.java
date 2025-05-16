@@ -6,32 +6,45 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import model.Book;
-import manager.BookManager;
+import javafx.stage.Stage;
 import javafx.beans.property.SimpleStringProperty;
+import model.Book;
+import controller.BookController;
+import view.admin.components.BookEditDialog;
 
 public class BooksSection extends VBox {
+    private final BookController bookController;
 
     public BooksSection() {
+        this.bookController = new BookController();
+
         styleContainer();
         getChildren().addAll(createTitle(), createTopBar(), createTable());
     }
 
     private void styleContainer() {
+        setMaxWidth(Double.MAX_VALUE);
         getStyleClass().add("adminBooks-style-1");
-        setPadding(new Insets(24));
-        setSpacing(16);
     }
 
-    private Label createTitle() {
+    private HBox createTitle() {
+        HBox titleBar = new HBox();
+        titleBar.setAlignment(Pos.CENTER_LEFT);
+        titleBar.setPrefHeight(60);
+        titleBar.setMaxWidth(Double.MAX_VALUE);
+        titleBar.getStyleClass().add("adminBooks-style-2");
+
         Label title = new Label("Manage Books");
-        title.getStyleClass().add("adminBooks-style-2");
-        return title;
+        title.getStyleClass().add("adminBooks-style-2-1");
+        titleBar.getChildren().add(title);
+
+        return titleBar;
     }
 
     private HBox createTopBar() {
         HBox topBar = new HBox(10);
         topBar.setAlignment(Pos.CENTER_RIGHT);
+        topBar.setPadding(new Insets(16, 24, 0, 24));
 
         TextField searchField = new TextField();
         searchField.setPromptText("Search books...");
@@ -50,6 +63,7 @@ public class BooksSection extends VBox {
     private TableView<Book> createTable() {
         TableView<Book> table = new TableView<>();
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        VBox.setMargin(table, new Insets(16, 24, 24, 24));
 
         table.getColumns().addAll(
                 createCoverColumn(),
@@ -60,7 +74,8 @@ public class BooksSection extends VBox {
                 createActionsColumn()
         );
 
-        table.getItems().addAll(BookManager.getInstance().getAll());
+        table.getItems().addAll(bookController.getAllBooks());
+
         return table;
     }
 
@@ -136,6 +151,25 @@ public class BooksSection extends VBox {
                 container.setAlignment(Pos.CENTER);
                 edit.getStyleClass().add("adminBooks-style-6");
                 delete.getStyleClass().add("adminBooks-style-7");
+
+                edit.setOnMouseClicked(e -> {
+                    Book book = getTableView().getItems().get(getIndex());
+                    new BookEditDialog().show((Stage) getScene().getWindow(), book);
+                    getTableView().refresh();
+                });
+
+                delete.setOnMouseClicked(e -> {
+                    Book book = getTableView().getItems().get(getIndex());
+                    boolean removed = bookController.removeBook(book.getIsbn());
+                    if (removed) {
+                        getTableView().getItems().remove(book);
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Error deleting book.");
+                        alert.showAndWait();
+                    }
+                });
+
+
                 container.getChildren().addAll(edit, delete);
             }
 

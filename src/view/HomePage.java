@@ -1,6 +1,8 @@
 package view;
 
-import controller.BookFilterController;
+import controller.LoanController;
+import utils.BookQueryUtils;
+import controller.BookController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -8,21 +10,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import manager.BookManager;
 import manager.SessionManager;
 import model.Book;
 import model.User;
 import model.Loan;
 import manager.LoanManager;
-import model.state.*;
 import java.util.function.Predicate;
 import java.util.List;
 
 public class HomePage extends VBox {
     private final FlowPane bookGrid = new FlowPane();
-    private final BookFilterController filterController = new BookFilterController();
+    private final BookController bookController = new BookController();
+    private final LoanController loanController = new LoanController();
     private final String[] selectedCategory = {"All"};
     private final ComboBox<String> orderCombo = new ComboBox<>();
     private final TextField searchBar = new TextField();
@@ -316,15 +316,16 @@ public class HomePage extends VBox {
     }
 
     private void refreshBooks() {
-        List<Book> filtered = filterController.getFilteredBooks(selectedCategory[0], orderCombo.getValue());
+        List<Book> books = bookController.getAllBooks();
+        List<Book> filtered = BookQueryUtils.getFilteredBooks(books, selectedCategory[0], orderCombo.getValue());
 
         if (!searchBar.getText().isBlank()) {
             String search = searchBar.getText().toLowerCase();
             filtered = filtered.stream()
                     .filter(book ->
                             book.getTitle().toLowerCase().contains(search) ||
-                                    book.getAuthor().toLowerCase().contains(search) ||
-                                    book.getType().toLowerCase().contains(search)
+                            book.getAuthor().toLowerCase().contains(search) ||
+                            book.getType().toLowerCase().contains(search)
                     )
                     .toList();
         }
@@ -360,7 +361,7 @@ public class HomePage extends VBox {
         loanGrid.setPrefWrapLength(800);
         loanGrid.setPadding(new Insets(4, 0, 0, 0));
 
-        List<Loan> filteredLoans = LoanManager.getInstance().search(loan ->
+        List<Loan> filteredLoans = loanController.searchLoans(loan ->
                 loan.getUser().equals(SessionManager.getInstance().getLoggedUser()) && filter.test(loan)
         );
 

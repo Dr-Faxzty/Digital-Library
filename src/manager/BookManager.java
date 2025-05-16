@@ -2,7 +2,6 @@ package manager;
 
 import common.interfaces.Manager;
 import model.Book;
-import persistence.JsonBookManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,17 +12,18 @@ public class BookManager implements Manager<Book> {
     private static BookManager instance;
     private final List<Book> books = new ArrayList<>();
 
-    public BookManager() {
-        JsonBookManager jsonBookManager = new JsonBookManager();
-        List<Book> initialBooks = jsonBookManager.load();
-        books.addAll(initialBooks);
-    }
+    public BookManager() {}
 
     public static BookManager getInstance() {
         if (instance == null) {
             instance = new BookManager();
         }
         return instance;
+    }
+
+    public void setInitialBooks(List<Book> initialBooks) {
+        books.clear();
+        books.addAll(initialBooks);
     }
 
     public boolean addBook(Book book) {
@@ -57,9 +57,5 @@ public class BookManager implements Manager<Book> {
     @Override
     public List<Book> getAll() {
         return new ArrayList<>(books);
-    }
-
-    public void saveBooks() {
-        new JsonBookManager().save(books);
     }
 }
