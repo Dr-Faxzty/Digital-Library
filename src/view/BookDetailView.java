@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import manager.LoanManager;
+import controller.LoanController;
 import manager.SessionManager;
 import model.Book;
 import model.Loan;
@@ -18,6 +18,7 @@ import model.User;
 import java.time.LocalDate;
 
 public class BookDetailView {
+    private final LoanController loanController = new LoanController();
 
     public void show(Stage parent, Book book) {
 
@@ -72,9 +73,8 @@ public class BookDetailView {
 
 
         User user = SessionManager.getInstance().getLoggedUser();
-        LoanManager loanManager = LoanManager.getInstance();
 
-        Loan existingLoan = loanManager.search(l ->
+        Loan existingLoan = loanController.searchLoans(l ->
                 l.getBook().equals(book) && l.getUser().equals(user) && l.isInProgress()
         ).stream().findFirst().orElse(null);  // TODO: use Null Object
 
@@ -94,7 +94,7 @@ public class BookDetailView {
         } else if (existingLoan != null) {
             loanButton.setText("↩ Return Book");
             loanButton.setOnAction(e -> {
-                loanManager.returnBook(existingLoan);
+                loanController.returnBook(existingLoan);
                 book.setAvailable(true);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(null);
@@ -106,7 +106,7 @@ public class BookDetailView {
         } else {
             loanButton.setText("📚 Loan this book");
             loanButton.setOnAction(e -> {
-                loanManager.loanBook(book, user, LocalDate.now().plusDays(14));
+                loanController.loanBook(book, user, LocalDate.now().plusDays(14));
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(null);
                 alert.setContentText("Loan registered successfully!");
