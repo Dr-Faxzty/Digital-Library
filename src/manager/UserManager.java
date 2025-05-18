@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import common.interfaces.Manager;
 import common.enums.Role;
+import common.nullObject.NullUser;
 import model.User;
 import persistence.JsonUserManager;
 import utils.HashUtil;
@@ -32,11 +33,13 @@ public class UserManager implements Manager<User> {
         users.add(user);
     }
 
+    public void removeUser(User user) { users.remove(user); }
+
     public User findByEmail(String email){
         for(User user : users){
             if(user.getEmail().equals(email)) return user;
         }
-        return null;
+        return new NullUser();
     }
 
     public boolean existsByEmail(String email) {
@@ -47,7 +50,7 @@ public class UserManager implements Manager<User> {
     }
 
     public User register(String name, String surname, String taxIdCode, String email, String password, Role role){
-        if(existsByEmail(email)){ return null; }
+        if(existsByEmail(email)){ return new NullUser(); }
         String hashedPassword = HashUtil.hashPassword(password);
         User user = new User(name, surname, taxIdCode, email, hashedPassword, role);
         addUser(user);
@@ -57,10 +60,10 @@ public class UserManager implements Manager<User> {
     public User login(String email, String password){
         String hashedPassword = HashUtil.hashPassword(password);
         User user = findByEmail(email);
-        if(user != null && user.getPassword().equals(hashedPassword)){
+        if(!(user instanceof NullUser) && user.getPassword().equals(hashedPassword)){
             return user;
         }else{
-            return null;
+            return new NullUser();
         }
     }
 

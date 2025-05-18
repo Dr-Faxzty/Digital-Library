@@ -1,5 +1,6 @@
 package controller;
 
+import common.nullObject.NullUser;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import common.enums.Role;
@@ -36,7 +37,7 @@ public class RegistrationController {
         }
 
         User user = userController.register(name, surname, username, email, password, role);
-        if (user != null) {
+        if (!(user instanceof NullUser)) {
             showAlert(Alert.AlertType.INFORMATION, "Registration succeeded", "Now you can login.");
             new LoginView().start(stage);
         } else {

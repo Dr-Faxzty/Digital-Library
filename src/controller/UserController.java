@@ -23,11 +23,19 @@ public class UserController {
 
     public User register(String name, String surname, String username, String email, String password, Role role) {
         boolean exists = userManager.getAll().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email));
-        if (exists) return null;
+        if (exists) return new NullUser();
 
         User user = userManager.register(name, surname, username, email, password, role);
         boolean saved = saveUsers();
         return saved ? user : new NullUser();
+    }
+
+    public boolean removeUser(String TaxIdCode) {
+        User toRemove = userManager.getAll().stream().filter(u -> u.getTaxIdCode().equalsIgnoreCase(TaxIdCode)).findFirst().orElse(new NullUser());
+        if (toRemove instanceof NullUser) return false;
+
+        userManager.removeUser(toRemove);
+        return saveUsers();
     }
 
     public List<User> getAllUsers() {

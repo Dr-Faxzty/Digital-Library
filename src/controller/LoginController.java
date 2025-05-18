@@ -1,5 +1,6 @@
 package controller;
 
+import common.nullObject.NullUser;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import manager.SessionManager;
@@ -22,7 +23,7 @@ public class LoginController {
         }
 
         User user = userController.login(email, password);
-        if (user != null) {
+        if (!(user instanceof NullUser)) {
             SessionManager.getInstance().login(user);
 
             if (user.getRole().name().equals("ADMIN")) {

@@ -2,6 +2,7 @@ package manager;
 
 import model.User;
 import common.enums.Role;
+import common.nullObject.NullUser;
 
 public class SessionManager {
     private static SessionManager instance;
@@ -18,11 +19,11 @@ public class SessionManager {
 
     public void login(User user) { this.loggedUser = user; }
 
-    public void logout() { this.loggedUser = null; }
+    public void logout() { this.loggedUser = new NullUser(); }
 
     public User getLoggedUser() { return loggedUser; }
 
-    public boolean isLoggedIn() { return loggedUser != null; }
+    public boolean isLoggedIn() { return !(loggedUser instanceof NullUser); }
 
-    public boolean isAdmin() { return loggedUser != null && loggedUser.getRole().equals(Role.ADMIN); }
+    public boolean isAdmin() { return !(loggedUser instanceof NullUser) && loggedUser.getRole().equals(Role.ADMIN); }
 }

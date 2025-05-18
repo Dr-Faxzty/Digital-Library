@@ -36,7 +36,7 @@ public class Book {
     public void setAuthor(String author) { this.author = author; }
     public void setDate(LocalDate date) { this.date = date; }
     public void setType(String type) { this.type = type; }
-    public void setAvailable(boolean available) { available = available; }
+    public void setAvailable(boolean available) { this.available = available; }
     public void setUrlImage(String urlImage) { this.urlImage = urlImage; }
 
     @Override
