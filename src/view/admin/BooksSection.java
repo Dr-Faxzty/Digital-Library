@@ -13,6 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
 import model.Book;
 import controller.BookController;
 import common.nullObject.NullBook;
+import model.User;
 import utils.BookQueryUtils;
 import view.admin.components.BookEditDialog;
 
@@ -197,28 +198,62 @@ public class BooksSection extends VBox {
 
     private TableColumn<Book, String> createColumn(String name, java.util.function.Function<Book, String> mapper) {
         TableColumn<Book, String> column = new TableColumn<>(name);
+
         column.setCellValueFactory(data -> new SimpleStringProperty(mapper.apply(data.getValue())));
+
+        column.setCellFactory(col -> new TableCell<>() {
+            private final HBox container = new HBox();
+            private final Label label = new Label();
+
+            {
+                container.setAlignment(Pos.CENTER);
+                container.getChildren().add(label);
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    label.setText(item);
+                    setGraphic(container);
+                }
+            }
+        });
+
         return column;
     }
 
     private TableColumn<Book, String> createRatingColumn() {
         TableColumn<Book, String> column = new TableColumn<>("Evaluation");
-        column.setCellValueFactory(data -> new SimpleStringProperty("4.5")); // Placeholder
+
+        column.setCellValueFactory(data -> new SimpleStringProperty("4.5"));
 
         column.setCellFactory(col -> new TableCell<>() {
+            private final HBox container = new HBox();
+            private final Label label = new Label("4.5 / 5");
+
+            {
+                container.setAlignment(Pos.CENTER);
+                label.getStyleClass().add("adminBooks-style-5");
+                container.getChildren().add(label);
+            }
+
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || getIndex() >= getTableView().getItems().size()) {
-                    setText(null);
+                    setGraphic(null);
                 } else {
-                    setText("4.5 / 5");
-                    getStyleClass().add("adminBooks-style-5");
+                    setGraphic(container);
                 }
             }
         });
+
         return column;
     }
+
 
     private TableColumn<Book, Void> createActionsColumn() {
         TableColumn<Book, Void> column = new TableColumn<>("Actions");

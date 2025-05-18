@@ -180,6 +180,7 @@
 .adminBooks-style-6 {
     -fx-cursor: hand;
     -fx-font-size: 18px;
+    -fx-text-fill: black;
 }
 
 .adminBooks-style-7 {
@@ -215,10 +216,6 @@
     -fx-background-color: white;
 }
 
-.table-view.adminBooks-table .table-row-cell:selected {
-    -fx-background-color: #f0f0f0;
-}
-
 .table-view.adminBooks-table .table-cell {
     -fx-border-color: transparent transparent #e0e0e0 transparent;
     -fx-padding: 8 4;
@@ -252,13 +249,110 @@
     -fx-alignment: CENTER_LEFT;
 }
 
-.table-view.adminBooks-table .label {
-    -fx-text-fill: #333;
-    -fx-font-weight: bold;
-    -fx-font-size: 13px;
+.table-view.adminBooks-table .arrow {
+    -fx-shape: "";
 }
 
-.table-view.adminBooks-table .arrow {
+
+/* ========== ADMINBOOKS ========== */
+.adminUsers-style-1 {
+    -fx-background-color: #e5e5e5;
+}
+
+.adminUsers-style-2 {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 16 24;
+}
+
+.adminUsers-style-2-1 {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.adminUsers-style-2-2 {
+    -fx-background-color: white;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 6;
+    -fx-padding: 4 8;
+    -fx-font-size: 12px;
+}
+
+.adminUsers-style-3 {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 3;
+}
+
+.adminUsers-style-4 {
+    -fx-cursor: hand;
+    -fx-font-size: 18px;
+    -fx-text-fill: black;
+}
+
+.adminUsers-style-5 {
+    -fx-cursor: hand;
+    -fx-text-fill: red;
+    -fx-font-size: 18px;
+}
+
+
+/* ========== ADMINUSERS TABLE CUSTOM STYLE ========== */
+.table-view.adminUsers-table {
+    -fx-background-color: white;
+    -fx-table-cell-border-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.table-view.adminUsers-table .table-row-cell {
+    -fx-background-color: white;
+}
+
+.table-view.adminUsers-table .table-row-cell:odd {
+    -fx-background-color: white;
+}
+
+.table-view.adminUsers-table .table-cell {
+    -fx-border-color: transparent transparent #e0e0e0 transparent;
+    -fx-padding: 8 4;
+}
+
+.table-view.adminUsers-table .column-header,
+.table-view.adminUsers-table .filler {
+    -fx-border-color: transparent;
+}
+
+.table-view.adminUsers-table .column-header-background {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.table-view.adminUsers-table .table-column {
+    -fx-alignment: CENTER_LEFT;
+}
+
+
+/* ========== HEADER (COLUMN) STYLE PER ADMIN TABLEVIEW ========== */
+.table-view.adminUsers-table .column-header-background {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.table-view.adminUsers-table .column-header {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.table-view.adminUsers-table .table-column {
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view.adminUsers-table .arrow {
     -fx-shape: "";
 }
 
