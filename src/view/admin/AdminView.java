@@ -57,7 +57,7 @@ public class AdminView implements ViewObserver {
             case "dashboard" -> view = new Dashboard();
             case "books" -> view = new BooksSection();
             case "users" -> view = new UsersSection();
-            case "settings" -> view = new Pane(); // TODO: Replace with SettingsView
+            case "loans" -> view = new LoansSection();
             default -> view = new Pane();
         }
 
