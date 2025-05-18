@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import model.Role;
+import common.enums.Role;
 
 public class RegistrationView {
     public void start(Stage stage) {

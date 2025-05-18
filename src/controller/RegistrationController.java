@@ -2,7 +2,7 @@ package controller;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import model.Role;
+import common.enums.Role;
 import model.User;
 import utils.InputValidator;
 import view.LoginView;

@@ -1,5 +1,7 @@
 package view.admin;
 
+import common.enums.BookCategoryType;
+import common.strategy.BookOrderType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -10,13 +12,27 @@ import javafx.stage.Stage;
 import javafx.beans.property.SimpleStringProperty;
 import model.Book;
 import controller.BookController;
+import common.nullObject.NullBook;
+import utils.BookQueryUtils;
 import view.admin.components.BookEditDialog;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class BooksSection extends VBox {
     private final BookController bookController;
+    private final TextField searchField;
+    private final TableView<Book> table;
+    private final ComboBox<String> categoryCombo;
+    private final ComboBox<String> orderCombo;
+
 
     public BooksSection() {
         this.bookController = new BookController();
+        this.searchField = new TextField();
+        this.table = new TableView<>();
+        this.categoryCombo = new ComboBox<>();
+        this.orderCombo = new ComboBox<>();
 
         styleContainer();
         getChildren().addAll(createTitle(), createTopBar(), createTable());
@@ -46,29 +62,93 @@ public class BooksSection extends VBox {
         topBar.setAlignment(Pos.CENTER_RIGHT);
         topBar.setPadding(new Insets(16, 24, 0, 24));
 
-        TextField searchField = new TextField();
+        categoryCombo.getItems().addAll(
+                Arrays.stream(BookCategoryType.values())
+                        .map(BookCategoryType::getLabel)
+                        .toList()
+        );
+        categoryCombo.setValue("All");
+        categoryCombo.getStyleClass().add("adminBooks-category-combo");
+        categoryCombo.setOnAction(e -> refreshTable());
+
+
+        orderCombo.getItems().addAll(
+                Arrays.stream(BookOrderType.values())
+                        .map(BookOrderType::getLabel)
+                        .toList()
+        );
+        orderCombo.setValue(BookOrderType.TITLE_A_Z.getLabel());
+        orderCombo.getStyleClass().add("adminBooks-category-combo");
+        orderCombo.setOnAction(e -> refreshTable());
+
+
         searchField.setPromptText("Search books...");
         searchField.setPrefWidth(200);
+        searchField.getStyleClass().add("adminBooks-style-2-2");
+        searchField.textProperty().addListener((obs, oldText, newText) -> refreshTable());
 
-        Button searchButton = new Button("Search");
+        Button searchButton = new Button("🔍 Search");
         searchButton.getStyleClass().add("adminBooks-style-3");
+        searchButton.setOnAction(e -> refreshTable());
+
 
         Button addBookButton = new Button("+ Add Book");
         addBookButton.getStyleClass().add("adminBooks-style-4");
+        addBookButton.setOnAction(e -> {
+            new BookEditDialog().show(
+                    (Stage) getScene().getWindow(),
+                    new NullBook(),
+                    () -> {
+                        getChildren().removeIf(node -> node instanceof TableView);
+                        getChildren().add(createTable());
+                    }
+            );
+        });
 
-        topBar.getChildren().addAll(searchField, searchButton, addBookButton);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        topBar.getChildren().addAll(categoryCombo, orderCombo, spacer, searchField, searchButton, addBookButton);
         return topBar;
     }
 
+    private void refreshTable() {
+        List<Book> allBooks = bookController.getAllBooks();
+
+        BookCategoryType categoryType = BookCategoryType.fromLabel(categoryCombo.getValue());
+        BookOrderType orderType = BookOrderType.fromLabel(orderCombo.getValue());
+
+        List<Book> filtered = BookQueryUtils.getFilteredBooks(allBooks, categoryType, orderType);
+
+        String search = searchField.getText().toLowerCase();
+        if (!search.isBlank()) {
+            filtered = filtered.stream()
+                    .filter(book ->
+                            search.contains(book.getTitle().toLowerCase()) ||
+                            search.contains(book.getAuthor().toLowerCase())
+                    )
+                    .toList();
+        }
+
+        table.getItems().setAll(filtered);
+    }
+
+
+
+
+
     private TableView<Book> createTable() {
-        TableView<Book> table = new TableView<>();
+        table.getStyleClass().add("adminBooks-table");
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        table.setFixedCellSize(Region.USE_COMPUTED_SIZE);
+        table.setPlaceholder(new Label(""));
         VBox.setMargin(table, new Insets(16, 24, 24, 24));
 
         table.getColumns().addAll(
                 createCoverColumn(),
-                createColumn("Author", book -> book.getAuthor()),
-                createColumn("Category", book -> book.getType()),
+                createColumn("Author", Book::getAuthor),
+                createColumn("Category", Book::getType),
                 createColumn("Year", book -> String.valueOf(book.getDate().getYear())),
                 createRatingColumn(),
                 createActionsColumn()
@@ -154,8 +234,14 @@ public class BooksSection extends VBox {
 
                 edit.setOnMouseClicked(e -> {
                     Book book = getTableView().getItems().get(getIndex());
-                    new BookEditDialog().show((Stage) getScene().getWindow(), book);
-                    getTableView().refresh();
+                    new BookEditDialog().show(
+                        (Stage) getScene().getWindow(),
+                        book,
+                        () -> {
+                            getTableView().getItems().clear();
+                            getTableView().getItems().addAll(bookController.getAllBooks());
+                        }
+                    );
                 });
 
                 delete.setOnMouseClicked(e -> {

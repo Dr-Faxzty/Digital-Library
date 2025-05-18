@@ -1,7 +1,7 @@
 package manager;
 
 import model.User;
-import model.Role;
+import common.enums.Role;
 
 public class SessionManager {
     private static SessionManager instance;

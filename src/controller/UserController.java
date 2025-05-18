@@ -1,8 +1,8 @@
 package controller;
 
 import manager.UserManager;
-import model.NullUser;
-import model.Role;
+import common.nullObject.NullUser;
+import common.enums.Role;
 import model.User;
 import persistence.JsonUserManager;
 

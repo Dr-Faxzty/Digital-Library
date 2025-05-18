@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import model.User;
+import common.observer.ViewObserver;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class RecentUsersBox {
 
     private static final UserController userController = new UserController();
 
-    public static VBox create(List<User> users) {
+    public static VBox create(List<User> users, ViewObserver observer) {
         VBox box = new VBox(10);
         box.setPadding(new Insets(10));
         box.setPrefWidth(450);
@@ -56,6 +57,10 @@ public class RecentUsersBox {
         Label viewAll = new Label("View All");
         viewAll.getStyleClass().add("recentuserbox-style-6");
         VBox.setMargin(viewAll, new Insets(10, 0, 0, 2));
+
+        viewAll.setOnMouseClicked(e -> {
+            if (observer != null) observer.onViewChange("users");
+        });
 
         box.getChildren().addAll(spacer, viewAll);
 

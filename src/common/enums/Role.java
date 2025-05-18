@@ -1,4 +1,4 @@
-package model;
+package common.enums;
 
 public enum Role{
     ADMIN,

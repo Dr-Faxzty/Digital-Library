@@ -1,4 +1,6 @@
-package model;
+package common.nullObject;
+
+import model.Book;
 
 import java.time.LocalDate;
 

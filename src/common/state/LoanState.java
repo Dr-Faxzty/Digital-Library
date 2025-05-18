@@ -1,4 +1,4 @@
-package common.interfaces;
+package common.state;
 
 
 import java.time.LocalDate;

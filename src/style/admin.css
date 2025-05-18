@@ -60,52 +60,6 @@
 }
 
 
-/* ========== ADMINBOOKS ========== */
-.adminBooks-style-1 {
-    -fx-background-color: #e5e5e5;
-}
-
-.adminBooks-style-2 {
-    -fx-background-color: white;
-    -fx-border-color: #ddd;
-    -fx-border-width: 0 0 1 0;
-    -fx-padding: 16 24;
-}
-
-.adminBooks-style-2-1 {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-}
-
-.adminBooks-style-3 {
-    -fx-background-color: #2563eb;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-background-radius: 3;
-}
-
-.adminBooks-style-4 {
-    -fx-background-color: #2563eb;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-background-radius: 3;
-}
-
-.adminBooks-style-5 {
-    -fx-text-fill: goldenrod;
-    -fx-font-weight: bold;
-}
-
-.adminBooks-style-6 {
-    -fx-cursor: hand;
-    -fx-font-size: 18px;
-}
-
-.adminBooks-style-7 {
-    -fx-cursor: hand;
-    -fx-text-fill: red;
-    -fx-font-size: 18px;
-}
 
 
 /* ========== RECENTBOOKBOX ========== */
@@ -176,6 +130,188 @@
     -fx-text-fill: #007BFF;
     -fx-font-size: 12px;
     -fx-cursor: hand;
+}
+
+
+/* ========== ADMINBOOKS ========== */
+.adminBooks-style-1 {
+    -fx-background-color: #e5e5e5;
+}
+
+.adminBooks-style-2 {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 16 24;
+}
+
+.adminBooks-style-2-1 {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.adminBooks-style-2-2 {
+    -fx-background-color: white;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 6;
+    -fx-padding: 4 8;
+    -fx-font-size: 12px;
+}
+
+.adminBooks-style-3 {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 3;
+}
+
+.adminBooks-style-4 {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 3;
+}
+
+.adminBooks-style-5 {
+    -fx-text-fill: goldenrod;
+    -fx-font-weight: bold;
+}
+
+.adminBooks-style-6 {
+    -fx-cursor: hand;
+    -fx-font-size: 18px;
+}
+
+.adminBooks-style-7 {
+    -fx-cursor: hand;
+    -fx-text-fill: red;
+    -fx-font-size: 18px;
+}
+
+.adminBooks-category-combo {
+    -fx-background-color: white;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 4 8;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+
+
+/* ========== ADMINBOOKS TABLE CUSTOM STYLE ========== */
+.table-view.adminBooks-table {
+    -fx-background-color: white;
+    -fx-table-cell-border-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.table-view.adminBooks-table .table-row-cell {
+    -fx-background-color: white;
+}
+
+.table-view.adminBooks-table .table-row-cell:odd {
+    -fx-background-color: white;
+}
+
+.table-view.adminBooks-table .table-row-cell:selected {
+    -fx-background-color: #f0f0f0;
+}
+
+.table-view.adminBooks-table .table-cell {
+    -fx-border-color: transparent transparent #e0e0e0 transparent;
+    -fx-padding: 8 4;
+}
+
+.table-view.adminBooks-table .column-header,
+.table-view.adminBooks-table .filler {
+    -fx-border-color: transparent;
+}
+
+.table-view.adminBooks-table .column-header-background {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* ========== HEADER (COLUMN) STYLE PER ADMIN TABLEVIEW ========== */
+.table-view.adminBooks-table .column-header-background {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.table-view.adminBooks-table .column-header {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.table-view.adminBooks-table .table-column {
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view.adminBooks-table .label {
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.table-view.adminBooks-table .arrow {
+    -fx-shape: "";
+}
+
+
+/* ========== EDIT BOOK DIALOG ========== */
+.editBook-style-1 {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 24;
+    -fx-spacing: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 12, 0.1, 0, 4);
+}
+
+.editBook-style-2 {
+    -fx-font-size: 13px;
+    -fx-text-fill: #444;
+    -fx-font-weight: bold;
+}
+
+.editBook-style-3 {
+    -fx-pref-height: 32;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 4 8;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+}
+
+.editBook-style-4 {
+    -fx-font-size: 13px;
+    -fx-text-fill: #333;
+}
+
+.editBook-style-5 {
+    -fx-cursor: hand;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-font-weight: bold;
+}
+
+.editBook-style-5:hover {
+    -fx-opacity: 0.9;
+}
+
+.editBook-style-6 {
+    -fx-background-color: #34A853;
+    -fx-text-fill: white;
+}
+
+.editBook-style-7 {
+    -fx-background-color: transparent;
+    -fx-border-color: #ccc;
+    -fx-text-fill: #333;
 }
 
 

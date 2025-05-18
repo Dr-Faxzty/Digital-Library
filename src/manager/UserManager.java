@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import common.interfaces.Manager;
-import model.Role;
+import common.enums.Role;
 import model.User;
 import persistence.JsonUserManager;
 import utils.HashUtil;

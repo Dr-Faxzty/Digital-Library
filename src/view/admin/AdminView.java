@@ -7,8 +7,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import manager.SessionManager;
 import model.User;
-import common.interfaces.observer.ViewSubject;
-import common.interfaces.observer.ViewObserver;
+import common.observer.ViewSubject;
+import common.observer.ViewObserver;
 import view.admin.components.Sidebar;
 
 public class AdminView implements ViewObserver {
@@ -56,7 +56,7 @@ public class AdminView implements ViewObserver {
         switch (viewName) {
             case "dashboard" -> view = new Dashboard();
             case "books" -> view = new BooksSection();
-            case "users" -> view = new Pane(); // TODO: Replace with UsersView
+            case "users" -> view = new Pane();
             case "settings" -> view = new Pane(); // TODO: Replace with SettingsView
             default -> view = new Pane();
         }

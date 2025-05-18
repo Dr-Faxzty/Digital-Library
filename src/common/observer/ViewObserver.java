@@ -1,4 +1,4 @@
-package common.interfaces.observer;
+package common.observer;
 
 public interface ViewObserver {
     void onViewChange(String viewName);

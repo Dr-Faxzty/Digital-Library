@@ -1,5 +1,7 @@
 package model;
 
+import common.enums.Role;
+
 public class User{
     private String name;
     private String surname;

@@ -1,6 +1,4 @@
-package model.state;
-
-import common.interfaces.LoanState;
+package common.state;
 
 import java.time.LocalDate;
 

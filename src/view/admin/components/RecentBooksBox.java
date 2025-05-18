@@ -7,13 +7,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import model.Book;
+import common.observer.ViewObserver;
+
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class RecentBooksBox {
-
-    public static VBox create(List<Book> books) {
+    public static VBox create(List<Book> books, ViewObserver observer) {
         VBox box = new VBox(10);
         box.setPadding(new Insets(10));
         box.setPrefWidth(450);
@@ -68,6 +69,10 @@ public class RecentBooksBox {
         Label viewAll = new Label("View All");
         viewAll.getStyleClass().add("recentbookbox-style-6");
         VBox.setMargin(viewAll, new Insets(10, 0, 0, 2));
+
+        viewAll.setOnMouseClicked(e -> {
+            if (observer != null) observer.onViewChange("books");
+        });
 
         box.getChildren().addAll(spacer, viewAll);
 

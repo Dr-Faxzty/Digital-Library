@@ -9,8 +9,8 @@ import javafx.scene.layout.VBox;
 import controller.BookController;
 import controller.UserController;
 import controller.LoanController;
-import common.interfaces.observer.ViewObserver;
-import common.interfaces.observer.ViewSubject;
+import common.observer.ViewObserver;
+import common.observer.ViewSubject;
 import view.admin.components.RecentBooksBox;
 import view.admin.components.RecentUsersBox;
 
@@ -31,12 +31,12 @@ public class Dashboard extends VBox implements ViewSubject {
         createTopBar();
         createPanoramic();
         createStats();
-        createRecentSections();
     }
 
     @Override
     public void setObserver(ViewObserver observer) {
         this.observer = observer;
+        createRecentSections();
     }
 
     private void createTopBar() {
@@ -79,8 +79,8 @@ public class Dashboard extends VBox implements ViewSubject {
         recentSection.setPadding(new Insets(20, 24, 24, 24));
         recentSection.setAlignment(Pos.TOP_CENTER);
 
-        VBox recentBooks = RecentBooksBox.create(bookController.getAllBooks());
-        VBox recentUsers = RecentUsersBox.create(userController.getAllUsers());
+        VBox recentBooks = RecentBooksBox.create(bookController.getAllBooks(), observer);
+        VBox recentUsers = RecentUsersBox.create(userController.getAllUsers(), observer);
 
         HBox.setHgrow(recentBooks, Priority.ALWAYS);
         HBox.setHgrow(recentUsers, Priority.ALWAYS);

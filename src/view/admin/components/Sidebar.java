@@ -8,8 +8,8 @@ import javafx.stage.Stage;
 import model.User;
 import manager.SessionManager;
 import view.LoginView;
-import common.interfaces.observer.ViewObserver;
-import common.interfaces.observer.ViewSubject;
+import common.observer.ViewObserver;
+import common.observer.ViewSubject;
 
 public class Sidebar extends VBox implements ViewSubject {
     private ViewObserver observer;

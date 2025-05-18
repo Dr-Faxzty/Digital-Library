@@ -2,10 +2,10 @@ package model;
 
 import java.time.LocalDate;
 
-import common.interfaces.LoanState;
-import model.state.ExpiredState;
-import model.state.InProgressState;
-import model.state.ReturnedState;
+import common.state.LoanState;
+import common.state.ExpiredState;
+import common.state.InProgressState;
+import common.state.ReturnedState;
 
 public class Loan{
     private final int id;
