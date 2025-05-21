@@ -7,6 +7,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
+
+import utils.FxTaskRunner;
 
 public abstract class JsonTemplateManager<T> {
     private final String filePath;
@@ -42,5 +45,13 @@ public abstract class JsonTemplateManager<T> {
             System.out.println("Error while loading data: " + filePath);
             return new ArrayList<>();
         }
+    }
+
+    public void loadAsync(Consumer<List<T>> onSuccess, Runnable onError) {
+        FxTaskRunner.runAsync(this::load, onSuccess, onError);
+    }
+
+    public void saveAsync(List<T> items, Consumer<Boolean> onSuccess, Runnable onError) {
+        FxTaskRunner.runAsync(() -> save(items), onSuccess, onError);
     }
 }

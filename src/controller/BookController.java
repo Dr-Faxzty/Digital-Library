@@ -52,4 +52,12 @@ public class BookController {
     private void saveBooks() {
         jsonBookManager.save(bookManager.getAll());
     }
+
+    public void loadBooksAsync(java.util.function.Consumer<List<Book>> onSuccess, Runnable onError) {
+        jsonBookManager.loadAsync(books -> {
+            bookManager.setInitialBooks(books);
+            onSuccess.accept(books);
+        }, onError);
+    }
+
 }

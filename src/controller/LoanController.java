@@ -62,4 +62,12 @@ public class LoanController {
         jsonLoanManager.save(loanManager.getAll());
         jsonBookManager.save(bookManager.getAll());
     }
+
+    public void loadLoansAsync(java.util.function.Consumer<List<Loan>> onSuccess, Runnable onError) {
+        jsonLoanManager.loadAsync(loans -> {
+            loanManager.setInitialLoans(loans);
+            onSuccess.accept(loans);
+        }, onError);
+    }
+
 }

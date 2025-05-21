@@ -4,7 +4,7 @@ import common.nullObject.NullUser;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import manager.SessionManager;
-import model.User;
+import utils.FxTaskRunner;
 import view.admin.AdminView;
 import view.UserView;
 
@@ -22,20 +22,23 @@ public class LoginController {
             return;
         }
 
-        User user = userController.login(email, password);
-        if (!(user instanceof NullUser)) {
-            SessionManager.getInstance().login(user);
+        FxTaskRunner.runAsync(
+            () -> userController.login(email, password),
+            user -> {
+                if (!(user instanceof NullUser)) {
+                    SessionManager.getInstance().login(user);
+                    if (user.getRole().name().equals("ADMIN")) {
+                        new AdminView().start(stage);
+                    } else {
+                        new UserView().start(stage);
+                    }
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Login failed", "Incorrect email or password.");
+                }
+            },
+            () -> showAlert(Alert.AlertType.ERROR, "Error", "Unexpected error during login.")
+        );
 
-            if (user.getRole().name().equals("ADMIN")) {
-                AdminView adminView = new AdminView();
-                adminView.start(stage);
-            } else {
-                UserView userView = new UserView();
-                userView.start(stage);
-            }
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Login failed", "Incorrect email or password.");
-        }
     }
 
     private void showAlert(Alert.AlertType type, String title, String msg) {

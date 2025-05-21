@@ -14,19 +14,33 @@ public class LoansSection extends VBox {
     private final LoanController loanController;
     private final TableView<Loan> table;
     private final ComboBox<String> statusFilter;
+    private final ProgressIndicator loadingSpinner;
 
     public LoansSection() {
         this.loanController = new LoanController();
         this.table = new TableView<>();
         this.statusFilter = new ComboBox<>();
+        this.loadingSpinner = new ProgressIndicator();
 
         styleContainer();
-        getChildren().addAll(createTitle(), createTopBar(), createTable());
+        configureSpinner();
+
+        getChildren().addAll(createTitle(), createTopBar(), loadingSpinner, table);
+        setupTableColumns();
+        loadData();
     }
 
     private void styleContainer() {
         setMaxWidth(Double.MAX_VALUE);
         getStyleClass().add("adminBooks-style-1");
+    }
+
+    private void configureSpinner() {
+        loadingSpinner.setVisible(false);
+        loadingSpinner.setPrefSize(50, 50);
+        loadingSpinner.setStyle("-fx-progress-color: #34A853;");
+        setAlignment(Pos.TOP_CENTER);
+        VBox.setMargin(loadingSpinner, new Insets(16, 0, 0, 0));
     }
 
     private HBox createTitle() {
@@ -56,7 +70,7 @@ public class LoansSection extends VBox {
         return topBar;
     }
 
-    private TableView<Loan> createTable() {
+    private void setupTableColumns() {
         table.getStyleClass().add("adminBooks-table");
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setPlaceholder(new Label("No loans found"));
@@ -68,14 +82,34 @@ public class LoansSection extends VBox {
                 createColumn("Due Date", loan -> loan.getExpirationDate().toString()),
                 createColumn("Status", this::getLoanStatus)
         );
-
-        refreshTable();
-        return table;
     }
 
     private TableColumn<Loan, String> createColumn(String name, java.util.function.Function<Loan, String> mapper) {
         TableColumn<Loan, String> column = new TableColumn<>(name);
+
         column.setCellValueFactory(data -> new SimpleStringProperty(mapper.apply(data.getValue())));
+
+        column.setCellFactory(col -> new TableCell<>() {
+            private final HBox container = new HBox();
+            private final Label label = new Label();
+
+            {
+                container.setAlignment(Pos.CENTER);
+                container.getChildren().add(label);
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || getIndex() < 0 || getIndex() >= getTableView().getItems().size()) {
+                    setGraphic(null);
+                } else {
+                    label.setText(item);
+                    setGraphic(container);
+                }
+            }
+        });
+
         return column;
     }
 
@@ -85,8 +119,27 @@ public class LoansSection extends VBox {
         return "In Progress";
     }
 
+    private void loadData() {
+        setControlsDisabled(true);
+        loadingSpinner.setVisible(true);
+
+        loanController.loadLoansAsync(allLoans -> {
+            updateTableWithFilter(allLoans);
+            loadingSpinner.setVisible(false);
+            setControlsDisabled(false);
+        }, () -> {
+            showError("Failed to load loans.");
+            loadingSpinner.setVisible(false);
+            setControlsDisabled(false);
+        });
+    }
+
     private void refreshTable() {
         List<Loan> allLoans = loanController.getAllLoans();
+        updateTableWithFilter(allLoans);
+    }
+
+    private void updateTableWithFilter(List<Loan> allLoans) {
         String selected = statusFilter.getValue();
 
         List<Loan> filtered = switch (selected) {
@@ -97,5 +150,14 @@ public class LoansSection extends VBox {
         };
 
         table.getItems().setAll(filtered);
+    }
+
+    private void setControlsDisabled(boolean disable) {
+        statusFilter.setDisable(disable);
+        table.setDisable(disable);
+    }
+
+    private void showError(String message) {
+        new Alert(Alert.AlertType.ERROR, message).showAndWait();
     }
 }

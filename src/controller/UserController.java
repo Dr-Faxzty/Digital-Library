@@ -21,11 +21,11 @@ public class UserController {
         return userManager.login(email, password);
     }
 
-    public User register(String name, String surname, String username, String email, String password, Role role) {
+    public User register(String name, String surname, String taxCode, String email, String password, Role role) {
         boolean exists = userManager.getAll().stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email));
         if (exists) return new NullUser();
 
-        User user = userManager.register(name, surname, username, email, password, role);
+        User user = userManager.register(name, surname, taxCode, email, password, role);
         boolean saved = saveUsers();
         return saved ? user : new NullUser();
     }
@@ -53,4 +53,12 @@ public class UserController {
     private boolean saveUsers() {
         return jsonUserManager.save(userManager.getAll());
     }
+
+    public void loadUsersAsync(java.util.function.Consumer<List<User>> onSuccess, Runnable onError) {
+        jsonUserManager.loadAsync(users -> {
+            userManager.setAll(users);
+            onSuccess.accept(users);
+        }, onError);
+    }
+
 }

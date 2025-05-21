@@ -10,36 +10,26 @@ import javafx.stage.Stage;
 
 public class LoginView {
     public void start(Stage stage) {
-        VBox container = new VBox(8);
+        VBox container = new VBox(12);
         container.setPadding(new Insets(40));
         container.setAlignment(Pos.TOP_CENTER);
         container.getStyleClass().add("login-container");
 
-        Label title = new Label("Digital Library");
-        title.getStyleClass().add("title");
+        Label title = createLabel("Digital Library", "title");
+        Label subtitle = createLabel("Login to your account", "subtitle");
 
-        Label subtitle = new Label("Login to your account");
-        subtitle.getStyleClass().add("subtitle");
+        TextField emailField = createTextField("Your email");
+        VBox emailBox = createInputBox("Email", emailField);
 
-        Label emailLabel = new Label("Email");
-        TextField emailField = new TextField();
-        emailField.setPromptText("Your email");
-        emailLabel.setMaxWidth(Double.MAX_VALUE);
-        emailLabel.setAlignment(Pos.BASELINE_LEFT);
-        emailField.getStyleClass().add("input");
-
-        Label passwordLabel = new Label("Password");
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Your password");
-        passwordLabel.setMaxWidth(Double.MAX_VALUE);
-        passwordLabel.setAlignment(Pos.BASELINE_LEFT);
         passwordField.getStyleClass().add("input");
+        VBox passwordBox = createInputBox("Password", passwordField);
 
         Label forgotPassword = new Label("Forgot your password?");
         forgotPassword.setMaxWidth(Double.MAX_VALUE);
         forgotPassword.setAlignment(Pos.BASELINE_RIGHT);
         forgotPassword.getStyleClass().add("link-label");
-
 
         Button loginBtn = new Button("Login");
         loginBtn.setMaxWidth(Double.MAX_VALUE);
@@ -54,8 +44,8 @@ public class LoginView {
 
         container.getChildren().addAll(
                 title, subtitle,
-                emailLabel, emailField,
-                passwordLabel, passwordField,
+                emailBox,
+                passwordBox,
                 forgotPassword,
                 loginBtn,
                 registerBox
@@ -69,16 +59,30 @@ public class LoginView {
         stage.setResizable(false);
         stage.show();
 
-        goToRegisterBtn.setOnAction(e -> {
-            RegistrationView registrationView = new RegistrationView();
-            registrationView.start(stage);
-        });
+        goToRegisterBtn.setOnAction(e -> new RegistrationView().start(stage));
 
         LoginController controller = new LoginController();
-        loginBtn.setOnAction(e -> {
-            String email = emailField.getText();
-            String password = passwordField.getText();
-            controller.handleLogin(email, password, stage);
-        });
+        loginBtn.setOnAction(e -> controller.handleLogin(emailField.getText(), passwordField.getText(), stage));
+    }
+
+    private VBox createInputBox(String labelText, Control inputField) {
+        Label label = new Label(labelText);
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setAlignment(Pos.BASELINE_LEFT);
+        label.getStyleClass().add("label");
+        return new VBox(4, label, inputField);
+    }
+
+    private TextField createTextField(String prompt) {
+        TextField field = new TextField();
+        field.setPromptText(prompt);
+        field.getStyleClass().add("input");
+        return field;
+    }
+
+    private Label createLabel(String text, String styleClass) {
+        Label label = new Label(text);
+        label.getStyleClass().add(styleClass);
+        return label;
     }
 }

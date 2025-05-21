@@ -2,6 +2,7 @@ package view.admin;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -11,13 +12,22 @@ import controller.UserController;
 import controller.LoanController;
 import common.observer.ViewObserver;
 import common.observer.ViewSubject;
+import model.Book;
+import model.Loan;
+import model.User;
 import view.admin.components.RecentBooksBox;
 import view.admin.components.RecentUsersBox;
+
+import java.util.List;
 
 public class Dashboard extends VBox implements ViewSubject {
     private final BookController bookController;
     private final UserController userController;
     private final LoanController loanController;
+    private List<Book> books;
+    private List<User> users;
+    private List<Loan> loans;
+
     private ViewObserver observer;
 
     public Dashboard() {
@@ -30,13 +40,12 @@ public class Dashboard extends VBox implements ViewSubject {
 
         createTopBar();
         createPanoramic();
-        createStats();
+        loadDashboardData();
     }
 
     @Override
     public void setObserver(ViewObserver observer) {
         this.observer = observer;
-        createRecentSections();
     }
 
     private void createTopBar() {
@@ -79,8 +88,8 @@ public class Dashboard extends VBox implements ViewSubject {
         recentSection.setPadding(new Insets(20, 24, 24, 24));
         recentSection.setAlignment(Pos.TOP_CENTER);
 
-        VBox recentBooks = RecentBooksBox.create(bookController.getAllBooks(), observer);
-        VBox recentUsers = RecentUsersBox.create(userController.getAllUsers(), observer);
+        VBox recentBooks = RecentBooksBox.create(bookController, observer);
+        VBox recentUsers = RecentUsersBox.create(userController, observer);
 
         HBox.setHgrow(recentBooks, Priority.ALWAYS);
         HBox.setHgrow(recentUsers, Priority.ALWAYS);
@@ -124,5 +133,44 @@ public class Dashboard extends VBox implements ViewSubject {
         if (observer != null) {
             observer.onViewChange(viewName);
         }
+    }
+
+    private void renderDashboard() {
+        createStats();
+        if (observer != null) createRecentSections();
+    }
+
+    private void loadDashboardData() {
+        bookController.loadBooksAsync(
+                books -> {
+                    this.books = books;
+                    if (this.users != null && this.loans != null) renderDashboard();
+                },
+                () -> showError("Failed to load books.")
+        );
+
+        userController.loadUsersAsync(
+                users -> {
+                    this.users = users;
+                    if (this.books != null && this.loans != null) renderDashboard();
+                },
+                () -> showError("Failed to load users.")
+        );
+
+        loanController.loadLoansAsync(
+                loans -> {
+                    this.loans = loans;
+                    if (this.books != null && this.users != null) renderDashboard();
+                },
+                () -> showError("Failed to load loans.")
+        );
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

@@ -4,7 +4,7 @@ import common.nullObject.NullUser;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import common.enums.Role;
-import model.User;
+import utils.FxTaskRunner;
 import utils.InputValidator;
 import view.LoginView;
 
@@ -16,8 +16,8 @@ public class RegistrationController {
         this.userController = new UserController();
     }
 
-    public void handleRegistration(String name, String surname, String username, String email, String password, Role role, Stage stage) {
-        if(!InputValidator.areFieldsFilled(name, surname, username, email, password)) {
+    public void handleRegistration(String name, String surname, String taxCode, String email, String password, Role role, Stage stage) {
+        if(!InputValidator.areFieldsFilled(name, surname, taxCode, email, password)) {
             showAlert(Alert.AlertType.ERROR, "Error", "All fields are required.");
             return;
         }
@@ -26,7 +26,7 @@ public class RegistrationController {
             return;
         }
 
-        if(!InputValidator.isTaxCodeValid(username)) {
+        if(!InputValidator.isTaxCodeValid(taxCode)) {
             showAlert(Alert.AlertType.ERROR, "Error", "Invalid TaxCode format.");
             return;
         }
@@ -36,13 +36,18 @@ public class RegistrationController {
             return;
         }
 
-        User user = userController.register(name, surname, username, email, password, role);
-        if (!(user instanceof NullUser)) {
-            showAlert(Alert.AlertType.INFORMATION, "Registration succeeded", "Now you can login.");
-            new LoginView().start(stage);
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Registration failed", "Email already exists or saving failed.");
-        }
+        FxTaskRunner.runAsync(
+            () -> userController.register(name, surname, taxCode, email, password, role),
+        user -> {
+                if (!(user instanceof NullUser)) {
+                    showAlert(Alert.AlertType.INFORMATION, "Registration succeeded", "Now you can login.");
+                    new LoginView().start(stage);
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Registration failed", "Email already exists or saving failed.");
+                }
+            },
+            () -> showAlert(Alert.AlertType.ERROR, "Error", "Unexpected error during registration.")
+        );
     }
 
     private void showAlert(Alert.AlertType type, String title, String msg) {
