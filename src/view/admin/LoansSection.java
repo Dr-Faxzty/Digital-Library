@@ -36,11 +36,16 @@ public class LoansSection extends VBox {
     }
 
     private void configureSpinner() {
-        loadingSpinner.setVisible(false);
+        showLoadingSpinner(false);
         loadingSpinner.setPrefSize(50, 50);
         loadingSpinner.setStyle("-fx-progress-color: #34A853;");
         setAlignment(Pos.TOP_CENTER);
         VBox.setMargin(loadingSpinner, new Insets(16, 0, 0, 0));
+    }
+
+    private void showLoadingSpinner(boolean show) {
+        loadingSpinner.setVisible(show);
+        loadingSpinner.setManaged(show);
     }
 
     private HBox createTitle() {
@@ -114,22 +119,20 @@ public class LoansSection extends VBox {
     }
 
     private String getLoanStatus(Loan loan) {
-        if (loan.isReturned()) return "Returned";
-        if (loan.isExpired()) return "Expired";
-        return "In Progress";
+        return loan.getState().getName();
     }
 
     private void loadData() {
         setControlsDisabled(true);
-        loadingSpinner.setVisible(true);
+        showLoadingSpinner(true);
 
         loanController.loadLoansAsync(allLoans -> {
             updateTableWithFilter(allLoans);
-            loadingSpinner.setVisible(false);
+            showLoadingSpinner(false);
             setControlsDisabled(false);
         }, () -> {
             showError("Failed to load loans.");
-            loadingSpinner.setVisible(false);
+            showLoadingSpinner(false);
             setControlsDisabled(false);
         });
     }

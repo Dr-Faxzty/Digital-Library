@@ -49,10 +49,16 @@ public class BooksSection extends VBox {
 
     private void initLoadingSpinner() {
         loadingSpinner.setVisible(false);
+        loadingSpinner.setManaged(false);
         loadingSpinner.setPrefSize(50, 50);
         loadingSpinner.setStyle("-fx-progress-color: #34A853;");
         VBox.setMargin(loadingSpinner, new Insets(16, 0, 0, 0));
         setAlignment(Pos.TOP_CENTER);
+    }
+
+    private void showLoadingSpinner(boolean show) {
+        loadingSpinner.setVisible(show);
+        loadingSpinner.setManaged(show);
     }
 
     private void styleContainer() {
@@ -251,15 +257,15 @@ public class BooksSection extends VBox {
 
     private void refreshTable() {
         setControlsDisabled(true);
-        loadingSpinner.setVisible(true);
+        showLoadingSpinner(true);
         bookController.loadBooksAsync(books -> {
             table.getItems().setAll(applyFilters(books));
             setControlsDisabled(false);
-            loadingSpinner.setVisible(false);
+            showLoadingSpinner(false);
         }, () -> {
             showError("Failed to load books.");
             setControlsDisabled(false);
-            loadingSpinner.setVisible(false);
+            showLoadingSpinner(false);
         });
     }
 

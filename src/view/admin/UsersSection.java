@@ -45,10 +45,15 @@ public class UsersSection extends VBox {
     }
 
     private void configureLoadingSpinner() {
-        loadingSpinner.setVisible(false);
+        showLoadingSpinner(false);
         loadingSpinner.setPrefSize(40, 40);
         loadingSpinner.setStyle("-fx-progress-color: #34A853;");
         VBox.setMargin(loadingSpinner, new Insets(10));
+    }
+
+    private void showLoadingSpinner(boolean show) {
+        loadingSpinner.setVisible(show);
+        loadingSpinner.setManaged(show);
     }
 
     private HBox createTitle() {
@@ -97,24 +102,6 @@ public class UsersSection extends VBox {
         table.setPlaceholder(new Label(""));
         table.getStyleClass().add("adminUsers-table");
         VBox.setMargin(table, new Insets(16, 24, 24, 24));
-    }
-
-    private TableView<User> createTable() {
-        table.getStyleClass().add("adminUsers-table");
-        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        table.setPlaceholder(new Label(""));
-        VBox.setMargin(table, new Insets(16, 24, 24, 24));
-
-        table.getColumns().addAll(
-                createColumn("Tax Id Code", User::getTaxIdCode),
-                createColumn("User", user -> user.getName() + " " + user.getSurname()),
-                createColumn("Email", User::getEmail),
-                createColumn("Role", user -> user.getRole().getLabel()),
-                createActionsColumn()
-        );
-
-        table.getItems().addAll(userController.getAllUsers());
-        return table;
     }
 
     private TableColumn<User, String> createColumn(String name, Function<User, String> mapper) {
@@ -183,14 +170,14 @@ public class UsersSection extends VBox {
 
     private void refreshTable() {
         setControlsDisabled(true);
-        loadingSpinner.setVisible(true);
+        showLoadingSpinner(true);
 
         List<User> allUsers = userController.getAllUsers();
         List<User> filtered = filterUsers(allUsers, searchField.getText().toLowerCase());
 
         table.getItems().setAll(filtered);
         setControlsDisabled(false);
-        loadingSpinner.setVisible(false);
+        showLoadingSpinner(false);
     }
 
     private List<User> filterUsers(List<User> users, String search) {
