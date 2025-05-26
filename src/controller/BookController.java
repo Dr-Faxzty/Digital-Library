@@ -1,25 +1,33 @@
 package controller;
 
 import manager.BookManager;
-import model.Book;
 import persistence.JsonBookManager;
 
 import java.util.List;
 import java.util.function.Predicate;
+import common.interfaces.IBook;
 
 public class BookController {
+    private static BookController bookInstance;
     private final BookManager bookManager;
     private final JsonBookManager jsonBookManager;
 
-    public BookController() {
+    private BookController() {
         this.bookManager = BookManager.getInstance();
         this.jsonBookManager = new JsonBookManager();
 
-        List<Book> initialBooks = loadBooks();
+        List<IBook> initialBooks = loadBooks();
         bookManager.setInitialBooks(initialBooks);
     }
 
-    public boolean addBook(Book book) {
+    public static BookController getInstance() {
+        if(bookInstance == null){
+            bookInstance = new BookController();
+        }
+        return bookInstance;
+    }
+
+    public boolean addBook(IBook book) {
         boolean added = bookManager.addBook(book);
         if (added) saveBooks();
         return added;
@@ -31,21 +39,21 @@ public class BookController {
         return removed;
     }
 
-    public boolean updateBook(String isbn, Book updatedBook) {
+    public boolean updateBook(String isbn, IBook updatedBook) {
         boolean updated = bookManager.updateBook(isbn, updatedBook);
         if (updated) saveBooks();
         return updated;
     }
 
-    public List<Book> getAllBooks() {
+    public List<IBook> getAllBooks() {
         return bookManager.getAll();
     }
 
-    public List<Book> searchBooks(Predicate<Book> filter) {
+    public List<IBook> searchBooks(Predicate<IBook> filter) {
         return bookManager.search(filter);
     }
 
-    private List<Book> loadBooks() {
+    private List<IBook> loadBooks() {
         return jsonBookManager.load();
     }
 

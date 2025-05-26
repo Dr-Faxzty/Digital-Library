@@ -31,9 +31,9 @@ public class Dashboard extends VBox implements ViewSubject {
     private ViewObserver observer;
 
     public Dashboard() {
-        this.bookController = new BookController();
-        this.userController = new UserController();
-        this.loanController = new LoanController();
+        this.bookController = BookController.getInstance();
+        this.userController = UserController.getInstance();
+        this.loanController = LoanController.getInstance();
 
         setMaxWidth(Double.MAX_VALUE);
         getStyleClass().add("adminDashboard-style-1");

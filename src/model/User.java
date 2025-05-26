@@ -1,8 +1,9 @@
 package model;
 
 import common.enums.Role;
+import common.interfaces.IUser;
 
-public class User{
+public class User implements IUser {
     private String name;
     private String surname;
     private String taxIdCode;
@@ -21,19 +22,21 @@ public class User{
         this.role = role;
     }
 
-    public String getName() { return this.name; }
-    public String getSurname() { return this.surname; }
-    public String getTaxIdCode() { return this.taxIdCode; }
-    public String getEmail() { return this.email; }
-    public String getPassword() { return this.password; }
-    public Role getRole() { return this.role; }
+    @Override public String getName() { return this.name; }
+    @Override public String getSurname() { return this.surname; }
+    @Override public String getTaxIdCode() { return this.taxIdCode; }
+    @Override public String getEmail() { return this.email; }
+    @Override public String getPassword() { return this.password; }
+    @Override public Role getRole() { return this.role; }
 
-    public void setName(String name) { this.name = name; }
-    public void setSurname(String surname) { this.surname = surname; }
-    public void setTaxIdCode(String taxIdCode) { this.taxIdCode = taxIdCode; }
-    public void setEmail(String email) { this.email = email; }
-    public void setPassword(String password) { this.password = password; }
-    public void setRole(Role role) { this.role = role; }
+    @Override public void setName(String name) { this.name = name; }
+    @Override public void setSurname(String surname) { this.surname = surname; }
+    @Override public void setTaxIdCode(String taxIdCode) { this.taxIdCode = taxIdCode; }
+    @Override public void setEmail(String email) { this.email = email; }
+    @Override public void setPassword(String password) { this.password = password; }
+    @Override public void setRole(Role role) { this.role = role; }
+
+    @Override public boolean isNull(){return false;};
 
     @Override
     public String toString() {

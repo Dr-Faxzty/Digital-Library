@@ -6,18 +6,18 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import model.Loan;
+import common.interfaces.ILoan;
 
 import java.util.List;
 
 public class LoansSection extends VBox {
     private final LoanController loanController;
-    private final TableView<Loan> table;
+    private final TableView<ILoan> table;
     private final ComboBox<String> statusFilter;
     private final ProgressIndicator loadingSpinner;
 
     public LoansSection() {
-        this.loanController = new LoanController();
+        this.loanController = LoanController.getInstance();
         this.table = new TableView<>();
         this.statusFilter = new ComboBox<>();
         this.loadingSpinner = new ProgressIndicator();
@@ -89,8 +89,8 @@ public class LoansSection extends VBox {
         );
     }
 
-    private TableColumn<Loan, String> createColumn(String name, java.util.function.Function<Loan, String> mapper) {
-        TableColumn<Loan, String> column = new TableColumn<>(name);
+    private TableColumn<ILoan, String> createColumn(String name, java.util.function.Function<ILoan, String> mapper) {
+        TableColumn<ILoan, String> column = new TableColumn<>(name);
 
         column.setCellValueFactory(data -> new SimpleStringProperty(mapper.apply(data.getValue())));
 
@@ -118,7 +118,7 @@ public class LoansSection extends VBox {
         return column;
     }
 
-    private String getLoanStatus(Loan loan) {
+    private String getLoanStatus(ILoan loan) {
         return loan.getState().getName();
     }
 
@@ -138,17 +138,17 @@ public class LoansSection extends VBox {
     }
 
     private void refreshTable() {
-        List<Loan> allLoans = loanController.getAllLoans();
+        List<ILoan> allLoans = loanController.getAllLoans();
         updateTableWithFilter(allLoans);
     }
 
-    private void updateTableWithFilter(List<Loan> allLoans) {
+    private void updateTableWithFilter(List<ILoan> allLoans) {
         String selected = statusFilter.getValue();
 
-        List<Loan> filtered = switch (selected) {
-            case "In Progress" -> allLoans.stream().filter(Loan::isInProgress).toList();
-            case "Expired"     -> allLoans.stream().filter(Loan::isExpired).toList();
-            case "Returned"    -> allLoans.stream().filter(Loan::isReturned).toList();
+        List<ILoan> filtered = switch (selected) {
+            case "In Progress" -> allLoans.stream().filter(ILoan::isInProgress).toList();
+            case "Expired"     -> allLoans.stream().filter(ILoan::isExpired).toList();
+            case "Returned"    -> allLoans.stream().filter(ILoan::isReturned).toList();
             default            -> allLoans;
         };
 

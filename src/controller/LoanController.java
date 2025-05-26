@@ -1,8 +1,5 @@
 package controller;
 
-import model.Book;
-import model.Loan;
-import model.User;
 import manager.LoanManager;
 import manager.BookManager;
 import persistence.JsonLoanManager;
@@ -11,30 +8,41 @@ import persistence.JsonBookManager;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Predicate;
+import common.interfaces.ILoan;
+import common.interfaces.IBook;
+import common.interfaces.IUser;
 
 public class LoanController {
+    private static LoanController LoanInstance;
     private final LoanManager loanManager;
     private final BookManager bookManager;
     private final JsonLoanManager jsonLoanManager;
     private final JsonBookManager jsonBookManager;
 
-    public LoanController() {
+    private LoanController() {
         this.loanManager = LoanManager.getInstance();
         this.bookManager = BookManager.getInstance();
         this.jsonLoanManager = new JsonLoanManager();
         this.jsonBookManager = new JsonBookManager();
 
-        List<Loan> loans = loadLoans();
+        List<ILoan> loans = loadLoans();
         loanManager.setInitialLoans(loans);
     }
 
-    public Loan loanBook(Book book, User user, LocalDate expirationDate) {
-        Loan loan = loanManager.loanBook(book, user, expirationDate);
+    public static LoanController getInstance() {
+        if (LoanInstance == null) {
+            LoanInstance = new LoanController();
+        }
+        return LoanInstance;
+    }
+
+    public ILoan loanBook(IBook book, IUser user, LocalDate expirationDate) {
+        ILoan loan = loanManager.loanBook(book, user, expirationDate);
         saveAll();
         return loan;
     }
 
-    public boolean returnBook(Loan loan) {
+    public boolean returnBook(ILoan loan) {
         boolean result = loanManager.returnBook(loan);
         if (result) saveAll();
         return result;
@@ -46,15 +54,15 @@ public class LoanController {
         return removed;
     }
 
-    public List<Loan> getAllLoans() {
+    public List<ILoan> getAllLoans() {
         return loanManager.getAll();
     }
 
-    public List<Loan> searchLoans(Predicate<Loan> filter) {
+    public List<ILoan> searchLoans(Predicate<ILoan> filter) {
         return loanManager.search(filter);
     }
 
-    private List<Loan> loadLoans() {
+    private List<ILoan> loadLoans() {
         return jsonLoanManager.load();
     }
 

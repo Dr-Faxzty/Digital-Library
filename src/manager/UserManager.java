@@ -7,18 +7,20 @@ import java.util.stream.Collectors;
 
 import common.interfaces.Manager;
 import common.enums.Role;
-import common.nullObject.NullUser;
+import common.interfaces.IUser;
 import model.User;
+import common.nullObject.NullUser;
 import persistence.JsonUserManager;
 import utils.HashUtil;
 
-public class UserManager implements Manager<User> {
+
+public class UserManager implements Manager<IUser> {
     private static UserManager instance;
-    private final List<User> users = new ArrayList<>();
+    private final List<IUser> users = new ArrayList<>();
 
     public UserManager() {
         JsonUserManager jsonUserManager = new JsonUserManager();
-        List<User> initialUsers = jsonUserManager.load();
+        List<IUser> initialUsers = jsonUserManager.load();
         setAll(initialUsers);
     }
 
@@ -29,38 +31,38 @@ public class UserManager implements Manager<User> {
         return instance;
     }
 
-    public void addUser(User user){
+    public void addUser(IUser user){
         users.add(user);
     }
 
-    public void removeUser(User user) { users.remove(user); }
+    public void removeUser(IUser user) { users.remove(user); }
 
-    public User findByEmail(String email){
-        for(User user : users){
+    public IUser findByEmail(String email){
+        for(IUser user : users){
             if(user.getEmail().equals(email)) return user;
         }
         return new NullUser();
     }
 
     public boolean existsByEmail(String email) {
-        for(User user : users) {
+        for(IUser user : users) {
             if(user.getEmail().equals(email)) return true;
         }
         return false;
     }
 
-    public User register(String name, String surname, String taxIdCode, String email, String password, Role role){
+    public IUser register(String name, String surname, String taxIdCode, String email, String password, Role role){
         if(existsByEmail(email)){ return new NullUser(); }
         String hashedPassword = HashUtil.hashPassword(password);
-        User user = new User(name, surname, taxIdCode, email, hashedPassword, role);
+        IUser user = new User(name, surname, taxIdCode, email, hashedPassword, role);
         addUser(user);
         return user;
     }
 
-    public User login(String email, String password){
+    public IUser login(String email, String password){
         String hashedPassword = HashUtil.hashPassword(password);
-        User user = findByEmail(email);
-        if(!(user instanceof NullUser) && user.getPassword().equals(hashedPassword)){
+        IUser user = findByEmail(email);
+        if(!(user.isNull()) && user.getPassword().equals(hashedPassword)){
             return user;
         }else{
             return new NullUser();
@@ -68,19 +70,19 @@ public class UserManager implements Manager<User> {
     }
 
     @Override
-    public List<User> search(Predicate<User> filter) {
+    public List<IUser> search(Predicate<IUser> filter) {
         return users.stream()
                 .filter(filter)
                 .collect(Collectors.toList());
     }
 
-    public void setAll(List<User> users) {
+    public void setAll(List<IUser> users) {
         this.users.clear();
         this.users.addAll(users);
     }
 
     @Override
-    public List<User> getAll() { return new ArrayList<>(users); }
+    public List<IUser> getAll() { return new ArrayList<>(users); }
 
 
 }

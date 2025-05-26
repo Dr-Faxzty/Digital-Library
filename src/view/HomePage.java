@@ -1,5 +1,7 @@
 package view;
 
+import common.enums.BookCategoryType;
+import common.strategy.BookOrderType;
 import controller.LoanController;
 import utils.BookQueryUtils;
 import controller.BookController;
@@ -12,20 +14,21 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import manager.SessionManager;
-import model.Book;
-import model.User;
-import model.Loan;
-import manager.LoanManager;
+import common.interfaces.IBook;
+import common.interfaces.IUser;
+import common.interfaces.ILoan;
 import java.util.function.Predicate;
 import java.util.List;
+import common.interfaces.ILoan;
 
 public class HomePage extends VBox {
     private final FlowPane bookGrid = new FlowPane();
-    private final BookController bookController = new BookController();
-    private final LoanController loanController = new LoanController();
+    private final BookController bookController = BookController.getInstance();
+    private final LoanController loanController = LoanController.getInstance();
     private final String[] selectedCategory = {"All"};
     private final ComboBox<String> orderCombo = new ComboBox<>();
     private final TextField searchBar = new TextField();
+
 
     public HomePage() {
         setMaxWidth(Double.MAX_VALUE);
@@ -75,7 +78,7 @@ public class HomePage extends VBox {
         userIcon.setStyle("-fx-font-size: 20px; -fx-cursor: hand;");
 
         ContextMenu userMenu = new ContextMenu();
-        User user = SessionManager.getInstance().getLoggedUser();
+        IUser user = SessionManager.getInstance().getLoggedUser();
 
         Label nameLabel = new Label(user.getName() + " " + user.getSurname());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #222;");
@@ -196,8 +199,12 @@ public class HomePage extends VBox {
         Label orderLabel = new Label("Order by:");
         orderLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #333;");
 
-        orderCombo.getItems().addAll("Most recent", "Author", "Titles A-Z");
-        orderCombo.setValue("Most recent");
+        orderCombo.getItems().addAll(
+                BookOrderType.MOST_RECENT.getLabel(),
+                BookOrderType.AUTHOR.getLabel(),
+                BookOrderType.TITLE_A_Z.getLabel()
+        );
+        orderCombo.setValue(BookOrderType.MOST_RECENT.getLabel());
 
         orderCombo.setStyle("""
         -fx-background-color: white;
@@ -279,10 +286,10 @@ public class HomePage extends VBox {
         bookGrid.setAlignment(Pos.TOP_LEFT);
     }
 
-    private void updateBooksUI(List<Book> books) {
+    private void updateBooksUI(List<IBook> books) {
         bookGrid.getChildren().clear();
 
-        for (Book book : books) {
+        for (IBook book : books) {
             VBox bookCard = new VBox();
             bookCard.setStyle("-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.1, 0, 1);");
             bookCard.setSpacing(6);
@@ -316,8 +323,12 @@ public class HomePage extends VBox {
     }
 
     private void refreshBooks() {
-        List<Book> books = bookController.getAllBooks();
-        List<Book> filtered = BookQueryUtils.getFilteredBooks(books, selectedCategory[0], orderCombo.getValue());
+        List<IBook> books = bookController.getAllBooks();
+        BookOrderType orderType = BookOrderType.fromLabel(orderCombo.getValue());
+
+        BookCategoryType categoryType = BookCategoryType.fromLabel(selectedCategory[0]);
+        List<IBook> filtered = BookQueryUtils.getFilteredBooks(books, categoryType, orderType);
+
 
         if (!searchBar.getText().isBlank()) {
             String search = searchBar.getText().toLowerCase();
@@ -340,15 +351,15 @@ public class HomePage extends VBox {
         section.setStyle("-fx-padding: 32 32 32 32;");
 
         section.getChildren().addAll(
-                createLoanSubsection("📚 In Progress", loan -> loan.isInProgress(), "#28a745"),
-                createLoanSubsection("⌛ Expired", loan -> loan.isExpired(), "#dc3545"),
-                createLoanSubsection("✔ Returned", loan -> loan.isReturned(), "#007bff")
+                createLoanSubsection("📚 In Progress", ILoan::isInProgress, "#28a745"),
+                createLoanSubsection("⌛ Expired", ILoan::isExpired, "#dc3545"),
+                createLoanSubsection("✔ Returned", ILoan::isReturned, "#007bff")
         );
 
         getChildren().add(section);
     }
 
-    private VBox createLoanSubsection(String title, Predicate<Loan> filter, String color) {
+    private VBox createLoanSubsection(String title, Predicate<ILoan> filter, String color) {
         VBox box = new VBox();
         box.setSpacing(12);
 
@@ -361,11 +372,11 @@ public class HomePage extends VBox {
         loanGrid.setPrefWrapLength(800);
         loanGrid.setPadding(new Insets(4, 0, 0, 0));
 
-        List<Loan> filteredLoans = loanController.searchLoans(loan ->
+        List<ILoan> filteredLoans = loanController.searchLoans(loan ->
                 loan.getUser().equals(SessionManager.getInstance().getLoggedUser()) && filter.test(loan)
         );
 
-        for (Loan loan : filteredLoans) {
+        for (ILoan loan : filteredLoans) {
             VBox card = new VBox();
             card.setSpacing(6);
             card.setStyle("-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.1, 0, 1);");

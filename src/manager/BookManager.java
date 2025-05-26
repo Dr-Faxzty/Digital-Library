@@ -1,16 +1,16 @@
 package manager;
 
 import common.interfaces.Manager;
-import model.Book;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import common.interfaces.IBook;
 
-public class BookManager implements Manager<Book> {
+public class BookManager implements Manager<IBook> {
     private static BookManager instance;
-    private final List<Book> books = new ArrayList<>();
+    private final List<IBook> books = new ArrayList<>();
 
     public BookManager() {}
 
@@ -21,12 +21,12 @@ public class BookManager implements Manager<Book> {
         return instance;
     }
 
-    public void setInitialBooks(List<Book> initialBooks) {
+    public void setInitialBooks(List<IBook> initialBooks) {
         books.clear();
         books.addAll(initialBooks);
     }
 
-    public boolean addBook(Book book) {
+    public boolean addBook(IBook book) {
         boolean exists = books.stream().anyMatch(b -> b.getIsbn().equals(book.getIsbn()));
         if (exists) return false;
         books.add(book);
@@ -37,7 +37,7 @@ public class BookManager implements Manager<Book> {
         return books.removeIf(b -> b.getIsbn().equals(isbn));
     }
 
-    public boolean updateBook(String isbn, Book updatedBook) {
+    public boolean updateBook(String isbn, IBook updatedBook) {
         for (int i = 0; i < books.size(); i++) {
             if (books.get(i).getIsbn().equals(isbn)) {
                 books.set(i, updatedBook);
@@ -48,14 +48,14 @@ public class BookManager implements Manager<Book> {
     }
 
     @Override
-    public List<Book> search(Predicate<Book> filter) {
+    public List<IBook> search(Predicate<IBook> filter) {
         return books.stream()
                 .filter(filter)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Book> getAll() {
+    public List<IBook> getAll() {
         return new ArrayList<>(books);
     }
 }

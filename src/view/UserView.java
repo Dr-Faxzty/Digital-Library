@@ -4,12 +4,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import model.User;
+import common.interfaces.IUser;
 import manager.SessionManager;
 
 
 public class UserView {
-    private final User user;
+    private final IUser user;
 
     public UserView() {
         SessionManager session = SessionManager.getInstance();

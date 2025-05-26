@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.*;
+import common.interfaces.IUser;
 import common.observer.ViewObserver;
 
 public class RecentUsersBox {

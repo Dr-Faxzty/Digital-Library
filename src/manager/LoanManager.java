@@ -7,13 +7,14 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import common.interfaces.Manager;
-import model.Book;
+import common.interfaces.IBook;
+import common.interfaces.ILoan;
+import common.interfaces.IUser;
 import model.Loan;
-import model.User;
 
-public class LoanManager implements Manager<Loan> {
+public class LoanManager implements Manager<ILoan> {
     private static LoanManager instance;
-    private final List<Loan> loans = new ArrayList<>();
+    private final List<ILoan> loans = new ArrayList<>();
     private int nextId = 1;
 
     public LoanManager() {}
@@ -25,20 +26,23 @@ public class LoanManager implements Manager<Loan> {
         return instance;
     }
 
-    public void setInitialLoans(List<Loan> initialLoans) {
+    public void setInitialLoans(List<ILoan> initialLoans) {
         loans.clear();
         loans.addAll(initialLoans);
-        nextId = loans.stream().mapToInt(Loan::getId).max().orElse(0) + 1;
+        nextId = loans.stream()
+                .mapToInt(ILoan::getId)
+                .max()
+                .orElse(0) + 1;
     }
 
-    public Loan loanBook(Book book, User user, LocalDate expirationDate){
-        Loan loan = new Loan(nextId++, book, user, LocalDate.now(), expirationDate);
+    public ILoan loanBook(IBook book, IUser user, LocalDate expirationDate){
+        ILoan loan = new Loan(nextId++, book, user, LocalDate.now(), expirationDate);
         loans.add(loan);
         book.setAvailable(false);
         return loan;
     }
 
-    public boolean returnBook(Loan loan){
+    public boolean returnBook(ILoan loan){
         if (loan.isReturned()) return false;
 
         loan.setReturnDate(LocalDate.now());
@@ -51,12 +55,12 @@ public class LoanManager implements Manager<Loan> {
     }
 
     @Override
-    public List<Loan> search(Predicate<Loan> filter) {
+    public List<ILoan> search(Predicate<ILoan> filter) {
         return loans.stream()
                 .filter(filter)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Loan> getAll() { return new ArrayList<>(loans); }
+    public List<ILoan> getAll() { return new ArrayList<>(loans); }
 }

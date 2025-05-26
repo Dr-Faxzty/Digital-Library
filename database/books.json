@@ -14,7 +14,7 @@
     "author": "George Orwell",
     "date": "2025-05-05",
     "type": "Non-fiction",
-    "available": true,
+    "available": false,
     "urlImage": "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg"
   },
   {
@@ -43,50 +43,5 @@
     "type": "Science",
     "available": true,
     "urlImage": "https://images-na.ssl-images-amazon.com/images/I/81zLp73lPCL.jpg"
-  },
-  {
-    "isbn": "978-1-234567-06",
-    "title": "Il piccolo principe",
-    "author": "Antoine de Saint-Exupéry",
-    "date": "2025-05-05",
-    "type": "Non-fiction",
-    "available": true,
-    "urlImage": "https://images-na.ssl-images-amazon.com/images/I/81dQwQlmAXL.jpg"
-  },
-  {
-    "isbn": "978-1-234567-07",
-    "title": "Il Gattopardo",
-    "author": "Giuseppe Tomasi di Lampedusa",
-    "date": "2025-05-05",
-    "type": "Narrative",
-    "available": true,
-    "urlImage": "https://images-na.ssl-images-amazon.com/images/I/71mNPlP1BqL.jpg"
-  },
-  {
-    "isbn": "978-1-234567-08",
-    "title": "La coscienza di Zeno",
-    "author": "Italo Svevo",
-    "date": "2025-05-05",
-    "type": "Narrative",
-    "available": true,
-    "urlImage": "https://images-na.ssl-images-amazon.com/images/I/81YxQxq5obL.jpg"
-  },
-  {
-    "isbn": "978-1-234567-09",
-    "title": "Fahrenheit 451",
-    "author": "Ray Bradbury",
-    "date": "2025-05-05",
-    "type": "Science",
-    "available": true,
-    "urlImage": "https://images-na.ssl-images-amazon.com/images/I/71O1bT2xS4L.jpg"
-  },
-  {
-    "isbn": "978-1-234567-10",
-    "title": "Il vecchio e il mare",
-    "author": "Ernest Hemingway",
-    "date": "2025-05-05",
-    "type": "Narrative",
-    "available": true,
-    "urlImage": "https://images-na.ssl-images-amazon.com/images/I/81vpsIs58WL.jpg"
   }
 ]

@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import model.User;
+import common.interfaces.IUser;
 import manager.SessionManager;
 import view.LoginView;
 import common.observer.ViewObserver;
@@ -14,7 +14,7 @@ import common.observer.ViewSubject;
 public class Sidebar extends VBox implements ViewSubject {
     private ViewObserver observer;
 
-    public Sidebar(User user) {
+    public Sidebar(IUser user) {
         getStyleClass().add("sidebar-style-1");
         setPrefWidth(220);
         setMinWidth(220);
@@ -72,7 +72,7 @@ public class Sidebar extends VBox implements ViewSubject {
         return spacer;
     }
 
-    private HBox createUserBar(User user) {
+    private HBox createUserBar(IUser user) {
         Label emailLabel = new Label(user.getEmail());
         emailLabel.getStyleClass().add("sidebar-style-4");
         Label initials = new Label(user.getName() + " " + user.getSurname());

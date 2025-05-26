@@ -1,7 +1,7 @@
 package utils;
 
 import common.enums.BookCategoryType;
-import model.Book;
+import common.interfaces.IBook;
 import common.strategy.BookSortStrategy;
 import common.strategy.BookSortStrategyFactory;
 import common.strategy.BookOrderType;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class BookQueryUtils {
 
-    public static List<Book> getFilteredBooks(List<Book> books, BookCategoryType category, BookOrderType orderType) {
+    public static List<IBook> getFilteredBooks(List<IBook> books, BookCategoryType category, BookOrderType orderType) {
         BookSortStrategy strategy = BookSortStrategyFactory.getStrategy(orderType);
 
         return books.stream()

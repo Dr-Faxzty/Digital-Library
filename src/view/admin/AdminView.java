@@ -6,13 +6,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import manager.SessionManager;
-import model.User;
+import common.interfaces.IUser;
 import common.observer.ViewSubject;
 import common.observer.ViewObserver;
 import view.admin.components.Sidebar;
 
 public class AdminView implements ViewObserver {
-    private final User user;
+    private final IUser user;
     private final BorderPane layout = new BorderPane();
 
     public AdminView() {

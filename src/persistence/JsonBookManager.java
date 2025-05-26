@@ -1,10 +1,19 @@
 package persistence;
 
-import model.Book;
+import common.interfaces.IBook;
 
 
-public class JsonBookManager extends JsonTemplateManager<Book> {
+public class JsonBookManager extends JsonTemplateManager<IBook> {
+    private static JsonBookManager JBookMangerInstance;
+
     public JsonBookManager() {
-        super("database/books.json", Book[].class);
+        super("C:\\Users\\marti\\OneDrive\\Desktop\\Digital-Library\\Digital-Library\\database\\books.json", IBook[].class);
+    }
+
+    public static JsonBookManager getInstance() {
+        if (JBookMangerInstance == null) {
+            JBookMangerInstance = new JsonBookManager();
+        }
+        return JBookMangerInstance;
     }
 }

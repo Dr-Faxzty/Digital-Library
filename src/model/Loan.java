@@ -6,11 +6,14 @@ import common.state.LoanState;
 import common.state.ExpiredState;
 import common.state.InProgressState;
 import common.state.ReturnedState;
+import common.interfaces.IUser;
+import common.interfaces.IBook;
+import common.interfaces.ILoan;
 
-public class Loan{
+public class Loan implements ILoan {
     private final int id;
-    private Book book;
-    private User user;
+    private IBook book;
+    private IUser user;
     private LocalDate loanDate;
     private LocalDate expirationDate;
     private LocalDate returnDate;
@@ -18,7 +21,7 @@ public class Loan{
 
     public Loan() { this.id = 0; }
 
-    public Loan(int id, Book book, User user, LocalDate loanDate, LocalDate expirationDate) {
+    public Loan(int id, IBook book, IUser user, LocalDate loanDate, LocalDate expirationDate) {
         this.id = id;
         this.book = book;
         this.user = user;
@@ -28,26 +31,26 @@ public class Loan{
         updateState();
     }
 
-    public int getId() { return this.id; }
-    public Book getBook() { return this.book; }
-    public User getUser() { return this.user; }
-    public LocalDate getLoanDate() { return this.loanDate; }
-    public LocalDate getExpirationDate() { return this.expirationDate; }
-    public LocalDate getReturnDate() { return this.returnDate; }
+    @Override public int getId() { return this.id; }
+    @Override public IBook getBook() { return this.book; }
+    @Override public IUser getUser() { return this.user; }
+    @Override public LocalDate getLoanDate() { return this.loanDate; }
+    @Override public LocalDate getExpirationDate() { return this.expirationDate; }
+    @Override public LocalDate getReturnDate() { return this.returnDate; }
 
-    public void setBook(Book book) { this.book = book; }
-    public void setUser(User user) { this.user= user; }
-    public void setLoanDate(LocalDate loanDate) { 
+    @Override public void setBook(IBook book) { this.book = book; }
+    @Override public void setUser(IUser user) { this.user= user; }
+    @Override public void setLoanDate(LocalDate loanDate) {
         if (loanDate.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Loan date cannot be in the future.");
         }
-        this.loanDate = loanDate; 
+        this.loanDate = loanDate;
     }
-    public void setExpirationDate(LocalDate expirationDate) {
+    @Override public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
         updateState();
     }
-    public void setReturnDate(LocalDate returnDate) { 
+    @Override public void setReturnDate(LocalDate returnDate) {
         if (isReturned()) {
             throw new IllegalStateException("Book has already been returned.");
         }
@@ -55,7 +58,11 @@ public class Loan{
         updateState();
     }
 
-    public LoanState getState() {
+    @Override public boolean isNull(){return false;};
+
+
+
+    @Override public LoanState getState() {
         if (state == null) {
             updateState();
         }
@@ -72,11 +79,11 @@ public class Loan{
         }
     }
 
-    public boolean isReturned() { return getState().isReturned(); }
+    @Override public boolean isReturned() { return getState().isReturned(); }
 
-    public boolean isExpired() { return getState().isExpired(expirationDate); }
+    @Override public boolean isExpired() { return getState().isExpired(expirationDate); }
 
-    public boolean isInProgress() { return getState().isInProgress(); }
+    @Override public boolean isInProgress() { return getState().isInProgress(); }
 
     @Override
     public boolean equals(Object o) {

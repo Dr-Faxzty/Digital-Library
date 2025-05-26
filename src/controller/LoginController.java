@@ -1,9 +1,9 @@
 package controller;
 
-import common.nullObject.NullUser;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import manager.SessionManager;
+import common.interfaces.IUser;
 import utils.FxTaskRunner;
 import view.admin.AdminView;
 import view.UserView;
@@ -13,7 +13,7 @@ public class LoginController {
     private final UserController userController;
 
     public LoginController() {
-        this.userController = new UserController();
+        this.userController = UserController.getInstance();
     }
 
     public void handleLogin(String email, String password, Stage stage) {
@@ -25,7 +25,7 @@ public class LoginController {
         FxTaskRunner.runAsync(
             () -> userController.login(email, password),
             user -> {
-                if (!(user instanceof NullUser)) {
+                if (!(user.isNull())) {
                     SessionManager.getInstance().login(user);
                     if (user.getRole().name().equals("ADMIN")) {
                         new AdminView().start(stage);

@@ -7,8 +7,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import common.interfaces.IUser;
 import javafx.util.Duration;
-import model.User;
 
 import java.util.List;
 import java.util.function.Function;
@@ -16,13 +16,13 @@ import java.util.function.Function;
 public class UsersSection extends VBox {
     private final UserController userController;
     private final TextField searchField;
-    private final TableView<User> table;
+    private final TableView<IUser> table;
     private final Button searchButton;
     private final ProgressIndicator loadingSpinner;
     private final PauseTransition debounce;
 
     public UsersSection() {
-        this.userController = new UserController();
+        this.userController = UserController.getInstance();
         this.searchField = new TextField();
         this.table = new TableView<>();
         this.searchButton = new Button("🔍 Search");
@@ -91,9 +91,9 @@ public class UsersSection extends VBox {
 
     private void setupTableColumns() {
         table.getColumns().addAll(
-                createColumn("Tax Id Code", User::getTaxIdCode),
+                createColumn("Tax Id Code", IUser::getTaxIdCode),
                 createColumn("User", user -> user.getName() + " " + user.getSurname()),
-                createColumn("Email", User::getEmail),
+                createColumn("Email", IUser::getEmail),
                 createColumn("Role", user -> user.getRole().getLabel()),
                 createActionsColumn()
         );
@@ -104,8 +104,8 @@ public class UsersSection extends VBox {
         VBox.setMargin(table, new Insets(16, 24, 24, 24));
     }
 
-    private TableColumn<User, String> createColumn(String name, Function<User, String> mapper) {
-        TableColumn<User, String> column = new TableColumn<>(name);
+    private TableColumn<IUser, String> createColumn(String name, java.util.function.Function<IUser, String> mapper) {
+        TableColumn<IUser, String> column = new TableColumn<>(name);
 
         column.setCellValueFactory(data -> new SimpleStringProperty(mapper.apply(data.getValue())));
 
@@ -134,8 +134,8 @@ public class UsersSection extends VBox {
     }
 
 
-    private TableColumn<User, Void> createActionsColumn() {
-        TableColumn<User, Void> column = new TableColumn<>("Actions");
+    private TableColumn<IUser, Void> createActionsColumn() {
+        TableColumn<IUser, Void> column = new TableColumn<>("Actions");
 
         column.setCellFactory(col -> new TableCell<>() {
             private final HBox container = new HBox();
@@ -145,8 +145,8 @@ public class UsersSection extends VBox {
                 container.setAlignment(Pos.CENTER);
                 delete.getStyleClass().add("adminUsers-style-5");
 
-                delete.setOnAction(e -> {
-                    User user = getTableView().getItems().get(getIndex());
+                delete.setOnMouseClicked(e -> {
+                    IUser user = getTableView().getItems().get(getIndex());
                     boolean removed = userController.removeUser(user.getTaxIdCode());
                     if (removed) {
                         getTableView().getItems().remove(user);
@@ -172,15 +172,15 @@ public class UsersSection extends VBox {
         setControlsDisabled(true);
         showLoadingSpinner(true);
 
-        List<User> allUsers = userController.getAllUsers();
-        List<User> filtered = filterUsers(allUsers, searchField.getText().toLowerCase());
+        List<IUser> allUsers = userController.getAllUsers();
+        List<IUser> filtered = filterUsers(allUsers, searchField.getText().toLowerCase());
 
         table.getItems().setAll(filtered);
         setControlsDisabled(false);
         showLoadingSpinner(false);
     }
 
-    private List<User> filterUsers(List<User> users, String search) {
+    private List<IUser> filterUsers(List<IUser> users, String search) {
         if (search.isBlank()) return users;
 
         return users.stream()

@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.beans.property.SimpleStringProperty;
+import common.interfaces.IBook;
 import javafx.util.Duration;
 import model.Book;
 import controller.BookController;
@@ -24,14 +25,14 @@ import java.util.List;
 public class BooksSection extends VBox {
     private final BookController bookController;
     private final TextField searchField;
-    private final TableView<Book> table;
+    private final TableView<IBook> table;
     private final ComboBox<String> categoryCombo;
     private final ComboBox<String> orderCombo;
     private final ProgressIndicator loadingSpinner;
     private final PauseTransition debounce;
 
     public BooksSection() {
-        this.bookController = new BookController();
+        this.bookController = BookController.getInstance();
         this.searchField = new TextField();
         this.table = new TableView<>();
         this.categoryCombo = new ComboBox<>();
@@ -126,7 +127,7 @@ public class BooksSection extends VBox {
         return topBar;
     }
 
-    private TableView<Book> createTable() {
+    private TableView<IBook> createTable() {
         table.getStyleClass().add("adminBooks-table");
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setFixedCellSize(Region.USE_COMPUTED_SIZE);
@@ -136,9 +137,9 @@ public class BooksSection extends VBox {
 
         table.getColumns().addAll(
                 createCoverColumn(),
-                createColumn("Author", Book::getAuthor),
-                createColumn("Category", Book::getType),
-                createColumn("Year", b -> String.valueOf(b.getDate().getYear())),
+                createColumn("Author", IBook::getAuthor),
+                createColumn("Category", IBook::getType),
+                createColumn("Year", book -> String.valueOf(book.getDate().getYear())),
                 createRatingColumn(),
                 createActionsColumn()
         );
@@ -146,8 +147,8 @@ public class BooksSection extends VBox {
         return table;
     }
 
-    private TableColumn<Book, String> createCoverColumn() {
-        TableColumn<Book, String> column = new TableColumn<>("Title");
+    private TableColumn<IBook, String> createCoverColumn() {
+        TableColumn<IBook, String> column = new TableColumn<>("Title");
         column.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTitle()));
         column.setCellFactory(col -> new TableCell<>() {
             private final ImageView imageView = new ImageView();
@@ -166,7 +167,7 @@ public class BooksSection extends VBox {
                 if (empty || title == null || getIndex() < 0 || getIndex() >= getTableView().getItems().size()) {
                     setGraphic(null);
                 } else {
-                    Book book = getTableView().getItems().get(getIndex());
+                    IBook book = getTableView().getItems().get(getIndex());
                     imageView.setImage(new Image(book.getUrlImage(), 32, 48, true, true));
                     label.setText(title);
                     setGraphic(container);
@@ -176,8 +177,9 @@ public class BooksSection extends VBox {
         return column;
     }
 
-    private TableColumn<Book, String> createColumn(String name, java.util.function.Function<Book, String> mapper) {
-        TableColumn<Book, String> column = new TableColumn<>(name);
+    private TableColumn<IBook, String> createColumn(String name, java.util.function.Function<IBook, String> mapper) {
+        TableColumn<IBook, String> column = new TableColumn<>(name);
+
         column.setCellValueFactory(data -> new SimpleStringProperty(mapper.apply(data.getValue())));
         column.setCellFactory(col -> new TableCell<>() {
             private final Label label = new Label();
@@ -197,8 +199,9 @@ public class BooksSection extends VBox {
         return column;
     }
 
-    private TableColumn<Book, String> createRatingColumn() {
-        TableColumn<Book, String> column = new TableColumn<>("Evaluation");
+    private TableColumn<IBook, String> createRatingColumn() {
+        TableColumn<IBook, String> column = new TableColumn<>("Evaluation");
+
         column.setCellValueFactory(data -> new SimpleStringProperty("4.5"));
         column.setCellFactory(col -> new TableCell<>() {
             private final Label label = new Label("4.5 / 5");
@@ -219,8 +222,8 @@ public class BooksSection extends VBox {
     }
 
 
-    private TableColumn<Book, Void> createActionsColumn() {
-        TableColumn<Book, Void> column = new TableColumn<>("Actions");
+    private TableColumn<IBook, Void> createActionsColumn() {
+        TableColumn<IBook, Void> column = new TableColumn<>("Actions");
         column.setCellFactory(col -> new TableCell<>() {
             private final Button edit = new Button("✏");
             private final Button delete = new Button("🗑");
@@ -231,15 +234,15 @@ public class BooksSection extends VBox {
                 edit.getStyleClass().add("adminBooks-style-6");
                 delete.getStyleClass().add("adminBooks-style-7");
 
-                edit.setOnAction(e -> {
-                    Book book = getTableView().getItems().get(getIndex());
+                edit.setOnMouseClicked(e -> {
+                    IBook book = getTableView().getItems().get(getIndex());
                     new BookEditDialog().show(
                             (Stage) getScene().getWindow(), book, BooksSection.this::refreshTable
                     );
                 });
 
-                delete.setOnAction(e -> {
-                    Book book = getTableView().getItems().get(getIndex());
+                delete.setOnMouseClicked(e -> {
+                    IBook book = getTableView().getItems().get(getIndex());
                     boolean removed = bookController.removeBook(book.getIsbn());
                     if (removed) table.getItems().remove(book);
                     else showError("Error deleting book.");
@@ -276,17 +279,17 @@ public class BooksSection extends VBox {
         table.setDisable(disabled);
     }
 
-    private List<Book> applyFilters(List<Book> books) {
+    private List<IBook> applyFilters(List<IBook> books) {
         return filterBySearch(filterByCategoryAndOrder(books));
     }
 
-    private List<Book> filterByCategoryAndOrder(List<Book> books) {
+    private List<IBook> filterByCategoryAndOrder(List<IBook> books) {
         BookCategoryType categoryType = BookCategoryType.fromLabel(categoryCombo.getValue());
         BookOrderType orderType = BookOrderType.fromLabel(orderCombo.getValue());
         return BookQueryUtils.getFilteredBooks(books, categoryType, orderType);
     }
 
-    private List<Book> filterBySearch(List<Book> books) {
+    private List<IBook> filterBySearch(List<IBook> books) {
         String search = searchField.getText().toLowerCase();
         if (search.isBlank()) return books;
         return books.stream()

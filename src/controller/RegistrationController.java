@@ -1,9 +1,9 @@
 package controller;
 
-import common.nullObject.NullUser;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import common.enums.Role;
+import common.interfaces.IUser;
 import utils.FxTaskRunner;
 import utils.InputValidator;
 import view.LoginView;
@@ -13,7 +13,7 @@ public class RegistrationController {
     private final UserController userController;
 
     public RegistrationController() {
-        this.userController = new UserController();
+        this.userController = UserController.getInstance();
     }
 
     public void handleRegistration(String name, String surname, String taxCode, String email, String password, Role role, Stage stage) {
@@ -39,7 +39,7 @@ public class RegistrationController {
         FxTaskRunner.runAsync(
             () -> userController.register(name, surname, taxCode, email, password, role),
         user -> {
-                if (!(user instanceof NullUser)) {
+                if (!(user.isNull())) {
                     showAlert(Alert.AlertType.INFORMATION, "Registration succeeded", "Now you can login.");
                     new LoginView().start(stage);
                 } else {

@@ -107,8 +107,7 @@
       "role": "USER"
     },
     "loanDate": "2025-05-15",
-    "expirationDate": "2025-05-29",
-    "state": {}
+    "expirationDate": "2025-05-29"
   },
   {
     "id": 6,
@@ -131,7 +130,28 @@
     },
     "loanDate": "2025-05-15",
     "expirationDate": "2025-05-29",
-    "returnDate": "2025-05-15",
-    "state": {}
+    "returnDate": "2025-05-15"
+  },
+  {
+    "id": 7,
+    "book": {
+      "isbn": "978-1-234567-02",
+      "title": "1984",
+      "author": "George Orwell",
+      "date": "2025-05-05",
+      "type": "Non-fiction",
+      "available": false,
+      "urlImage": "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg"
+    },
+    "user": {
+      "name": "diego",
+      "surname": "martinez",
+      "taxIdCode": "MRTDGI05D05C351L",
+      "email": "diego@gmail.com",
+      "password": "b7216e948f6d6060a682680bbe0210ad4d9ecf8f5218fd60244af9a4e349b387",
+      "role": "USER"
+    },
+    "loanDate": "2025-05-19",
+    "expirationDate": "2025-06-02"
   }
 ]

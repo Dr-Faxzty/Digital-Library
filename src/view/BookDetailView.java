@@ -11,16 +11,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import controller.LoanController;
 import manager.SessionManager;
-import model.Book;
-import model.Loan;
-import model.User;
+import common.interfaces.IBook;
+import common.interfaces.ILoan;
+import common.interfaces.IUser;
 
 import java.time.LocalDate;
 
 public class BookDetailView {
-    private final LoanController loanController = new LoanController();
+    private final LoanController loanController = LoanController.getInstance();
 
-    public void show(Stage parent, Book book) {
+    public void show(Stage parent, IBook book) {
 
         HBox header = new HBox();
         header.setAlignment(Pos.CENTER_LEFT);
@@ -72,9 +72,9 @@ public class BookDetailView {
 
 
 
-        User user = SessionManager.getInstance().getLoggedUser();
+        IUser user = SessionManager.getInstance().getLoggedUser();
 
-        Loan existingLoan = loanController.searchLoans(l ->
+        ILoan existingLoan = loanController.searchLoans(l ->
                 l.getBook().equals(book) && l.getUser().equals(user) && l.isInProgress()
         ).stream().findFirst().orElse(null);  // TODO: use Null Object
 

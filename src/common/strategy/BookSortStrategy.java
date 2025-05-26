@@ -1,9 +1,9 @@
 package common.strategy;
 
-import model.Book;
+import common.interfaces.IBook;
 
 import java.util.Comparator;
 
 public interface BookSortStrategy {
-    Comparator<Book> getComparator();
+    Comparator<IBook> getComparator();
 }

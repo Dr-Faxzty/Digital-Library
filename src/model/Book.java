@@ -1,8 +1,9 @@
 package model;
 
 import java.time.LocalDate;
+import common.interfaces.IBook;
 
-public class Book {
+public class Book implements IBook {
     private String isbn;
     private String title;
     private String author;
@@ -23,21 +24,23 @@ public class Book {
         this.urlImage = urlImage;
     }
 
-    public String getIsbn() { return isbn; }
-    public String getTitle() { return title; }
-    public String getAuthor() { return author; }
-    public LocalDate getDate() { return date; }
-    public String getType() { return type; }
-    public boolean available() { return available; }
-    public String getUrlImage() { return urlImage; }
+    @Override public String getIsbn() { return isbn; }
+    @Override public String getTitle() { return title; }
+    @Override public String getAuthor() { return author; }
+    @Override public LocalDate getDate() { return date; }
+    @Override public String getType() { return type; }
+    @Override public boolean available() { return available; }
+    @Override public String getUrlImage() { return urlImage; }
     
-    public void setIsbn(String isbn) { this.isbn = isbn; }
-    public void setTitle(String title) { this.title = title; }
-    public void setAuthor(String author) { this.author = author; }
-    public void setDate(LocalDate date) { this.date = date; }
-    public void setType(String type) { this.type = type; }
-    public void setAvailable(boolean available) { this.available = available; }
-    public void setUrlImage(String urlImage) { this.urlImage = urlImage; }
+    @Override public void setIsbn(String isbn) { this.isbn = isbn; }
+    @Override public void setTitle(String title) { this.title = title; }
+    @Override public void setAuthor(String author) { this.author = author; }
+    @Override public void setDate(LocalDate date) { this.date = date; }
+    @Override public void setType(String type) { this.type = type; }
+    @Override public void setAvailable(boolean available) { this.available = available; }
+    @Override public void setUrlImage(String urlImage) { this.urlImage = urlImage; }
+
+    @Override public boolean isNull(){return false;};
 
     @Override
     public String toString() {

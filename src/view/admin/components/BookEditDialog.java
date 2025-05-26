@@ -9,13 +9,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Book;
 import controller.BookController;
-import common.nullObject.NullBook;
+import common.interfaces.IBook;
 
 public class BookEditDialog {
-    private final BookController bookController = new BookController();
+    private final BookController bookController = BookController.getInstance();
 
-    public void show(Stage parentStage, Book book,  Runnable onSaveCallback) {
-        boolean isNew = book instanceof NullBook;
+    public void show(Stage parentStage, IBook book,  Runnable onSaveCallback) {
+        boolean isNew = book.isNull();
         Stage dialog = new Stage();
         dialog.initOwner(parentStage);
         dialog.initModality(Modality.WINDOW_MODAL);

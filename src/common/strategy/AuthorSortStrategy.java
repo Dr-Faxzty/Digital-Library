@@ -1,11 +1,11 @@
 package common.strategy;
 
-import model.Book;
+import common.interfaces.IBook;
 
 import java.util.Comparator;
 
 public class AuthorSortStrategy implements BookSortStrategy {
-    public Comparator<Book> getComparator() {
-        return Comparator.comparing(Book::getAuthor);
+    public Comparator<IBook> getComparator() {
+        return Comparator.comparing(IBook::getAuthor);
     }
 }
