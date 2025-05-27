@@ -1,13 +1,13 @@
 package persistence;
 
-import common.interfaces.ILoan;
+import model.Loan;
 
 
-public class JsonLoanManager extends JsonTemplateManager<ILoan> {
+public class JsonLoanManager extends JsonTemplateManager<Loan> {
     private static JsonLoanManager JLoanManagerInstance;
 
     public JsonLoanManager() {
-        super("C:\\Users\\marti\\OneDrive\\Desktop\\Digital-Library\\Digital-Library\\database\\loans.json", ILoan[].class);
+        super("C:\\Users\\marti\\OneDrive\\Desktop\\Digital-Library\\database\\loans.json", Loan[].class);
     }
 
     public static JsonLoanManager getInstance() {

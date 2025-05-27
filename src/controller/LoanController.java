@@ -2,10 +2,13 @@ package controller;
 
 import manager.LoanManager;
 import manager.BookManager;
+import model.Book;
+import model.Loan;
 import persistence.JsonLoanManager;
 import persistence.JsonBookManager;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import common.interfaces.ILoan;
@@ -63,18 +66,29 @@ public class LoanController {
     }
 
     private List<ILoan> loadLoans() {
-        return jsonLoanManager.load();
+        List<Loan> concreteBooks = jsonLoanManager.load();
+        return new ArrayList<>(concreteBooks);
     }
 
     private void saveAll() {
-        jsonLoanManager.save(loanManager.getAll());
-        jsonBookManager.save(bookManager.getAll());
+        List<Loan> loans = loanManager.getAll().stream()
+                .map(loan -> (Loan) loan)
+                .toList();
+        List<Book> books = bookManager.getAll().stream()
+                .map(book -> (Book) book)
+                .toList();
+
+        jsonLoanManager.save(loans);
+        jsonBookManager.save(books);
     }
 
     public void loadLoansAsync(java.util.function.Consumer<List<ILoan>> onSuccess, Runnable onError) {
         jsonLoanManager.loadAsync(loans -> {
-            loanManager.setInitialLoans(loans);
-            onSuccess.accept(loans);
+            List<ILoan> iloans = loans.stream()
+                    .map(loan -> (ILoan) loan)
+                    .toList();
+            loanManager.setInitialLoans(iloans);
+            onSuccess.accept(iloans);
         }, onError);
     }
 

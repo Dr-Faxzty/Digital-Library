@@ -9,6 +9,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+import common.adapter.InterfaceAdapter;
+import common.adapter.LocalDateAdapter;
+import common.interfaces.IBook;
+import common.interfaces.ILoan;
+import common.interfaces.IUser;
+import model.Book;
+import model.Loan;
+import model.User;
 import utils.FxTaskRunner;
 
 public abstract class JsonTemplateManager<T> {
@@ -21,6 +29,9 @@ public abstract class JsonTemplateManager<T> {
         this.arrayType = arrayType;
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .registerTypeAdapter(IBook.class, new InterfaceAdapter<>(Book.class))
+                .registerTypeAdapter(IUser.class, new InterfaceAdapter<>(User.class))
+                .registerTypeAdapter(ILoan.class, new InterfaceAdapter<>(Loan.class))
                 .setPrettyPrinting()
                 .create();
     }

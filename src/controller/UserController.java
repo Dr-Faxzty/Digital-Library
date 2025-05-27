@@ -1,9 +1,11 @@
 package controller;
 
+import common.interfaces.IBook;
 import manager.UserManager;
 import common.enums.Role;
 import common.interfaces.IUser;
 import common.nullObject.NullUser;
+import model.User;
 import persistence.JsonUserManager;
 
 import java.util.List;
@@ -51,13 +53,19 @@ public class UserController {
     }
 
     private boolean saveUsers() {
-        return jsonUserManager.save(userManager.getAll());
+        List<User> users = userManager.getAll().stream()
+                .map(user -> (User) user)
+                .toList();
+        return jsonUserManager.save(users);
     }
 
     public void loadUsersAsync(java.util.function.Consumer<List<IUser>> onSuccess, Runnable onError) {
         jsonUserManager.loadAsync(users -> {
-            userManager.setAll(users);
-            onSuccess.accept(users);
+            List<IUser> iusers = users.stream()
+                    .map(user -> (IUser) user)
+                    .toList();
+            userManager.setAll(iusers);
+            onSuccess.accept(iusers);
         }, onError);
     }
 

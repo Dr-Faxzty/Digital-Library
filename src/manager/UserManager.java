@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import common.interfaces.Manager;
 import common.enums.Role;
 import common.interfaces.IUser;
+import model.Book;
 import model.User;
 import common.nullObject.NullUser;
 import persistence.JsonUserManager;
@@ -20,7 +21,9 @@ public class UserManager implements Manager<IUser> {
 
     public UserManager() {
         JsonUserManager jsonUserManager = new JsonUserManager();
-        List<IUser> initialUsers = jsonUserManager.load();
+        List<IUser> initialUsers = jsonUserManager.load().stream()
+                .map(user -> (IUser) user)
+                .collect(Collectors.toList());
         setAll(initialUsers);
     }
 

@@ -153,5 +153,51 @@
     },
     "loanDate": "2025-05-19",
     "expirationDate": "2025-06-02"
+  },
+  {
+    "id": 8,
+    "book": {
+      "isbn": "978-1-234567-03",
+      "title": "Sapiens: Da animali a dèi",
+      "author": "Yuval Noah Harari",
+      "date": "2025-05-05",
+      "type": "Non-fiction",
+      "available": true,
+      "urlImage": "https://images-na.ssl-images-amazon.com/images/I/71MrWcKsWkL.jpg"
+    },
+    "user": {
+      "name": "diego",
+      "surname": "martinez",
+      "taxIdCode": "MRTDGI05D05C351L",
+      "email": "diego@gmail.com",
+      "password": "b7216e948f6d6060a682680bbe0210ad4d9ecf8f5218fd60244af9a4e349b387",
+      "role": "USER"
+    },
+    "loanDate": "2025-05-27",
+    "expirationDate": "2025-06-10",
+    "returnDate": "2025-05-27"
+  },
+  {
+    "id": 9,
+    "book": {
+      "isbn": "978-1-234567-03",
+      "title": "Sapiens: Da animali a dèi",
+      "author": "Yuval Noah Harari",
+      "date": "2025-05-05",
+      "type": "Non-fiction",
+      "available": true,
+      "urlImage": "https://images-na.ssl-images-amazon.com/images/I/71MrWcKsWkL.jpg"
+    },
+    "user": {
+      "name": "diego",
+      "surname": "martinez",
+      "taxIdCode": "MRTDGI05D05C351L",
+      "email": "diego@gmail.com",
+      "password": "b7216e948f6d6060a682680bbe0210ad4d9ecf8f5218fd60244af9a4e349b387",
+      "role": "USER"
+    },
+    "loanDate": "2025-05-27",
+    "expirationDate": "2025-06-10",
+    "returnDate": "2025-05-27"
   }
 ]

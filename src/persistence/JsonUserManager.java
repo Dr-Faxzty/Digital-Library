@@ -1,13 +1,13 @@
 package persistence;
 
-import common.interfaces.IUser;
+import model.User;
 
 
-public class JsonUserManager extends JsonTemplateManager<IUser> {
+public class JsonUserManager extends JsonTemplateManager<User> {
     private static JsonUserManager JUserManagerInstance;
 
     public JsonUserManager() {
-        super("C:\\Users\\marti\\OneDrive\\Desktop\\Digital-Library\\Digital-Library\\database\\users.json", IUser[].class);
+        super("C:\\Users\\marti\\OneDrive\\Desktop\\Digital-Library\\database\\users.json", User[].class);
     }
 
     public static JsonUserManager getInstance() {

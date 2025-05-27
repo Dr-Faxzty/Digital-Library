@@ -1,8 +1,10 @@
 package controller;
 
 import manager.BookManager;
+import model.Book;
 import persistence.JsonBookManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import common.interfaces.IBook;
@@ -54,17 +56,24 @@ public class BookController {
     }
 
     private List<IBook> loadBooks() {
-        return jsonBookManager.load();
+        List<Book> concreteBooks = jsonBookManager.load();
+        return new ArrayList<>(concreteBooks);
     }
 
     private void saveBooks() {
-        jsonBookManager.save(bookManager.getAll());
+        List<Book> books = bookManager.getAll().stream()
+                .map(book -> (Book) book)
+                .toList();
+        jsonBookManager.save(books);
     }
 
     public void loadBooksAsync(java.util.function.Consumer<List<IBook>> onSuccess, Runnable onError) {
         jsonBookManager.loadAsync(books -> {
-            bookManager.setInitialBooks(books);
-            onSuccess.accept(books);
+            List<IBook> ibooks = books.stream()
+                    .map(book -> (IBook) book)
+                    .toList();
+            bookManager.setInitialBooks(ibooks);
+            onSuccess.accept(ibooks);
         }, onError);
     }
 
