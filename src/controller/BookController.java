@@ -61,7 +61,7 @@ public class BookController {
         jsonBookManager.save(bookManager.getAll());
     }
 
-    public void loadBooksAsync(java.util.function.Consumer<List<Book>> onSuccess, Runnable onError) {
+    public void loadBooksAsync(java.util.function.Consumer<List<IBook>> onSuccess, Runnable onError) {
         jsonBookManager.loadAsync(books -> {
             bookManager.setInitialBooks(books);
             onSuccess.accept(books);

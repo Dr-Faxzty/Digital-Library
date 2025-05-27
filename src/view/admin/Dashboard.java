@@ -1,5 +1,8 @@
 package view.admin;
 
+import common.interfaces.IBook;
+import common.interfaces.ILoan;
+import common.interfaces.IUser;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -24,9 +27,9 @@ public class Dashboard extends VBox implements ViewSubject {
     private final BookController bookController;
     private final UserController userController;
     private final LoanController loanController;
-    private List<Book> books;
-    private List<User> users;
-    private List<Loan> loans;
+    private List<IBook> books;
+    private List<IUser> users;
+    private List<ILoan> loans;
 
     private ViewObserver observer;
 

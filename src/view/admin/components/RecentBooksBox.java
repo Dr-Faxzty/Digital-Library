@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class RecentBooksBox {
-    public static VBox create(List<IBook> books, ViewObserver observer) {
+    public static VBox create(BookController bookController, ViewObserver observer) {
         VBox box = new VBox(10);
         box.setPadding(new Insets(10));
         box.setPrefWidth(450);
