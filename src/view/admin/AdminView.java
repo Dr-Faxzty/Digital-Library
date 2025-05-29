@@ -11,9 +11,13 @@ import common.observer.ViewSubject;
 import common.observer.ViewObserver;
 import view.admin.components.Sidebar;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AdminView implements ViewObserver {
     private final IUser user;
     private final BorderPane layout = new BorderPane();
+    private final Map<String, Pane> viewCache = new HashMap<>();
 
     public AdminView() {
         this.user = SessionManager.getInstance().getLoggedUser();
@@ -21,7 +25,7 @@ public class AdminView implements ViewObserver {
 
     public void start(Stage stage) {
         Sidebar sidebar = createSidebar();
-        Pane initialView = createView("dashboard");
+        Pane initialView = getOrCreateView("dashboard");
 
         layout.setLeft(sidebar);
         layout.setCenter(wrapInScrollPane(initialView));
@@ -51,6 +55,10 @@ public class AdminView implements ViewObserver {
         return scrollPane;
     }
 
+    private Pane getOrCreateView(String viewName) {
+        return viewCache.computeIfAbsent(viewName, this::createView);
+    }
+
     private Pane createView(String viewName) {
         Pane view;
         switch (viewName) {
@@ -70,7 +78,7 @@ public class AdminView implements ViewObserver {
 
     @Override
     public void onViewChange(String viewName) {
-        Pane view = createView(viewName);
+        Pane view = getOrCreateView(viewName);
         layout.setCenter(wrapInScrollPane(view));
     }
 }
