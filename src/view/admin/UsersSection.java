@@ -11,7 +11,6 @@ import common.interfaces.IUser;
 import javafx.util.Duration;
 
 import java.util.List;
-import java.util.function.Function;
 
 public class UsersSection extends VBox {
     private final UserController userController;

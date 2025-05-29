@@ -20,7 +20,7 @@ public class UserManager implements Manager<IUser> {
     private final List<IUser> users = new ArrayList<>();
 
     public UserManager() {
-        JsonUserManager jsonUserManager = new JsonUserManager();
+        JsonUserManager jsonUserManager = JsonUserManager.getInstance();
         List<IUser> initialUsers = jsonUserManager.load().stream()
                 .map(user -> (IUser) user)
                 .collect(Collectors.toList());

@@ -17,7 +17,7 @@ public class UserController {
 
     private UserController() {
         this.userManager = UserManager.getInstance();
-        this.jsonUserManager = new JsonUserManager();
+        this.jsonUserManager = JsonUserManager.getInstance();
     }
 
     public static UserController getInstance() {

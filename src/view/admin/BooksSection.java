@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import javafx.beans.property.SimpleStringProperty;
 import common.interfaces.IBook;
 import javafx.util.Duration;
-import model.Book;
 import controller.BookController;
 import common.nullObject.NullBook;
 import utils.BookQueryUtils;

@@ -25,8 +25,8 @@ public class LoanController {
     private LoanController() {
         this.loanManager = LoanManager.getInstance();
         this.bookManager = BookManager.getInstance();
-        this.jsonLoanManager = new JsonLoanManager();
-        this.jsonBookManager = new JsonBookManager();
+        this.jsonLoanManager = JsonLoanManager.getInstance();
+        this.jsonBookManager = JsonBookManager.getInstance();
 
         List<ILoan> loans = loadLoans();
         loanManager.setInitialLoans(loans);

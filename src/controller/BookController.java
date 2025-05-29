@@ -16,7 +16,7 @@ public class BookController {
 
     private BookController() {
         this.bookManager = BookManager.getInstance();
-        this.jsonBookManager = new JsonBookManager();
+        this.jsonBookManager = JsonBookManager.getInstance();
 
         List<IBook> initialBooks = loadBooks();
         bookManager.setInitialBooks(initialBooks);

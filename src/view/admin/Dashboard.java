@@ -15,9 +15,6 @@ import controller.UserController;
 import controller.LoanController;
 import common.observer.ViewObserver;
 import common.observer.ViewSubject;
-import model.Book;
-import model.Loan;
-import model.User;
 import view.admin.components.RecentBooksBox;
 import view.admin.components.RecentUsersBox;
 

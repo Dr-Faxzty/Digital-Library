@@ -8,12 +8,10 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import common.interfaces.IBook;
 import common.observer.ViewObserver;
 
 
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class RecentBooksBox {
     public static VBox create(BookController bookController, ViewObserver observer) {
