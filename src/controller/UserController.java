@@ -8,6 +8,7 @@ import common.nullObject.NullUser;
 import model.User;
 import persistence.JsonUserManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserController {
@@ -18,6 +19,9 @@ public class UserController {
     private UserController() {
         this.userManager = UserManager.getInstance();
         this.jsonUserManager = JsonUserManager.getInstance();
+
+        List<IUser> initialUsers = loadUsers();
+        userManager.setInitialUsers(initialUsers);
     }
 
     public static UserController getInstance() {
@@ -52,6 +56,11 @@ public class UserController {
         return userManager.getAll();
     }
 
+    private List<IUser> loadUsers() {
+        List<User> concreteUsers = jsonUserManager.load();
+        return new ArrayList<>(concreteUsers);
+    }
+
     private boolean saveUsers() {
         List<User> users = userManager.getAll().stream()
                 .map(user -> (User) user)
@@ -64,7 +73,7 @@ public class UserController {
             List<IUser> iusers = users.stream()
                     .map(user -> (IUser) user)
                     .toList();
-            userManager.setAll(iusers);
+            userManager.setInitialUsers(iusers);
             onSuccess.accept(iusers);
         }, onError);
     }

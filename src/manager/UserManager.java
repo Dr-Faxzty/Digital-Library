@@ -19,19 +19,18 @@ public class UserManager implements Manager<IUser> {
     private static UserManager instance;
     private final List<IUser> users = new ArrayList<>();
 
-    public UserManager() {
-        JsonUserManager jsonUserManager = JsonUserManager.getInstance();
-        List<IUser> initialUsers = jsonUserManager.load().stream()
-                .map(user -> (IUser) user)
-                .collect(Collectors.toList());
-        setAll(initialUsers);
-    }
+    public UserManager() {}
 
     public static UserManager getInstance() {
         if (instance == null) {
             instance = new UserManager();
         }
         return instance;
+    }
+
+    public void setInitialUsers(List<IUser> initialsUsers) {
+        this.users.clear();
+        this.users.addAll(initialsUsers);
     }
 
     public void addUser(IUser user){
@@ -79,10 +78,6 @@ public class UserManager implements Manager<IUser> {
                 .collect(Collectors.toList());
     }
 
-    public void setAll(List<IUser> users) {
-        this.users.clear();
-        this.users.addAll(users);
-    }
 
     @Override
     public List<IUser> getAll() { return new ArrayList<>(users); }
