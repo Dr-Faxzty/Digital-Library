@@ -40,7 +40,7 @@ public class Book implements IBook {
     @Override public void setAvailable(boolean available) { this.available = available; }
     @Override public void setUrlImage(String urlImage) { this.urlImage = urlImage; }
 
-    @Override public boolean isNull(){return false;};
+    @Override public boolean isNull() { return false; }
 
     @Override
     public String toString() {

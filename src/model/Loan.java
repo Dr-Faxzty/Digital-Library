@@ -58,7 +58,7 @@ public class Loan implements ILoan {
         updateState();
     }
 
-    @Override public boolean isNull(){return false;};
+    @Override public boolean isNull() { return false; }
 
 
 
