@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,7 +38,7 @@ public class LocalDateAdapterTest {
     public void testDeserializeInvalid() {
         String invalidJson = "\"not-a-date\"";
 
-        assertThrows(JsonParseException.class, () -> {
+        assertThrows(DateTimeParseException.class, () -> {
             gson.fromJson(invalidJson, LocalDate.class);
         });
     }
