@@ -24,19 +24,22 @@ public class AdminView implements ViewObserver {
     }
 
     public void start(Stage stage) {
-        Sidebar sidebar = createSidebar();
-        Pane initialView = getOrCreateView("dashboard");
+        setupLayout();
+        setupScene(stage);
+        stage.show();
+    }
 
-        layout.setLeft(sidebar);
-        layout.setCenter(wrapInScrollPane(initialView));
+    private void setupLayout() {
+        layout.setLeft(createSidebar());
+        layout.setCenter(createInScrollPane(getOrCreateView("dashboard")));
+    }
 
+    private void setupScene(Stage stage) {
         Scene scene = new Scene(layout, 1000, 600);
         scene.getStylesheets().add(getClass().getResource("/style/admin.css").toExternalForm());
-
         stage.setTitle("Digital Library");
         stage.setScene(scene);
         stage.setResizable(true);
-        stage.show();
     }
 
     private Sidebar createSidebar() {
@@ -45,7 +48,7 @@ public class AdminView implements ViewObserver {
         return sidebar;
     }
 
-    private ScrollPane wrapInScrollPane(Pane view) {
+    private ScrollPane createInScrollPane(Pane view) {
         ScrollPane scrollPane = new ScrollPane(view);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
@@ -79,6 +82,6 @@ public class AdminView implements ViewObserver {
     @Override
     public void onViewChange(String viewName) {
         Pane view = getOrCreateView(viewName);
-        layout.setCenter(wrapInScrollPane(view));
+        layout.setCenter(createInScrollPane(view));
     }
 }
