@@ -1,0 +1,91 @@
+
+.book-detail-page {
+    -fx-background-color: #f9f9f9;
+    -fx-padding: 0 72 48 72;
+    -fx-spacing: 16;
+}
+
+.book-detail-header {
+    -fx-background-color: white;
+    -fx-border-color: #f0f0f0;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 16 24;
+    -fx-spacing: 12;
+}
+
+.book-detail-title-app {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.book-detail-icon {
+    -fx-font-size: 18px;
+}
+
+.book-detail-back-button {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 8 0 0 24;
+    -fx-cursor: hand;
+}
+
+.book-detail-cover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.1, 0, 2);
+}
+
+.book-detail-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.book-detail-author {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+}
+
+.book-detail-reviews {
+    -fx-font-size: 13px;
+    -fx-text-fill: #666;
+}
+
+.book-detail-loan-button {
+    -fx-background-color: #34A853;
+    -fx-text-fill: white;
+    -fx-padding: 8 16;
+    -fx-font-size: 13px;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+}
+
+.book-detail-details-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.book-detail-details-label {
+    -fx-text-fill: #777;
+}
+
+.book-detail-details-value {
+    -fx-text-fill: #333;
+}
+
+.book-detail-synopsis-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.book-detail-synopsis {
+    -fx-font-size: 13px;
+    -fx-fill: #444;
+}
+
+.book-detail-main-box {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 16, 0.2, 0, 4);
+    -fx-padding: 24;
+}

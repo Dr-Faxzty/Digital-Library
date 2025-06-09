@@ -1,0 +1,196 @@
+
+.root {
+    -fx-background-color: white;
+    -fx-spacing: 16;
+}
+
+.top-bar {
+    -fx-background-color: white;
+    -fx-padding: 16 24;
+    -fx-border-color: #f4f4f4;
+    -fx-border-width: 0 0 1 0;
+    -fx-pref-height: 50;
+    -fx-max-height: Infinity;
+    -fx-spacing: 8;
+}
+
+.top-bar-icon {
+    -fx-font-size: 18px;
+}
+
+.top-bar-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222;
+}
+
+.search-box {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 20;
+    -fx-padding: 4 8;
+    -fx-spacing: 6;
+}
+
+.search-icon {
+    -fx-font-size: 14px;
+}
+
+.search-bar {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-size: 13px;
+}
+
+.user-icon {
+    -fx-font-size: 20px;
+    -fx-cursor: hand;
+}
+
+.user-info-box {
+    -fx-font-size: 13px;
+    -fx-background-color: transparent;
+    -fx-padding: 8 16 8 16;
+}
+
+.user-name-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-text-fill: #222;
+}
+
+.user-email-label {
+    -fx-font-size: 9px;
+    -fx-text-fill: #777;
+}
+
+.menu-item-profile,
+.menu-item-favorites {
+    -fx-font-size: 12px;
+}
+
+.menu-item-logout {
+    -fx-text-fill: red;
+    -fx-font-size: 12px;
+}
+
+.categories-section {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-padding: 24 32 24 32;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0.15, 0, 2);
+}
+
+.category-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.category-button {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 6 12;
+    -fx-font-size: 12px;
+}
+
+.category-button:hover {
+    -fx-background-color: #e0e0e0;
+    -fx-border-color: #bbb;
+}
+
+.category-button:pressed {
+    -fx-background-color: #d0d0d0;
+    -fx-border-color: #aaa;
+}
+
+.order-combo {
+    -fx-background-color: white;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 4 8;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.order-combo:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #aaa;
+}
+
+.order-combo:focused {
+    -fx-background-color: #e0e0e0;
+    -fx-border-color: #aaa;
+}
+
+.recent-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.book-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.1, 0, 1);
+}
+
+.book-card:hover {
+    -fx-background-color: #f9f9f9;
+    -fx-cursor: hand;
+}
+
+.book-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.book-author {
+    -fx-font-size: 12px;
+    -fx-text-fill: #555;
+}
+
+.book-availability-true {
+    -fx-font-size: 12px;
+    -fx-text-fill: #28a745;
+}
+
+.book-availability-false {
+    -fx-font-size: 12px;
+    -fx-text-fill: #dc3545;
+}
+
+.loan-subsection-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.loan-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.1, 0, 1);
+}
+
+.loan-card.expired {
+    -fx-border-color: red;
+    -fx-border-width: 1;
+}
+
+.loan-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.loan-date {
+    -fx-font-size: 12px;
+    -fx-text-fill: #777;
+}
+
+.loan-status {
+    -fx-font-size: 12px;
+}

@@ -1,22 +1,15 @@
-package view;
+package view.user;
 
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import common.interfaces.IUser;
-import manager.SessionManager;
 
 
 public class UserView {
-    private final IUser user;
 
-    public UserView() {
-        SessionManager session = SessionManager.getInstance();
-        this.user = session.getLoggedUser();
-    }
+    public UserView() {}
 
-    public void start(Stage stage) {
+    private ScrollPane CreateScrollPane(){
         HomePage dashboard = new HomePage();
 
         ScrollPane scrollPane = new ScrollPane();
@@ -27,10 +20,15 @@ public class UserView {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setStyle("-fx-background-color: transparent;");
 
-        Scene scene = new Scene(scrollPane, 1000, 600);
+        return scrollPane;
+    }
+
+    public void start(Stage stage) {
+        Scene scene = new Scene(CreateScrollPane(), 1000, 600);
         stage.setTitle("Digital Library");
         stage.setResizable(true);
         stage.setScene(scene);
+
         stage.show();
     }
 

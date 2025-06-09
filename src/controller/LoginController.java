@@ -3,10 +3,9 @@ package controller;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import manager.SessionManager;
-import common.interfaces.IUser;
 import utils.FxTaskRunner;
 import view.admin.AdminView;
-import view.UserView;
+import view.user.UserView;
 
 
 public class LoginController {
