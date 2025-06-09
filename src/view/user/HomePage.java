@@ -31,7 +31,7 @@ public class HomePage extends VBox {
     private final TextField searchBar = new TextField();
 
     public HomePage() {
-        getStylesheets().add(getClass().getResource("/homepage.css").toExternalForm());
+        getStylesheets().add(getClass().getResource("/style/Homepage.css").toExternalForm());
         getStyleClass().add("root");
 
         createTopBar();

@@ -14,28 +14,19 @@ public class LoanCard extends VBox {
         setAlignment(Pos.TOP_LEFT);
         setSpacing(6);
 
-        getChildren().addAll(CreateTitle(loan.getBook().getTitle()), ObtainDueDate(loan),
+        getChildren().addAll(CreateLabel(loan.getBook().getTitle(), "loan-title"), CreateLabel((loan.isReturned() ?
+                        "Returned on: " + loan.getReturnDate() :
+                        "Due: " + loan.getExpirationDate()), "loan-date"),
                 AssessmentStatus(loan, statusTitle, statusColor));
 
         setOnMouseClicked(e -> new BookDetailView().show((Stage) getScene().getWindow(), loan.getBook()));
     }
 
-    private Label CreateTitle(String Title){
-        Label title = new Label(Title);
-        title.getStyleClass().add("loan-title");
+    private Label CreateLabel(String Title, String styleClasses) {
+        Label label = new Label(Title);
+        label.getStyleClass().add(styleClasses);
 
-        return title;
-    }
-
-    private Label ObtainDueDate(ILoan loan){
-        Label dueDate = new Label(
-                loan.isReturned() ?
-                        "Returned on: " + loan.getReturnDate() :
-                        "Due: " + loan.getExpirationDate()
-        );
-        dueDate.getStyleClass().add("loan-date");
-
-        return dueDate;
+        return label;
     }
 
     private Label AssessmentStatus(ILoan loan, String statusTitle, String statusColor) {

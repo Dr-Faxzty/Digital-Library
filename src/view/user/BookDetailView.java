@@ -59,7 +59,7 @@ public class BookDetailView {
         page.getStyleClass().add("book-detail-page");
 
         Scene scene = new Scene(page, 1100, 680);
-        scene.getStylesheets().add(getClass().getResource("/BookDetailView.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/style/BookDetailView.css").toExternalForm());
         parent.setUserData(parent.getScene());
         parent.setScene(scene);
     }

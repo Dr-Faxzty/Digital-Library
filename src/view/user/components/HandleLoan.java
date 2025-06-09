@@ -24,12 +24,12 @@ public class HandleLoan {
                 l.getBook().equals(book) && l.getUser().equals(user) && l.isInProgress()
         ).stream().findFirst().orElse(new NullLoan());
 
-        if (!book.available() && existingLoan.isNull()) {
-            configureAsDisabled(loanButton);
-        } else if (existingLoan.isNull()) {
+        if (book.available()) {
+            configureAsLoan(loanButton, book, user);
+        } else if (!existingLoan.isNull()) {
             configureAsReturn(loanButton, book, existingLoan);
         } else {
-            configureAsLoan(loanButton, book, user);
+            configureAsDisabled(loanButton);
         }
     }
 

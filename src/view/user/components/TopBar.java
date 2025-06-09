@@ -18,30 +18,23 @@ public class TopBar extends HBox {
         ContextMenu userMenu = new ContextMenu(
                 CreateUserInfoItem(),
                 new SeparatorMenuItem(),
-                CreateProfileMenuItem(),
-                CreateFavoritesMenuItem(),
+                CreateMenuItem("Profile", "menu-item-profile"),
+                CreateMenuItem("Favorites", "menu-item-favorites"),
                 new SeparatorMenuItem(),
                 CreateLogoutMenuItem(onLogout)
         );
 
-        getChildren().addAll(CreateIcon(), CreateIcon(), CreateSpacer(), createSearchBox(searchBar, onSearchUpdate), CreateUserIcon(userMenu));
+        getChildren().addAll(CreateLabel("\uD83D\uDCDA", "top-bar-icon"), CreateLabel("Digital-Library", "top-bar-title"), CreateSpacer(), createSearchBox(searchBar, onSearchUpdate), CreateUserIcon(userMenu));
     }
 
-    private Label CreateIcon(){
-        Label icon = new Label("\uD83D\uDCDA");
-        icon.getStyleClass().add("top-bar-icon");
+    private Label CreateLabel(String text, String styleClass) {
+        Label label = new Label(text);
+        label.getStyleClass().add(styleClass);
 
-        return icon;
+        return label;
     }
 
-    private Label CreateTitle(){
-        Label title = new Label("Digital-Library");
-        title.getStyleClass().add("top-bar-title");
-
-        return title;
-    }
-
-    private final Region CreateSpacer() {
+    private Region CreateSpacer() {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
@@ -52,8 +45,7 @@ public class TopBar extends HBox {
         HBox searchBox = new HBox();
         searchBox.getStyleClass().add("search-box");
 
-        Label searchIcon = new Label("\uD83D\uDD0D");
-        searchIcon.getStyleClass().add("search-icon");
+        Label searchIcon = CreateLabel("\uD83D\uDD0D", "search-icon");
 
         searchBar.setPromptText("Search Book");
         searchBar.getStyleClass().add("search-bar");
@@ -68,8 +60,7 @@ public class TopBar extends HBox {
     }
 
     private Label CreateUserIcon(ContextMenu userMenu) {
-        Label userIcon = new Label("\uD83D\uDC64");
-        userIcon.getStyleClass().add("user-icon");
+        Label userIcon = CreateLabel("\uD83D\uDC64", "user-icon");
 
         userIcon.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
@@ -80,21 +71,7 @@ public class TopBar extends HBox {
         return userIcon;
     }
 
-    private Label CreateNameLabel(){
-        Label nameLabel = new Label(user.getName() + " " + user.getSurname());
-        nameLabel.getStyleClass().add("user-name-label");
-
-        return nameLabel;
-    }
-
-    private Label CreateEmailLabel(){
-        Label emailLabel = new Label(user.getEmail());
-        emailLabel.getStyleClass().add("user-email-label");
-
-        return emailLabel;
-    }
-
-    private final MenuItem CreateLogoutMenuItem(Runnable onLogout) {
+    private MenuItem CreateLogoutMenuItem(Runnable onLogout) {
         MenuItem logout = new MenuItem("Logout");
         logout.getStyleClass().add("menu-item-logout");
 
@@ -105,9 +82,9 @@ public class TopBar extends HBox {
         return logout;
     }
 
-    private final CustomMenuItem CreateUserInfoItem() {
-        Label nameLabel = CreateNameLabel();
-        Label emailLabel = CreateEmailLabel();
+    private CustomMenuItem CreateUserInfoItem() {
+        Label nameLabel = CreateLabel(user.getName() + " " + user.getSurname(), "user-name-label");
+        Label emailLabel = CreateLabel(user.getEmail(), "user-email-label");
 
         VBox userInfoBox = new VBox(nameLabel, emailLabel);
         userInfoBox.getStyleClass().add("user-info-box");
@@ -118,18 +95,11 @@ public class TopBar extends HBox {
         return userInfoItem;
     }
 
-    private MenuItem CreateProfileMenuItem() {
-        MenuItem profile = new MenuItem("Profile");
-        profile.getStyleClass().add("menu-item-profile");
+    private MenuItem CreateMenuItem(String label, String styleClass) {
+        MenuItem item = new MenuItem(label);
+        item.getStyleClass().add(styleClass);
 
-        return profile;
-    }
-
-    private MenuItem CreateFavoritesMenuItem() {
-        MenuItem favorites = new MenuItem("Favorites");
-        favorites.getStyleClass().add("menu-item-favorites");
-
-        return favorites;
+        return item;
     }
 }
 

@@ -75,7 +75,7 @@ public class RegistrationView {
         );
 
         Scene scene = new Scene(container, 450, 600);
-        scene.getStylesheets().add(getClass().getResource("/style/register.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("C:\\Users\\marti\\OneDrive\\Desktop\\Digital-Library\\src\\style\\register.css").toExternalForm());
 
         stage.setTitle("Digital Library - Register");
         stage.setScene(scene);

@@ -15,7 +15,7 @@ public class BookCard extends VBox {
         setAlignment(Pos.TOP_LEFT);
         setSpacing(6);;
 
-        getChildren().addAll(CreateImageView(book.getUrlImage()), CreateTitle(book.getTitle()), CreateAuthor(book.getAuthor()), CreateAvailability(book));
+        getChildren().addAll(CreateImageView(book.getUrlImage()), CreateLabel(book.getTitle(), "book-title"), CreateLabel(book.getAuthor(), "book-author"), CreateLabel(book.available() ? "✓ Available" : "✗ Not available", book.available() ? "available" : "not-available"));
 
         setOnMouseClicked(e -> new BookDetailView().show((Stage) getScene().getWindow(), book));
     }
@@ -28,24 +28,10 @@ public class BookCard extends VBox {
         return imageView;
     }
 
-    private Label CreateTitle(String text){
+    private Label CreateLabel(String text, String styleClass) {
         Label title = new Label(text);
-        title.getStyleClass().add("book-title");
+        title.getStyleClass().add(styleClass);
 
         return title;
-    }
-
-    private Label CreateAuthor(String text) {
-        Label author = new Label(text);
-        author.getStyleClass().add("book-author");
-
-        return author;
-    }
-
-    private Label CreateAvailability(IBook book) {
-        Label availability = new Label(book.available() ? "✓ Available" : "✗ Not available");
-        availability.getStyleClass().add(book.available() ? "available" : "not-available");
-
-        return availability;
     }
 }
