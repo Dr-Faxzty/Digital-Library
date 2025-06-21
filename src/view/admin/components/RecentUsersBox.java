@@ -7,71 +7,106 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.*;
 import common.observer.ViewObserver;
+import common.interfaces.IUser;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RecentUsersBox {
 
     public static VBox create(UserController userController, ViewObserver observer) {
+        VBox root = createBaseLayout();
+        Label title = createTitleLabel();
+        ProgressIndicator loader = createLoader();
+
+        root.getChildren().addAll(title, loader);
+
+        userController.loadUsersAsync(
+                users -> populateRecentUsers(root, users, loader, observer),
+                () -> showError(root, loader)
+        );
+
+        return root;
+    }
+
+    private static VBox createBaseLayout() {
         VBox box = new VBox(10);
         box.setPadding(new Insets(10));
         box.setPrefWidth(450);
+        box.setAlignment(Pos.CENTER);
         box.getStyleClass().add("recentuserbox-style-1");
+        return box;
+    }
 
+    private static Label createTitleLabel() {
         Label title = new Label("Recent Users");
         title.getStyleClass().add("recentuserbox-style-2");
+        return title;
+    }
 
+    private static ProgressIndicator createLoader() {
         ProgressIndicator loader = new ProgressIndicator();
         loader.setMaxSize(30, 30);
         VBox.setMargin(loader, new Insets(10, 0, 10, 0));
-        box.setAlignment(Pos.CENTER);
-        box.getChildren().addAll(title, loader);
+        return loader;
+    }
 
-        userController.loadUsersAsync(users -> {
-            box.getChildren().remove(loader);
-            box.setAlignment(Pos.TOP_LEFT);
+    private static void populateRecentUsers(VBox root, List<IUser> users, ProgressIndicator loader, ViewObserver observer) {
+        root.getChildren().remove(loader);
+        root.setAlignment(Pos.TOP_LEFT);
 
-            users.stream()
-                    .sorted((u1, u2) -> u2.getName().compareTo(u1.getName()))
-                    .limit(4)
-                    .forEach(user -> {
-                        HBox row = new HBox(10);
-                        row.setAlignment(Pos.CENTER_LEFT);
-                        row.setPadding(new Insets(8, 0, 8, 0));
+        List<IUser> recentUsers = users.stream()
+                .sorted((u1, u2) -> u2.getName().compareTo(u1.getName()))
+                .limit(4)
+                .collect(Collectors.toList());
 
-                        String initialsText = ("" + user.getName().charAt(0) + user.getSurname().charAt(0)).toUpperCase();
-                        Label initials = new Label(initialsText);
-                        initials.getStyleClass().add("recentuserbox-style-3");
-                        initials.setMinWidth(30);
-                        initials.setAlignment(Pos.CENTER);
+        for (IUser user : recentUsers) {
+            HBox row = createUserRow(user);
+            root.getChildren().add(row);
+        }
 
-                        Label nameLabel = new Label(user.getName() + " " + user.getSurname());
-                        nameLabel.getStyleClass().add("recentuserbox-style-4");
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+        root.getChildren().add(spacer);
 
-                        Label emailLabel = new Label(user.getEmail());
-                        emailLabel.getStyleClass().add("recentuserbox-style-5");
+        Label viewAll = createViewAllLabel(observer);
+        root.getChildren().add(viewAll);
+    }
 
-                        VBox textBox = new VBox(2, nameLabel, emailLabel);
+    private static HBox createUserRow(IUser user) {
+        String initialsText = ("" + user.getName().charAt(0) + user.getSurname().charAt(0)).toUpperCase();
+        Label initials = new Label(initialsText);
+        initials.getStyleClass().add("recentuserbox-style-3");
+        initials.setMinWidth(30);
+        initials.setAlignment(Pos.CENTER);
 
-                        row.getChildren().addAll(initials, textBox);
-                        box.getChildren().add(row);
-                    });
+        Label nameLabel = new Label(user.getName() + " " + user.getSurname());
+        nameLabel.getStyleClass().add("recentuserbox-style-4");
 
-            Region spacer = new Region();
-            VBox.setVgrow(spacer, Priority.ALWAYS);
+        Label emailLabel = new Label(user.getEmail());
+        emailLabel.getStyleClass().add("recentuserbox-style-5");
 
-            Label viewAll = new Label("View All");
-            viewAll.getStyleClass().add("recentuserbox-style-6");
-            VBox.setMargin(viewAll, new Insets(10, 0, 0, 2));
+        VBox textBox = new VBox(2, nameLabel, emailLabel);
 
-            viewAll.setOnMouseClicked(e -> {
-                if (observer != null) observer.onViewChange("users");
-            });
+        HBox row = new HBox(10, initials, textBox);
+        row.setAlignment(Pos.CENTER_LEFT);
+        row.setPadding(new Insets(8, 0, 8, 0));
+        return row;
+    }
 
-            box.getChildren().addAll(spacer, viewAll);
-        }, () -> {
-            Label errorLabel = new Label("❌ Failed to load recent users.");
-            box.getChildren().add(errorLabel);
+    private static Label createViewAllLabel(ViewObserver observer) {
+        Label viewAll = new Label("View All");
+        viewAll.getStyleClass().add("recentuserbox-style-6");
+        VBox.setMargin(viewAll, new Insets(10, 0, 0, 2));
+        viewAll.setOnMouseClicked(e -> {
+            if (observer != null) observer.onViewChange("users");
         });
+        return viewAll;
+    }
 
-        return box;
+    private static void showError(VBox root, ProgressIndicator loader) {
+        root.getChildren().remove(loader);
+        Label errorLabel = new Label("❌ Failed to load recent users.");
+        root.getChildren().add(errorLabel);
     }
 }
