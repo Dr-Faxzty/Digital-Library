@@ -9,38 +9,35 @@ import javafx.scene.layout.*;
 import common.interfaces.ILoan;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class LoansSection extends VBox {
-    private final LoanController loanController;
-    private final TableView<ILoan> table;
-    private final ComboBox<String> statusFilter;
-    private final ProgressIndicator loadingSpinner;
+    private final LoanController loanController = LoanController.getInstance();
+    private final TableView<ILoan> table = new TableView<>();
+    private final ComboBox<String> statusFilter = new ComboBox<>();
+    private final ProgressIndicator loadingSpinner = new ProgressIndicator();
 
     public LoansSection() {
-        this.loanController = LoanController.getInstance();
-        this.table = new TableView<>();
-        this.statusFilter = new ComboBox<>();
-        this.loadingSpinner = new ProgressIndicator();
-
-        styleContainer();
-        configureSpinner();
-
-        getChildren().addAll(createTitle(), createTopBar(), loadingSpinner, table);
+        initializeLayout();
         setupTableColumns();
         loadData();
     }
 
-    private void styleContainer() {
+    private void initializeLayout() {
         setMaxWidth(Double.MAX_VALUE);
         getStyleClass().add("adminBooks-style-1");
+
+        configureSpinner();
+        getChildren().addAll(createTitleBar(), createTopBar(), loadingSpinner, table);
     }
 
     private void configureSpinner() {
-        showLoadingSpinner(false);
+        loadingSpinner.setVisible(false);
+        loadingSpinner.setManaged(false);
         loadingSpinner.setPrefSize(50, 50);
         loadingSpinner.setStyle("-fx-progress-color: #34A853;");
-        setAlignment(Pos.TOP_CENTER);
         VBox.setMargin(loadingSpinner, new Insets(16, 0, 0, 0));
+        setAlignment(Pos.TOP_CENTER);
     }
 
     private void showLoadingSpinner(boolean show) {
@@ -48,30 +45,29 @@ public class LoansSection extends VBox {
         loadingSpinner.setManaged(show);
     }
 
-    private HBox createTitle() {
-        HBox titleBar = new HBox();
+    private HBox createTitleBar() {
+        Label title = new Label("Manage Loans");
+        title.getStyleClass().add("adminBooks-style-2-1");
+
+        HBox titleBar = new HBox(title);
         titleBar.setAlignment(Pos.CENTER_LEFT);
         titleBar.setPrefHeight(60);
         titleBar.setMaxWidth(Double.MAX_VALUE);
         titleBar.getStyleClass().add("adminBooks-style-2");
 
-        Label title = new Label("Manage Loans");
-        title.getStyleClass().add("adminBooks-style-2-1");
-        titleBar.getChildren().add(title);
         return titleBar;
     }
 
     private HBox createTopBar() {
-        HBox topBar = new HBox(10);
-        topBar.setAlignment(Pos.CENTER_RIGHT);
-        topBar.setPadding(new Insets(16, 24, 0, 24));
-
         statusFilter.getItems().addAll("All", "In Progress", "Expired", "Returned");
         statusFilter.setValue("All");
         statusFilter.getStyleClass().add("adminBooks-category-combo");
         statusFilter.setOnAction(e -> refreshTable());
 
-        topBar.getChildren().addAll(statusFilter);
+        HBox topBar = new HBox(10, statusFilter);
+        topBar.setAlignment(Pos.CENTER_RIGHT);
+        topBar.setPadding(new Insets(16, 24, 0, 24));
+
         return topBar;
     }
 
@@ -85,61 +81,51 @@ public class LoansSection extends VBox {
                 createColumn("Book", loan -> loan.getBook().getTitle()),
                 createColumn("User", loan -> loan.getUser().getName() + " " + loan.getUser().getSurname()),
                 createColumn("Due Date", loan -> loan.getExpirationDate().toString()),
-                createColumn("Status", this::getLoanStatus)
+                createColumn("Status", loan -> loan.getState().getName())
         );
     }
 
-    private TableColumn<ILoan, String> createColumn(String name, java.util.function.Function<ILoan, String> mapper) {
+    private TableColumn<ILoan, String> createColumn(String name, Function<ILoan, String> mapper) {
         TableColumn<ILoan, String> column = new TableColumn<>(name);
-
         column.setCellValueFactory(data -> new SimpleStringProperty(mapper.apply(data.getValue())));
-
         column.setCellFactory(col -> new TableCell<>() {
-            private final HBox container = new HBox();
             private final Label label = new Label();
+            private final HBox container = new HBox(label);
 
             {
                 container.setAlignment(Pos.CENTER);
-                container.getChildren().add(label);
             }
 
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null || getIndex() < 0 || getIndex() >= getTableView().getItems().size()) {
-                    setGraphic(null);
-                } else {
-                    label.setText(item);
-                    setGraphic(container);
-                }
+                setGraphic(empty || item == null ? null : container);
+                if (!empty && item != null) label.setText(item);
             }
         });
-
         return column;
-    }
-
-    private String getLoanStatus(ILoan loan) {
-        return loan.getState().getName();
     }
 
     private void loadData() {
         setControlsDisabled(true);
         showLoadingSpinner(true);
 
-        loanController.loadLoansAsync(allLoans -> {
-            updateTableWithFilter(allLoans);
-            showLoadingSpinner(false);
-            setControlsDisabled(false);
-        }, () -> {
-            showError("Failed to load loans.");
-            showLoadingSpinner(false);
-            setControlsDisabled(false);
-        });
+        loanController.loadLoansAsync(
+                loans -> {
+                    updateTableWithFilter(loans);
+                    setControlsDisabled(false);
+                    showLoadingSpinner(false);
+                },
+                () -> {
+                    showError("Failed to load loans.");
+                    setControlsDisabled(false);
+                    showLoadingSpinner(false);
+                }
+        );
     }
 
     private void refreshTable() {
-        List<ILoan> allLoans = loanController.getAllLoans();
-        updateTableWithFilter(allLoans);
+        updateTableWithFilter(loanController.getAllLoans());
     }
 
     private void updateTableWithFilter(List<ILoan> allLoans) {
@@ -149,7 +135,7 @@ public class LoansSection extends VBox {
             case "In Progress" -> allLoans.stream().filter(ILoan::isInProgress).toList();
             case "Expired"     -> allLoans.stream().filter(ILoan::isExpired).toList();
             case "Returned"    -> allLoans.stream().filter(ILoan::isReturned).toList();
-            default            -> allLoans;
+            default             -> allLoans;
         };
 
         table.getItems().setAll(filtered);
