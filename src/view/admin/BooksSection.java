@@ -20,31 +20,28 @@ import view.admin.components.BookEditDialog;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 public class BooksSection extends VBox {
-    private final BookController bookController;
-    private final TextField searchField;
-    private final TableView<IBook> table;
-    private final ComboBox<String> categoryCombo;
-    private final ComboBox<String> orderCombo;
-    private final ProgressIndicator loadingSpinner;
-    private final PauseTransition debounce;
+    private final BookController bookController = BookController.getInstance();
+    private final TextField searchField = new TextField();
+    private final TableView<IBook> table = new TableView<>();
+    private final ComboBox<String> categoryCombo = new ComboBox<>();
+    private final ComboBox<String> orderCombo = new ComboBox<>();
+    private final ProgressIndicator loadingSpinner = new ProgressIndicator();
+    private final PauseTransition debounce = new PauseTransition(Duration.millis(300));
 
     public BooksSection() {
-        this.bookController = BookController.getInstance();
-        this.searchField = new TextField();
-        this.table = new TableView<>();
-        this.categoryCombo = new ComboBox<>();
-        this.orderCombo = new ComboBox<>();
-        this.loadingSpinner = new ProgressIndicator();
-        this.debounce = new PauseTransition(Duration.millis(300));
-
         styleContainer();
         initLoadingSpinner();
-
         getChildren().addAll(createTitle(), createTopBar(), loadingSpinner, createTable());
-
         refreshTable();
+    }
+
+    private void styleContainer() {
+        setMaxWidth(Double.MAX_VALUE);
+        getStyleClass().add("adminBooks-style-1");
+        setAlignment(Pos.TOP_CENTER);
     }
 
     private void initLoadingSpinner() {
@@ -53,7 +50,6 @@ public class BooksSection extends VBox {
         loadingSpinner.setPrefSize(50, 50);
         loadingSpinner.setStyle("-fx-progress-color: #34A853;");
         VBox.setMargin(loadingSpinner, new Insets(16, 0, 0, 0));
-        setAlignment(Pos.TOP_CENTER);
     }
 
     private void showLoadingSpinner(boolean show) {
@@ -61,15 +57,9 @@ public class BooksSection extends VBox {
         loadingSpinner.setManaged(show);
     }
 
-    private void styleContainer() {
-        setMaxWidth(Double.MAX_VALUE);
-        getStyleClass().add("adminBooks-style-1");
-    }
-
     private HBox createTitle() {
         Label title = new Label("Manage Books");
         title.getStyleClass().add("adminBooks-style-2-1");
-
         HBox titleBar = new HBox(title);
         titleBar.setAlignment(Pos.CENTER_LEFT);
         titleBar.setPrefHeight(60);
@@ -79,44 +69,15 @@ public class BooksSection extends VBox {
     }
 
     private HBox createTopBar() {
-        categoryCombo.getItems().addAll(
-                Arrays.stream(BookCategoryType.values())
-                        .map(BookCategoryType::getLabel)
-                        .toList()
-        );
-        categoryCombo.setValue("All");
-        categoryCombo.getStyleClass().add("adminBooks-category-combo");
-        categoryCombo.setOnAction(e -> refreshTable());
-
-
-        orderCombo.getItems().addAll(
-                Arrays.stream(BookOrderType.values())
-                        .map(BookOrderType::getLabel)
-                        .toList()
-        );
-        orderCombo.setValue(BookOrderType.TITLE_A_Z.getLabel());
-        orderCombo.getStyleClass().add("adminBooks-category-combo");
-        orderCombo.setOnAction(e -> refreshTable());
-
+        setupComboBox(categoryCombo, BookCategoryType.values(), BookCategoryType::getLabel, "All", e -> refreshTable());
+        setupComboBox(orderCombo, BookOrderType.values(), BookOrderType::getLabel, BookOrderType.TITLE_A_Z.getLabel(), e -> refreshTable());
 
         searchField.setPromptText("Search books...");
         searchField.setPrefWidth(200);
         searchField.getStyleClass().add("adminBooks-style-2-2");
 
-        Button searchButton = new Button("🔍 Search");
-        searchButton.getStyleClass().add("adminBooks-style-3");
-        searchButton.setOnAction(e -> refreshTable());
-
-
-        Button addBookButton = new Button("+ Add Book");
-        addBookButton.getStyleClass().add("adminBooks-style-4");
-        addBookButton.setOnAction(e -> {
-            new BookEditDialog().show(
-                    (Stage) getScene().getWindow(),
-                    new NullBook(),
-                    this::refreshTable
-            );
-        });
+        Button searchButton = createStyledButton("\uD83D\uDD0D Search", "adminBooks-style-3", e -> refreshTable());
+        Button addBookButton = createStyledButton("+ Add Book", "adminBooks-style-4", e -> openAddDialog());
 
         HBox topBar = new HBox(10, categoryCombo, orderCombo, new Region(), searchField, searchButton, addBookButton);
         HBox.setHgrow(topBar.getChildren().get(2), Priority.ALWAYS);
@@ -126,12 +87,29 @@ public class BooksSection extends VBox {
         return topBar;
     }
 
+    private <T> void setupComboBox(ComboBox<String> combo, T[] values, Function<T, String> labelMapper, String defaultValue, javafx.event.EventHandler<javafx.event.ActionEvent> handler) {
+        combo.getItems().addAll(Arrays.stream(values).map(labelMapper).toList());
+        combo.setValue(defaultValue);
+        combo.setOnAction(handler);
+        combo.getStyleClass().add("adminBooks-category-combo");
+    }
+
+    private Button createStyledButton(String text, String styleClass, javafx.event.EventHandler<javafx.event.ActionEvent> action) {
+        Button button = new Button(text);
+        button.getStyleClass().add(styleClass);
+        button.setOnAction(action);
+        return button;
+    }
+
+    private void openAddDialog() {
+        new BookEditDialog().show((Stage) getScene().getWindow(), new NullBook(), this::refreshTable);
+    }
+
     private TableView<IBook> createTable() {
         table.getStyleClass().add("adminBooks-table");
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.setFixedCellSize(Region.USE_COMPUTED_SIZE);
         table.setPlaceholder(new Label(""));
-
         VBox.setMargin(table, new Insets(16, 24, 24, 24));
 
         table.getColumns().addAll(
@@ -176,9 +154,8 @@ public class BooksSection extends VBox {
         return column;
     }
 
-    private TableColumn<IBook, String> createColumn(String name, java.util.function.Function<IBook, String> mapper) {
+    private TableColumn<IBook, String> createColumn(String name, Function<IBook, String> mapper) {
         TableColumn<IBook, String> column = new TableColumn<>(name);
-
         column.setCellValueFactory(data -> new SimpleStringProperty(mapper.apply(data.getValue())));
         column.setCellFactory(col -> new TableCell<>() {
             private final Label label = new Label();
@@ -200,7 +177,6 @@ public class BooksSection extends VBox {
 
     private TableColumn<IBook, String> createRatingColumn() {
         TableColumn<IBook, String> column = new TableColumn<>("Evaluation");
-
         column.setCellValueFactory(data -> new SimpleStringProperty("4.5"));
         column.setCellFactory(col -> new TableCell<>() {
             private final Label label = new Label("4.5 / 5");
@@ -220,32 +196,27 @@ public class BooksSection extends VBox {
         return column;
     }
 
-
     private TableColumn<IBook, Void> createActionsColumn() {
         TableColumn<IBook, Void> column = new TableColumn<>("Actions");
         column.setCellFactory(col -> new TableCell<>() {
-            private final Button edit = new Button("✏");
-            private final Button delete = new Button("🗑");
+            private final Button edit = createStyledButton("\u270F", "adminBooks-style-6", e -> openEditDialog());
+            private final Button delete = createStyledButton("\uD83D\uDDD1", "adminBooks-style-7", e -> deleteBook());
             private final HBox container = new HBox(8, edit, delete);
 
             {
                 container.setAlignment(Pos.CENTER);
-                edit.getStyleClass().add("adminBooks-style-6");
-                delete.getStyleClass().add("adminBooks-style-7");
+            }
 
-                edit.setOnMouseClicked(e -> {
-                    IBook book = getTableView().getItems().get(getIndex());
-                    new BookEditDialog().show(
-                            (Stage) getScene().getWindow(), book, BooksSection.this::refreshTable
-                    );
-                });
+            private void openEditDialog() {
+                IBook book = getTableView().getItems().get(getIndex());
+                new BookEditDialog().show((Stage) getScene().getWindow(), book, BooksSection.this::refreshTable);
+            }
 
-                delete.setOnMouseClicked(e -> {
-                    IBook book = getTableView().getItems().get(getIndex());
-                    boolean removed = bookController.removeBook(book.getIsbn());
-                    if (removed) table.getItems().remove(book);
-                    else showError("Error deleting book.");
-                });
+            private void deleteBook() {
+                IBook book = getTableView().getItems().get(getIndex());
+                boolean removed = bookController.removeBook(book.getIsbn());
+                if (removed) table.getItems().remove(book);
+                else showError("Error deleting book.");
             }
 
             @Override
