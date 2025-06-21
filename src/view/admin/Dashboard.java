@@ -21,26 +21,23 @@ import view.admin.components.RecentUsersBox;
 import java.util.List;
 
 public class Dashboard extends VBox implements ViewSubject {
-    private final BookController bookController;
-    private final UserController userController;
-    private final LoanController loanController;
+    private final BookController bookController = BookController.getInstance();
+    private final UserController userController = UserController.getInstance();
+    private final LoanController loanController = LoanController.getInstance();
     private List<IBook> books;
     private List<IUser> users;
     private List<ILoan> loans;
-
     private ViewObserver observer;
 
     public Dashboard() {
-        this.bookController = BookController.getInstance();
-        this.userController = UserController.getInstance();
-        this.loanController = LoanController.getInstance();
+        setupLayout();
+        loadDashboardData();
+    }
 
+    private void setupLayout() {
         setMaxWidth(Double.MAX_VALUE);
         getStyleClass().add("adminDashboard-style-1");
-
-        createTopBar();
-        createPanoramic();
-        loadDashboardData();
+        getChildren().addAll(createTopBar(), createPanoramicLabel());
     }
 
     @Override
@@ -48,7 +45,7 @@ public class Dashboard extends VBox implements ViewSubject {
         this.observer = observer;
     }
 
-    private void createTopBar() {
+    private HBox createTopBar() {
         HBox topbar = new HBox();
         topbar.setAlignment(Pos.CENTER_LEFT);
         topbar.setPrefHeight(60);
@@ -58,14 +55,13 @@ public class Dashboard extends VBox implements ViewSubject {
         Label dashboardTitle = new Label("Dashboard");
         dashboardTitle.getStyleClass().add("adminDashboard-style-3");
         topbar.getChildren().add(dashboardTitle);
-
-        getChildren().add(topbar);
+        return topbar;
     }
 
-    private void createPanoramic() {
+    private Label createPanoramicLabel() {
         Label panoramicTitle = new Label("Panoramic");
         panoramicTitle.getStyleClass().add("adminDashboard-style-4");
-        getChildren().add(panoramicTitle);
+        return panoramicTitle;
     }
 
     private void createStats() {
@@ -75,9 +71,9 @@ public class Dashboard extends VBox implements ViewSubject {
         statsBox.setPadding(new Insets(0, 24, 24, 24));
 
         statsBox.getChildren().addAll(
-                statCard("📚", "Total Books", String.valueOf(bookController.getAllBooks().size()), "books"),
-                statCard("👥", "Registered Users", String.valueOf(userController.getAllUsers().size()), "users"),
-                statCard("🔄", "Total Loans", String.valueOf(loanController.getAllLoans().size()), "loans")
+                createStatCard("\uD83D\uDCDA", "Total Books", String.valueOf(books.size()), "books"),
+                createStatCard("\uD83D\uDC65", "Registered Users", String.valueOf(users.size()), "users"),
+                createStatCard("\uD83D\uDD04", "Total Loans", String.valueOf(loans.size()), "loans")
         );
 
         getChildren().add(statsBox);
@@ -98,35 +94,38 @@ public class Dashboard extends VBox implements ViewSubject {
         getChildren().add(recentSection);
     }
 
-    private VBox statCard(String icon, String title, String value, String viewName) {
+    private VBox createStatCard(String icon, String title, String value, String viewName) {
         VBox content = new VBox(4);
         content.setAlignment(Pos.CENTER_LEFT);
         content.setPadding(new Insets(10, 12, 10, 12));
 
         HBox top = new HBox(8);
+        top.setAlignment(Pos.CENTER_LEFT);
         Label iconLabel = new Label(icon);
         iconLabel.getStyleClass().add("adminDashboard-style-5");
         Label titleLabel = new Label(title);
         titleLabel.getStyleClass().add("adminDashboard-style-6");
         top.getChildren().addAll(iconLabel, titleLabel);
-        top.setAlignment(Pos.CENTER_LEFT);
 
         Label valueLabel = new Label(value);
         valueLabel.getStyleClass().add("adminDashboard-style-7");
 
-        content.getChildren().addAll(top, valueLabel);
+        Label actionLabel = createActionLabel(viewName);
 
+        VBox card = new VBox(content, actionLabel);
+        content.getChildren().addAll(top, valueLabel);
+        card.getStyleClass().add("adminDashboard-style-10");
+        card.setPrefSize(200, 100);
+        return card;
+    }
+
+    private Label createActionLabel(String viewName) {
         Label actionLabel = new Label("View All");
         actionLabel.getStyleClass().add("adminDashboard-style-8");
         actionLabel.setOnMouseEntered(e -> actionLabel.getStyleClass().add("adminDashboard-style-9"));
         actionLabel.setOnMouseExited(e -> actionLabel.getStyleClass().add("adminDashboard-style-8"));
         actionLabel.setOnMouseClicked(e -> notifyObserver(viewName));
-
-
-        VBox card = new VBox(content, actionLabel);
-        card.getStyleClass().add("adminDashboard-style-10");
-        card.setPrefSize(200, 100);
-        return card;
+        return actionLabel;
     }
 
     private void notifyObserver(String viewName) {
@@ -144,7 +143,7 @@ public class Dashboard extends VBox implements ViewSubject {
         bookController.loadBooksAsync(
                 books -> {
                     this.books = books;
-                    if (this.users != null && this.loans != null) renderDashboard();
+                    checkAndRender();
                 },
                 () -> showError("Failed to load books.")
         );
@@ -152,7 +151,7 @@ public class Dashboard extends VBox implements ViewSubject {
         userController.loadUsersAsync(
                 users -> {
                     this.users = users;
-                    if (this.books != null && this.loans != null) renderDashboard();
+                    checkAndRender();
                 },
                 () -> showError("Failed to load users.")
         );
@@ -160,10 +159,16 @@ public class Dashboard extends VBox implements ViewSubject {
         loanController.loadLoansAsync(
                 loans -> {
                     this.loans = loans;
-                    if (this.books != null && this.users != null) renderDashboard();
+                    checkAndRender();
                 },
                 () -> showError("Failed to load loans.")
         );
+    }
+
+    private void checkAndRender() {
+        if (books != null && users != null && loans != null) {
+            renderDashboard();
+        }
     }
 
     private void showError(String message) {
