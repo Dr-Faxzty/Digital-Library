@@ -13,28 +13,24 @@ import javafx.util.Duration;
 import java.util.List;
 
 public class UsersSection extends VBox {
-    private final UserController userController;
-    private final TextField searchField;
-    private final TableView<IUser> table;
-    private final Button searchButton;
-    private final ProgressIndicator loadingSpinner;
-    private final PauseTransition debounce;
+    private final UserController userController = UserController.getInstance();
+    private final TextField searchField = new TextField();
+    private final TableView<IUser> table = new TableView<>();
+    private final Button searchButton = new Button("🔍 Search");
+    private final ProgressIndicator loadingSpinner = new ProgressIndicator();
+    private final PauseTransition debounce = new PauseTransition(Duration.millis(300));
 
     public UsersSection() {
-        this.userController = UserController.getInstance();
-        this.searchField = new TextField();
-        this.table = new TableView<>();
-        this.searchButton = new Button("🔍 Search");
-        this.loadingSpinner = new ProgressIndicator();
-        this.debounce = new PauseTransition(Duration.millis(300));
-
-        styleContainer();
-        configureLoadingSpinner();
-        getChildren().addAll(createTitle(), createTopBar(), loadingSpinner, table);
-
+        setupLayout();
         configureSearchDebounce();
         setupTableColumns();
         refreshTable();
+    }
+
+    private void setupLayout() {
+        styleContainer();
+        configureLoadingSpinner();
+        getChildren().addAll(createTitleBar(), createTopBar(), loadingSpinner, table);
     }
 
     private void styleContainer() {
@@ -55,7 +51,7 @@ public class UsersSection extends VBox {
         loadingSpinner.setManaged(show);
     }
 
-    private HBox createTitle() {
+    private HBox createTitleBar() {
         Label title = new Label("Manage Users");
         title.getStyleClass().add("adminUsers-style-2-1");
 
@@ -105,10 +101,13 @@ public class UsersSection extends VBox {
 
     private TableColumn<IUser, String> createColumn(String name, java.util.function.Function<IUser, String> mapper) {
         TableColumn<IUser, String> column = new TableColumn<>(name);
-
         column.setCellValueFactory(data -> new SimpleStringProperty(mapper.apply(data.getValue())));
+        column.setCellFactory(col -> createCenteredCell());
+        return column;
+    }
 
-        column.setCellFactory(col -> new TableCell<>() {
+    private TableCell<IUser, String> createCenteredCell() {
+        return new TableCell<>() {
             private final HBox container = new HBox();
             private final Label label = new Label();
 
@@ -127,11 +126,8 @@ public class UsersSection extends VBox {
                     setGraphic(container);
                 }
             }
-        });
-
-        return column;
+        };
     }
-
 
     private TableColumn<IUser, Void> createActionsColumn() {
         TableColumn<IUser, Void> column = new TableColumn<>("Actions");
@@ -143,18 +139,18 @@ public class UsersSection extends VBox {
             {
                 container.setAlignment(Pos.CENTER);
                 delete.getStyleClass().add("adminUsers-style-5");
-
-                delete.setOnMouseClicked(e -> {
-                    IUser user = getTableView().getItems().get(getIndex());
-                    boolean removed = userController.removeUser(user.getTaxIdCode());
-                    if (removed) {
-                        getTableView().getItems().remove(user);
-                    } else {
-                        new Alert(Alert.AlertType.ERROR, "Error while deleting User").show();
-                    }
-                });
-
+                delete.setOnMouseClicked(e -> handleDelete());
                 container.getChildren().add(delete);
+            }
+
+            private void handleDelete() {
+                IUser user = getTableView().getItems().get(getIndex());
+                boolean removed = userController.removeUser(user.getTaxIdCode());
+                if (removed) {
+                    getTableView().getItems().remove(user);
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Error while deleting User").show();
+                }
             }
 
             @Override

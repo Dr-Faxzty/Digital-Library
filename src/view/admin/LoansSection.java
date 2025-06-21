@@ -18,12 +18,12 @@ public class LoansSection extends VBox {
     private final ProgressIndicator loadingSpinner = new ProgressIndicator();
 
     public LoansSection() {
-        initializeLayout();
+        setupLayout();
         setupTableColumns();
         loadData();
     }
 
-    private void initializeLayout() {
+    private void setupLayout() {
         setMaxWidth(Double.MAX_VALUE);
         getStyleClass().add("adminBooks-style-1");
 
