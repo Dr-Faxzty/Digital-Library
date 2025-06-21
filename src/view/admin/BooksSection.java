@@ -32,16 +32,16 @@ public class BooksSection extends VBox {
     private final PauseTransition debounce = new PauseTransition(Duration.millis(300));
 
     public BooksSection() {
-        styleContainer();
-        initLoadingSpinner();
-        getChildren().addAll(createTitle(), createTopBar(), loadingSpinner, createTable());
+        setupLayout();
         refreshTable();
     }
 
-    private void styleContainer() {
+    private void setupLayout() {
         setMaxWidth(Double.MAX_VALUE);
         getStyleClass().add("adminBooks-style-1");
         setAlignment(Pos.TOP_CENTER);
+        initLoadingSpinner();
+        getChildren().addAll(createTitle(), createTopBar(), loadingSpinner, createTable());
     }
 
     private void initLoadingSpinner() {
