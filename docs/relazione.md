@@ -1,4 +1,4 @@
-# Relazione Tecnica – Progetto Biblioteca Digitale
+# Relazione Tecnica – Biblioteca Digitale
 
 ## Introduzione al Progetto
 
@@ -155,7 +155,7 @@ Controller (Coordina l’azione)
 
 ---
 
-### Diagramma UMl della struttura del progetto
+### Diagramma UML della struttura del progetto
 
 ![Diagramma UML](img/uml.png)
 
@@ -169,7 +169,7 @@ Durante lo sviluppo del progetto sono stati utilizzati sette design pattern clas
 
 ### 1. Singleton
 
-📷 ![Singleton](pattern/singleton.png)
+![Singleton](img/pattern/singleton.png)
 
 In un sistema multi-componente, è spesso necessario avere **un unico punto di accesso** a determinati oggetti condivisi (come i controller o i manager). Per evitare istanziazioni multiple e garantire l’accesso globale a un'unica istanza, è stato applicato il pattern **Singleton**.
 
@@ -208,7 +208,7 @@ Questo pattern ha migliorato la robustezza del sistema e semplificato il codice 
 
 ### 3. Template Method
 
-📷 ![Template](pattern/template.png)
+![Template](img/pattern/template.png)
 
 Nel progetto è stato applicato il pattern **Template Method** per definire una struttura generica e riutilizzabile nella gestione della **persistenza dei dati su file JSON**.  
 Il punto centrale dell’implementazione è rappresentato dalla classe astratta:
@@ -246,7 +246,7 @@ In questo modo, la logica di persistenza rimane modulare, coerente e facilmente 
 
 ### 4. State
 
-📷 ![State](pattern/state.png)
+![State](img/pattern/state.png)
 
 Nel progetto, il pattern **State** è stato adottato per modellare il comportamento variabile di un **prestito** (`Loan`) in base al suo stato attuale: **in corso**, **scaduto**, oppure **restituito**.  
 Senza questo pattern, la gestione delle regole sarebbe ricaduta in una serie di controlli `if` o `switch` sparsi nella classe `Loan`, rendendo il codice poco manutenibile.
@@ -289,13 +289,13 @@ In questo modo, la logica di gestione degli stati rimane **pulita, chiara** e fa
 
 ### 5. Strategy
 
-📷 ![Strategy](pattern/strategy.png)
+![Strategy](img/pattern/strategy.png)
 
 ---
 
 ### 6. Adapter
 
-📷 ![Adapter](pattern/adapter.png)
+![Adapter](img/pattern/adapter.png)
 
 Nel progetto è stato applicato il pattern **Adapter** per garantire la compatibilità tra le **interfacce e classi di dominio** usate nel progetto e il sistema di **serializzazione JSON** basato su `Gson`.  
 Il punto centrale dell’implementazione è rappresentato dalle classi:
@@ -333,7 +333,7 @@ Gson gson = new GsonBuilder()
 
 ### 7. Observer
 
-📷 ![Observer](pattern/observer.png)
+![Observer](img/pattern/observer.png)
 
 Nel progetto è stato applicato il pattern **Observer** per gestire in modo disaccoppiato la **comunicazione tra componenti della GUI**.  
 Il punto centrale dell’implementazione è rappresentato dalle interfacce:
@@ -376,3 +376,65 @@ Invece di aggiornare manualmente ogni componente, si è implementato un sistema 
 
 ---
 
+## 🧪 7. Testing
+
+Il sistema è stato testato mediante una combinazione di **test unitari** e **test di integrazione**, con l'obiettivo di verificare il corretto funzionamento dei componenti principali e la stabilità delle interazioni tra moduli.  
+Il framework utilizzato per l’esecuzione dei test è:
+
+> `JUnit 5`
+
+---
+
+### ✅ Strategie adottate
+
+- **Test unitari**: applicati a singole classi, con particolare attenzione a:
+  - correttezza delle operazioni logiche (es. `LoanManager`)
+  - gestione dei dati (es. `JsonBookManager`)
+  - metodi di utilità e filtri (`BookQueryUtils`)
+
+- **Test di integrazione**: verificano il comportamento combinato di più componenti, ad esempio:
+  - `BookController` ↔ `BookManager` + `JsonBookManager`
+  - `LoanController` ↔ `LoanManager` + `BookManager`
+
+L’approccio seguito è stato *build-and-test*: ogni modulo è stato testato isolatamente subito dopo la sua implementazione, per facilitare il debug e garantire coerenza fin dalle prime fasi di sviluppo.
+
+---
+
+### 🧪 Classi testate
+
+#### **Unit test**
+| Package             | Classi testate                         |
+|---------------------|----------------------------------------|
+| `common.adapter`    | `InterfaceAdapterTest`, `LocalDateAdapterTest` |
+| `model`             | `BookTest`, `LoanTest`                 |
+| `manager`           | `BookManagerTest`, `LoanManagerTest`   |
+| `persistence`       | `JsonTemplateManagerTest`              |
+| `common.nullObject` | `NullBookTest`, `NullLoanTest`         |
+| `common.state`      | `ExpiredStateTest`                     |
+| `common.strategy`   | `AuthorSortStrategyTest`, `BookSortStrategyFactoryTest` |
+| `utils`             | `BookQueryUtilsTest`, `FxTaskRunnerTest` |
+
+#### **Integration test**
+| Package       | Classi testate                       |
+|---------------|--------------------------------------|
+| `controller`  | `BookControllerTest`, `LoanControllerTest` |
+
+---
+
+### 🗂️ Struttura della cartella `test/`
+```
+Digital-Library/
+├── test/
+│ ├── common/
+│ │ ├── adapter/
+│ │ ├── nullObject/
+│ │ ├── state/
+│ │ └── strategy/
+│ ├── controller/
+│ ├── manager/
+│ ├── model/
+│ ├── persistence/
+│ └── utils/
+```
+
+---
