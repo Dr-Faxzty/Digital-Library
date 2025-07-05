@@ -73,7 +73,7 @@ Particolare attenzione è stata data alla separazione tra interfaccia e logica, 
 
 ---
 
-### 📊 Diagramma di Gantt
+### Diagramma di Gantt
 
 Per rappresentare visivamente l'avanzamento del lavoro e la suddivisione temporale delle fasi, è stato realizzato il seguente diagramma di Gantt:
 
@@ -185,7 +185,7 @@ Tutte queste classi implementano la tipica logica `getInstance()` e costruttore 
 
 ### 2. Null Object
 
-📷 ![NullObject](pattern/nullobject.png)
+![NullObject](pattern/nullobject.png)
 
 Nel sistema era necessario **gestire i casi in cui una ricerca non produce risultati**, ad esempio:
 
@@ -290,6 +290,58 @@ In questo modo, la logica di gestione degli stati rimane **pulita, chiara** e fa
 ### 5. Strategy
 
 ![Strategy](img/pattern/strategy.png)
+
+Nel progetto è stato applicato il pattern **Strategy** per fornire criteri di ordinamento intercambiabili dei libri, selezionabili dinamicamente in base all'input dell’utente.  
+Il punto centrale dell’implementazione è rappresentato dall’interfaccia:
+
+> `BookSortStrategy`
+
+Questa interfaccia non applica direttamente un algoritmo, ma **fornisce un oggetto `Comparator<IBook>`** tramite il metodo:
+
+```java
+Comparator<IBook> getComparator();
+```
+
+Il comparator viene poi utilizzato nel punto centrale di elaborazione dei risultati (BookQueryUtils) per applicare l’ordinamento.
+
+---
+
+#### Strategie concrete
+
+Le classi che implementano `BookSortStrategy` sono:
+- `TitleSortStrategy` → restituisce un Comparator che ordina per titolo alfabetico
+- `AuthorSortStrategy` → ordina per autore
+- `MostRecentSortStrategy` → ordina per data di pubblicazione in ordine decrescente
+
+Ogni classe implementa `getComparator()` secondo il criterio specifico, lasciando a chi utilizza la strategia la responsabilità di eseguire materialmente l’ordinamento.
+
+---
+
+#### Selezione dinamica della strategia
+La strategia viene selezionata a runtime tramite:
+
+> `BookSortStrategyFactory`
+
+che espone il metodo statico:
+
+```java
+BookSortStrategy getStrategy(BookOrderType type);
+```
+
+dove `BookOrderType` è un `enum` con i valori `TITLE`, `AUTHOR`, `RECENT`.
+
+---
+
+#### Applicazione in `BookQueryUtils`
+L'ordinamento non viene eseguito all’interno della strategia, ma in `BookQueryUtils`, che riceve la strategia esternamente e applica il `Comparator` restituito.
+
+Inoltre, **il filtraggio e l’ordinamento avvengono nello stesso punto**, in modo coeso:
+
+```java
+List<IBook> getFilteredBooks(List<IBook> books, BookCategoryType category, BookOrderType orderType);
+```
+
+La separazione tra filtro e strategia rimane, ma l'applicazione concreta avviene nel medesimo metodo.
 
 ---
 
@@ -526,3 +578,34 @@ Il codice è stato strutturato seguendo l’architettura MVC e arricchito con se
 ---
 
 Nel complesso, il progetto si è rivelato un’occasione efficace per consolidare conoscenze teoriche e affrontare sfide concrete di progettazione software.
+
+---
+
+## 📘 Riferimenti
+
+### Libri e Materiale Accademico
+
+* *Gamma, Helm, Johnson, Vlissides*. **Design Patterns: Elements of Reusable Object-Oriented Software**. Addison-Wesley, 1994.
+  Testo fondativo sui design pattern, da cui provengono i 7 pattern applicati nel progetto.
+
+* Appunti e slide del corso di **Ingegneria del Software** – Università di Catania.
+
+---
+
+### Risorse Tecniche
+
+* **Gson – Google JSON library for Java**
+  [https://github.com/google/gson](https://github.com/google/gson)
+
+* **JavaFX Documentation**
+  [https://openjfx.io/](https://openjfx.io/)
+
+* **JUnit 5 Documentation**
+  [https://junit.org/junit5/](https://junit.org/junit5/)
+
+---
+
+### Approfondimenti Utili
+
+* **Refactoring.Guru – Pattern object-oriented illustrati**
+  [https://refactoring.guru/design-patterns](https://refactoring.guru/design-patterns)
