@@ -113,7 +113,7 @@ Digital-Library/
 │ └── MainApp.java
 ├── test/ 
 │ ├── common/ 
-│ │     ├── adaper/
+│ │     ├── adapter/
 │ │     ├── nullObject/
 │ │     ├── state/
 │ │     └── strategy/
@@ -345,7 +345,7 @@ Queste due interfacce definiscono un **meccanismo di registrazione e notifica** 
 
 ---
 
-#### 🧩 Obiettivo dell'Observer
+#### Obiettivo dell'Observer
 
 All’interno dell’applicazione, alcune componenti della vista devono reagire automaticamente a **cambiamenti di stato**, come ad esempio:
 - il login di un utente
@@ -356,7 +356,7 @@ Invece di aggiornare manualmente ogni componente, si è implementato un sistema 
 
 ---
 
-#### 📦 Interfacce definite
+#### Interfacce definite
 
 - **`ViewObserver`**  
   Definisce il metodo:
@@ -385,7 +385,7 @@ Il framework utilizzato per l’esecuzione dei test è:
 
 ---
 
-### ✅ Strategie adottate
+### Strategie adottate
 
 - **Test unitari**: applicati a singole classi, con particolare attenzione a:
   - correttezza delle operazioni logiche (es. `LoanManager`)
@@ -396,11 +396,12 @@ Il framework utilizzato per l’esecuzione dei test è:
   - `BookController` ↔ `BookManager` + `JsonBookManager`
   - `LoanController` ↔ `LoanManager` + `BookManager`
 
-L’approccio seguito è stato *build-and-test*: ogni modulo è stato testato isolatamente subito dopo la sua implementazione, per facilitare il debug e garantire coerenza fin dalle prime fasi di sviluppo.
+I test sono stati realizzati **nella fase conclusiva del progetto**, una volta completata l’implementazione delle funzionalità principali.  
+Questo ha permesso di validare il comportamento del sistema nel suo complesso e di individuare eventuali regressioni o anomalie logiche prima della consegna finale.
 
 ---
 
-### 🧪 Classi testate
+### Classi testate
 
 #### **Unit test**
 | Package             | Classi testate                         |
@@ -438,3 +439,90 @@ Digital-Library/
 ```
 
 ---
+
+## 📈 8. Statistiche e Funzionalità Extra
+
+Oltre ai requisiti funzionali minimi, il sistema implementa alcune **funzionalità aggiuntive** che arricchiscono l’esperienza d’uso e offrono strumenti utili per l’analisi e l’interazione con il catalogo.
+
+---
+
+### Statistiche
+
+Il sistema fornisce una sezione dedicata alla visualizzazione di **statistiche dinamiche**, accessibile tramite l’interfaccia admin.  
+Le statistiche vengono calcolate runtime a partire dai dati presenti nei file JSON e includono:
+
+- **Libri totali**  
+  Conteggio globale dei libri registrati nel sistema.
+
+- **Utenti totali**  
+  Conteggio globale degli utenti registrati nel sistema.
+
+- **Prestiti totali**  
+  Conteggio globale dei prestiti registrati nel sistema.
+
+- **Libri e Utenti recenti**  
+  Selezione dei libri e utenti più recenti per evidenziare l'attività attuale della biblioteca.
+
+---
+
+### Funzionalità Extra
+
+Oltre alle funzionalità previste nei requisiti, sono state implementate le seguenti estensioni:
+
+- **Interfaccia grafica con JavaFX**  
+  L’interfaccia testuale (CLI) è stata completamente sostituita da una GUI responsive, con viste distinte per utenti normali e amministratori.
+
+- **Filtri avanzati e ordinamento dinamico**  
+  I libri possono essere filtrati per categoria, autore e disponibilità, e ordinati per titolo, autore o data in modo runtime grazie al pattern Strategy.
+
+- **Separazione completa View ↔ Controller ↔ Model**  
+  Implementazione pulita dell’architettura MVC, che facilita manutenzione e test.
+
+- **Persistenza asincrona**  
+  Tutte le operazioni di lettura e scrittura su file avvengono in background tramite `FxTaskRunner`, migliorando la reattività della GUI.
+
+- **Copertura test unitari ed integration test**  
+  Ampia copertura delle funzionalità chiave tramite `JUnit`, anche se introdotti nella fase finale, hanno migliorato l'affidabilità del sistema.
+
+- **Estensibilità modulare**  
+  L'intero sistema è pensato per essere facilmente estendibile con nuovi tipi di entità o nuove strategie di filtraggio, grazie alla modularità introdotta dai pattern GoF.
+
+---
+
+Queste funzionalità aggiuntive hanno reso il progetto più solido, usabile e vicino a una reale applicazione desktop per la gestione di una biblioteca.
+
+---
+
+## 📎 9. Conclusione
+
+Lo sviluppo del progetto **Biblioteca Digitale** ci ha permesso di mettere in pratica molte delle competenze acquisite durante il corso, sia sul piano tecnico che organizzativo.  
+Il lavoro di squadra, la divisione modulare del codice e l’adozione consapevole dei design pattern hanno contribuito a realizzare un sistema funzionale, pulito e facilmente estendibile.
+
+---
+
+### Bilancio del lavoro svolto
+
+Siamo riusciti a implementare tutte le funzionalità richieste, integrando anche numerose estensioni: GUI completa, statistiche, ordinamento dinamico, persistenza asincrona, e una copertura di test soddisfacente.  
+Il codice è stato strutturato seguendo l’architettura MVC e arricchito con sette design pattern GoF, applicati in contesti concreti e motivati.
+
+---
+
+### Difficoltà incontrate
+
+- **Gestione dello stato dei prestiti**: inizialmente implementato in modo procedurale, è stato poi rifattorizzato applicando il pattern State.
+- **Compatibilità con Gson**: la serializzazione di interfacce e di `LocalDate` ha richiesto l’introduzione di adapter dedicati.
+- **Separazione View ↔ Controller**: nelle prime fasi c’erano accoppiamenti eccessivi tra la GUI e la logica; risolto con un refactoring strutturato.
+- **Testing tardivo**: i test sono stati introdotti solo nella fase finale, rendendo più difficile intercettare bug nelle prime versioni.
+
+---
+
+### Cosa avremmo migliorato con più tempo
+
+- Introduzione precoce dei test automatici, per abilitare un workflow TDD o almeno test-after modulare.
+- Miglior gestione dello styling della GUI (CSS), per rendere l'interfaccia più curata anche visivamente.
+- Un sistema di logging strutturato, per facilitare debugging e monitoraggio interno.
+- Supporto multiutente con sessioni persistenti o autenticazione avanzata.
+
+---
+
+Nel complesso, il progetto si è rivelato un’occasione efficace per consolidare conoscenze teoriche e affrontare sfide concrete di progettazione software.
