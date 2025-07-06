@@ -43,7 +43,7 @@
 ### 📥 Clonazione del progetto
 
 ```bash
-git clone https://github.com/<nome-utente>/digital-library.git
+git clone https://github.com/Dr-Faxzty/Digital-Library.git
 cd digital-library
 ```
 
