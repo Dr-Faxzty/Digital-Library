@@ -71,10 +71,10 @@ I requisiti non funzionali descrivono aspetti qualitativi del sistema:
 #### Requisiti di Sistema
 
 1. Requisiti Software
-- **Linguaggio:** Java 23 o superiore.
-- **Ambiente di esecuzione:** Java Runtime Environment compatibile con JavaFX.
+- **Build system:** Apache Maven per la gestione delle dipendenze, della compilazione, del run e del testing.
 - **Persistenza:** Archiviazione su file JSON (no database).
-- **Librerie esterne:** Gson (per la serializzazione JSON).
+- **Librerie esterne:** Gson (per la serializzazione JSON), JavaFX (tramite plugin Maven), JUnit 5 (per i test automatizzati).
+
 
 2. Requisiti Hardware
 - **Sistema operativo:** Windows, macOS o Linux.
@@ -139,43 +139,42 @@ Il progetto è strutturato seguendo il paradigma **MVC (Model–View–Controlle
 
 ### 📁 Struttura dei pacchetti
 
-La struttura dei pacchetti del progetto è la seguente:(da ultimare)
+La struttura dei pacchetti del progetto è la seguente:
 ```
 Digital-Library/
+├── pom.xml
 ├── database/
 ├── docs/
 ├── src/
-│ ├── common/
-│ │     ├── adaper/
-│ │     ├── enums/
-│ │     ├── interfaces/
-│ │     ├── nullObject/
-│ │     ├── observer/
-│ │     ├── state/
-│ │     └── strategy/
-│ ├── controller/ 
-│ ├── manager/ 
-│ ├── model/ 
-│ ├── persistence/ 
-│ ├── style/ 
-│ ├── utils/ 
-│ ├── view/
-│ │     ├── admin/
-│ │     └── user/
-│ └── MainApp.java
-├── test/ 
-│ ├── common/ 
-│ │     ├── adapter/
-│ │     ├── nullObject/
-│ │     ├── state/
-│ │     └── strategy/
-│ ├── controller/ 
-│ ├── manager/
-│ ├── model/
-│ ├── persistence/
-│ └── utils/ 
-├── README.md 
-└── .gitignore 
+│ ├── main/
+│ │   ├── java/
+│ │   │   └── it/
+│ │   │       └── yellowradiators/
+│ │   │           ├── common/
+│ │   │           │   ├── adapter/
+│ │   │           │   ├── enums/
+│ │   │           │   ├── interfaces/
+│ │   │           │   ├── nullObject/
+│ │   │           │   ├── observer/
+│ │   │           │   ├── state/
+│ │   │           │   └── strategy/
+│ │   │           ├── controller/
+│ │   │           ├── manager/
+│ │   │           ├── model/
+│ │   │           ├── persistence/
+│ │   │           ├── style/
+│ │   │           ├── utils/
+│ │   │           ├── view/
+│ │   │           │   ├── admin/
+│ │   │           │   └── user/
+│ │   │           └── MainApp.java
+│ │   └── resources/
+│ │       ├── style/
+│ │       └── view/
+│ └── test/
+├── README.md
+└── .gitignore
+
 ```
 
 ---
@@ -510,6 +509,16 @@ Invece di aggiornare manualmente ogni componente, si è implementato un sistema 
 
 ---
 
+**Perché non Mediator?**
+
+Il pattern **`Mediator`** viene solitamente adottato quando più componenti devono interagire **in modo complesso e bidirezionale**, centralizzando la logica di coordinamento.
+
+Nel nostro caso, però, il **flusso di interazione era semplice e unidirezionale** (es. Sidebar → aggiornamento della AdminView).
+Per questo motivo, l’uso di **`Observer`** è risultato più naturale e leggero da integrare.
+
+> **Considerazione futura**:
+Se il sistema dovesse evolversi per includere **più viste che interagiscono tra loro o flussi più intricati**, sarà opportuno valutare la sostituzione con un **`Mediator`** per mantenere disaccoppiamento e scalabilità.
+
 ---
 
 📌 **Diagramma UML**
@@ -566,16 +575,20 @@ Questo ha permesso di validare il comportamento del sistema nel suo complesso e 
 ```
 Digital-Library/
 ├── test/
-│ ├── common/
-│ │ ├── adapter/
-│ │ ├── nullObject/
-│ │ ├── state/
-│ │ └── strategy/
-│ ├── controller/
-│ ├── manager/
-│ ├── model/
-│ ├── persistence/
-│ └── utils/
+   └── java/
+       └── it/
+           └── yellowradiators/
+               ├── common/
+               │   ├── adapter/
+               │   ├── nullObject/
+               │   ├── observer/
+               │   ├── state/
+               │   └── strategy/
+               ├── controller/
+               ├── manager/
+               ├── model/
+               ├── persistence/
+               └── utils/
 ```
 
 ---
