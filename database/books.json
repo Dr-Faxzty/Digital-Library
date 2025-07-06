@@ -5,7 +5,7 @@
     "author": "Umberto Eco",
     "date": "2025-05-05",
     "type": "Narrative",
-    "available": false,
+    "available": true,
     "urlImage": "https://images-na.ssl-images-amazon.com/images/I/71g40mlbinL._AC_UL600_SR600,600_.jpg"
   },
   {
@@ -14,7 +14,7 @@
     "author": "George Orwell",
     "date": "2025-05-05",
     "type": "Non-fiction",
-    "available": false,
+    "available": true,
     "urlImage": "https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg"
   },
   {
@@ -32,7 +32,7 @@
     "author": "Elena Ferrante",
     "date": "2025-05-05",
     "type": "Narrative",
-    "available": false,
+    "available": true,
     "urlImage": "https://images-na.ssl-images-amazon.com/images/I/91S9mV9UJiL.jpg"
   },
   {
