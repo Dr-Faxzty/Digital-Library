@@ -22,6 +22,7 @@ import it.yellowradiators.view.user.components.CategorySelector;
 import it.yellowradiators.view.user.components.LoanCard;
 import it.yellowradiators.view.user.components.TopBar;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -67,24 +68,22 @@ public class HomePage extends VBox {
         section.setStyle("-fx-padding: 32 32 0 32;");
 
         createBookGrid();
-        refreshBooks();
+        refreshBooks(); // iniziale asincrono
 
         section.getChildren().addAll(CreateLabel("Added recently", "recent-label"), bookGrid);
         getChildren().add(section);
     }
 
-    private VBox CreateSection(int x){
+    private VBox CreateSection(int spacing) {
         VBox section = new VBox();
-        section.setSpacing(x);
-
+        section.setSpacing(spacing);
         return section;
     }
 
-    private Label CreateLabel(String title, String StyleClass) {
-        Label recentLabel = new Label(title);
-        recentLabel.getStyleClass().add(StyleClass);
-
-        return recentLabel;
+    private Label CreateLabel(String title, String styleClass) {
+        Label label = new Label(title);
+        label.getStyleClass().add(styleClass);
+        return label;
     }
 
     private void createBookGrid() {
@@ -104,46 +103,51 @@ public class HomePage extends VBox {
     }
 
     private void refreshBooks() {
-        List<IBook> books = bookController.getAllBooks();
-        BookOrderType orderType = BookOrderType.fromLabel(orderCombo.getValue());
-        BookCategoryType categoryType = BookCategoryType.fromLabel(selectedCategory[0]);
-        List<IBook> filtered = BookQueryUtils.getFilteredBooks(books, categoryType, orderType);
+        bookController.loadBooksAsync(books -> {
+            BookOrderType orderType = BookOrderType.fromLabel(orderCombo.getValue());
+            BookCategoryType categoryType = BookCategoryType.fromLabel(selectedCategory[0]);
+            List<IBook> filtered = BookQueryUtils.getFilteredBooks(books, categoryType, orderType);
 
-        if (!searchBar.getText().isBlank()) {
-            String search = searchBar.getText().toLowerCase();
-            filtered = filtered.stream()
-                    .filter(book ->
-                            book.getTitle().toLowerCase().contains(search) ||
-                                    book.getAuthor().toLowerCase().contains(search) ||
-                                    book.getType().toLowerCase().contains(search)
-                    )
-                    .toList();
-        }
+            if (!searchBar.getText().isBlank()) {
+                String search = searchBar.getText().toLowerCase();
+                filtered = filtered.stream()
+                        .filter(book -> book.getTitle().toLowerCase().contains(search)
+                                || book.getAuthor().toLowerCase().contains(search)
+                                || book.getType().toLowerCase().contains(search))
+                        .toList();
+            }
 
-        updateBooksUI(filtered);
+            updateBooksUI(filtered);
+        }, () -> {
+            System.err.println("❌ Failed to load books.");
+            updateBooksUI(new ArrayList<>()); // fallback vuoto
+        });
     }
 
     private void createLoanListSection() {
         VBox section = CreateSection(24);
-        setStyle("-fx-padding: 32 32 32 32;");
+        section.setStyle("-fx-padding: 32 32 32 32;");
 
-        section.getChildren().addAll(
-                createLoanSubsection("\uD83D\uDCDA In Progress", ILoan::isInProgress, "#28a745"),
-                createLoanSubsection("⌛ Expired", ILoan::isExpired, "#dc3545"),
-                createLoanSubsection("✔ Returned", ILoan::isReturned, "#007bff")
-        );
+        loanController.loadLoansAsync(loans -> {
+            section.getChildren().addAll(
+                    createLoanSubsection("📚 In Progress", loans, ILoan::isInProgress, "#28a745"),
+                    createLoanSubsection("⌛ Expired", loans, ILoan::isExpired, "#dc3545"),
+                    createLoanSubsection("✔ Returned", loans, ILoan::isReturned, "#007bff")
+            );
+        }, () -> {
+            System.err.println("❌ Failed to load loans.");
+        });
 
         getChildren().add(section);
     }
 
-    private VBox createLoanSubsection(String title, Predicate<ILoan> filter, String color) {
+    private VBox createLoanSubsection(String title, List<ILoan> loans, Predicate<ILoan> filter, String color) {
         VBox box = CreateSection(12);
-
         FlowPane loanGrid = CreateLoanGrid();
 
-        List<ILoan> filteredLoans = loanController.searchLoans(loan ->
-                loan.getUser().equals(SessionManager.getInstance().getLoggedUser()) && filter.test(loan)
-        );
+        List<ILoan> filteredLoans = loans.stream()
+                .filter(loan -> loan.getUser().equals(SessionManager.getInstance().getLoggedUser()) && filter.test(loan))
+                .toList();
 
         for (ILoan loan : filteredLoans) {
             loanGrid.getChildren().add(new LoanCard(loan, title.replaceAll("^[^a-zA-Z]+", ""), color));
@@ -159,7 +163,6 @@ public class HomePage extends VBox {
         loanGrid.setVgap(16);
         loanGrid.setPrefWrapLength(800);
         loanGrid.setPadding(new Insets(4, 0, 0, 0));
-
         return loanGrid;
     }
 }
