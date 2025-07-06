@@ -1,0 +1,41 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36" version="27.2.0">
+  <diagram id="YRRXyzN4WS-fG_E25hdI" name="Page-1">
+    <mxGraphModel dx="1442" dy="927" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="node1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;InterfaceAdapter&lt;T&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ serialize(T, Type, JsonSerializationContext): JsonElement&lt;br/&gt;+ deserialize(JsonElement, Type, JsonDeserializationContext): T&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="-196" y="-13" width="437" height="83" as="geometry" />
+        </mxCell>
+        <mxCell id="node2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;JsonTemplateManager&lt;T&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ load(): List&amp;lt;T&amp;gt;&lt;br/&gt;+ saveAsync(List&amp;lt;T&amp;gt;, Consumer&amp;lt;Boolean&amp;gt;, Runnable): void&lt;br/&gt;+ loadAsync(Consumer&amp;lt;List&amp;lt;T&amp;gt;&amp;gt;, Runnable): void&lt;br/&gt;+ save(List&amp;lt;T&amp;gt;): boolean&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="39" y="182" width="415" height="133" as="geometry" />
+        </mxCell>
+        <mxCell id="node0" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;LocalDateAdapter&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ serialize(LocalDate, Type, JsonSerializationContext): JsonElement&lt;br/&gt;+ deserialize(JsonElement, Type, JsonDeserializationContext): LocalDate&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="257" y="-13" width="491" height="83" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=openThin;endSize=12;strokeColor=#A8201A;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node2" target="node1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="246" y="123" />
+              <mxPoint x="22" y="123" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label8" value="«create»" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#0F8B8D;labelBackgroundColor=none;fontColor=#143642;" parent="edge1" vertex="1" connectable="0">
+          <mxGeometry x="-28" y="75" as="geometry" />
+        </mxCell>
+        <mxCell id="edge0" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=openThin;endSize=12;strokeColor=#A8201A;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node2" target="node0" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="246" y="125" />
+              <mxPoint x="502" y="125" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label2" value="«create»" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#0F8B8D;labelBackgroundColor=none;fontColor=#143642;" parent="edge0" vertex="1" connectable="0">
+          <mxGeometry x="450" y="75" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

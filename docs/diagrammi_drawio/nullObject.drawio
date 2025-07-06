@@ -1,0 +1,102 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36" version="27.2.0">
+  <diagram id="3PShFw58MGyXKQ5YeNR1" name="Page-1">
+    <mxGraphModel dx="1747" dy="479" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="node6" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Book&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setTitle(String): void&lt;br/&gt;+ getType(): String&lt;br/&gt;+ setUrlImage(String): void&lt;br/&gt;+ getDate(): LocalDate&lt;br/&gt;+ getTitle(): String&lt;br/&gt;+ setIsbn(String): void&lt;br/&gt;+ getAuthor(): String&lt;br/&gt;+ toString(): String&lt;br/&gt;+ setAvailable(boolean): void&lt;br/&gt;+ isNull(): boolean&lt;br/&gt;+ available(): boolean&lt;br/&gt;+ setAuthor(String): void&lt;br/&gt;+ getIsbn(): String&lt;br/&gt;+ setDate(LocalDate): void&lt;br/&gt;+ getUrlImage(): String&lt;br/&gt;+ setType(String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="446" y="99" width="215" height="399" as="geometry" />
+        </mxCell>
+        <mxCell id="node3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;IBook&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getAuthor(): String&lt;br/&gt;+ setDate(LocalDate): void&lt;br/&gt;+ getDate(): LocalDate&lt;br/&gt;+ isNull(): boolean&lt;br/&gt;+ setUrlImage(String): void&lt;br/&gt;+ setAuthor(String): void&lt;br/&gt;+ setType(String): void&lt;br/&gt;+ getTitle(): String&lt;br/&gt;+ available(): boolean&lt;br/&gt;+ setAvailable(boolean): void&lt;br/&gt;+ getUrlImage(): String&lt;br/&gt;+ getType(): String&lt;br/&gt;+ setTitle(String): void&lt;br/&gt;+ getIsbn(): String&lt;br/&gt;+ setIsbn(String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="25" y="87" width="215" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="node4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;ILoan&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setUser(IUser): void&lt;br/&gt;+ getLoanDate(): LocalDate&lt;br/&gt;+ setReturnDate(LocalDate): void&lt;br/&gt;+ setBook(IBook): void&lt;br/&gt;+ getExpirationDate(): LocalDate&lt;br/&gt;+ isReturned(): boolean&lt;br/&gt;+ getState(): LoanState&lt;br/&gt;+ isNull(): boolean&lt;br/&gt;+ setLoanDate(LocalDate): void&lt;br/&gt;+ isExpired(): boolean&lt;br/&gt;+ getId(): int&lt;br/&gt;+ getUser(): IUser&lt;br/&gt;+ getBook(): IBook&lt;br/&gt;+ getReturnDate(): LocalDate&lt;br/&gt;+ isInProgress(): boolean&lt;br/&gt;+ setExpirationDate(LocalDate): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="-23" y="636" width="263" height="414" as="geometry" />
+        </mxCell>
+        <mxCell id="node5" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;IUser&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setTaxIdCode(String): void&lt;br/&gt;+ getRole(): Role&lt;br/&gt;+ setPassword(String): void&lt;br/&gt;+ getTaxIdCode(): String&lt;br/&gt;+ getEmail(): String&lt;br/&gt;+ getName(): String&lt;br/&gt;+ setEmail(String): void&lt;br/&gt;+ setRole(Role): void&lt;br/&gt;+ isNull(): boolean&lt;br/&gt;+ setName(String): void&lt;br/&gt;+ setSurname(String): void&lt;br/&gt;+ getSurname(): String&lt;br/&gt;+ getPassword(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="2" y="1248" width="213" height="342" as="geometry" />
+        </mxCell>
+        <mxCell id="node7" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Loan&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setReturnDate(LocalDate): void&lt;br/&gt;+ equals(Object): boolean&lt;br/&gt;+ toString(): String&lt;br/&gt;+ getState(): LoanState&lt;br/&gt;+ getReturnDate(): LocalDate&lt;br/&gt;+ getBook(): IBook&lt;br/&gt;+ getUser(): IUser&lt;br/&gt;+ getExpirationDate(): LocalDate&lt;br/&gt;+ setUser(IUser): void&lt;br/&gt;- updateState(): void&lt;br/&gt;+ isReturned(): boolean&lt;br/&gt;+ setExpirationDate(LocalDate): void&lt;br/&gt;+ setLoanDate(LocalDate): void&lt;br/&gt;+ isNull(): boolean&lt;br/&gt;+ isInProgress(): boolean&lt;br/&gt;+ isExpired(): boolean&lt;br/&gt;+ getId(): int&lt;br/&gt;+ getLoanDate(): LocalDate&lt;br/&gt;+ setBook(IBook): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="377" y="636" width="263" height="468" as="geometry" />
+        </mxCell>
+        <mxCell id="node1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;NullBook&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setTitle(String): void&lt;br/&gt;+ getUrlImage(): String&lt;br/&gt;+ getAuthor(): String&lt;br/&gt;+ isNull(): boolean&lt;br/&gt;+ toString(): String&lt;br/&gt;+ getType(): String&lt;br/&gt;+ getTitle(): String&lt;br/&gt;+ setAuthor(String): void&lt;br/&gt;+ getIsbn(): String&lt;br/&gt;+ available(): boolean&lt;br/&gt;+ setIsbn(String): void&lt;br/&gt;+ getDate(): LocalDate&lt;br/&gt;+ setAvailable(boolean): void&lt;br/&gt;+ setDate(LocalDate): void&lt;br/&gt;+ setType(String): void&lt;br/&gt;+ setUrlImage(String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="-384" y="110" width="215" height="399" as="geometry" />
+        </mxCell>
+        <mxCell id="node2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;NullLoan&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setReturnDate(LocalDate): void&lt;br/&gt;+ toString(): String&lt;br/&gt;+ getState(): LoanState&lt;br/&gt;+ getExpirationDate(): LocalDate&lt;br/&gt;+ isInProgress(): boolean&lt;br/&gt;+ setLoanDate(LocalDate): void&lt;br/&gt;+ setBook(IBook): void&lt;br/&gt;+ setExpirationDate(LocalDate): void&lt;br/&gt;+ getBook(): IBook&lt;br/&gt;+ getId(): int&lt;br/&gt;+ getUser(): IUser&lt;br/&gt;+ getLoanDate(): LocalDate&lt;br/&gt;+ getReturnDate(): LocalDate&lt;br/&gt;+ isReturned(): boolean&lt;br/&gt;+ isNull(): boolean&lt;br/&gt;+ isExpired(): boolean&lt;br/&gt;+ setUser(IUser): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="-408" y="644" width="263" height="422" as="geometry" />
+        </mxCell>
+        <mxCell id="node0" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;NullUser&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setTaxIdCode(String): void&lt;br/&gt;+ isNull(): boolean&lt;br/&gt;+ getRole(): Role&lt;br/&gt;+ setName(String): void&lt;br/&gt;+ setEmail(String): void&lt;br/&gt;+ toString(): String&lt;br/&gt;+ getPassword(): String&lt;br/&gt;+ getName(): String&lt;br/&gt;+ getSurname(): String&lt;br/&gt;+ setRole(Role): void&lt;br/&gt;+ getEmail(): String&lt;br/&gt;+ setPassword(String): void&lt;br/&gt;+ getTaxIdCode(): String&lt;br/&gt;+ setSurname(String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="-383" y="1225" width="213" height="353" as="geometry" />
+        </mxCell>
+        <mxCell id="node8" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;User&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getName(): String&lt;br/&gt;+ getPassword(): String&lt;br/&gt;+ setRole(Role): void&lt;br/&gt;+ getEmail(): String&lt;br/&gt;+ getRole(): Role&lt;br/&gt;+ setPassword(String): void&lt;br/&gt;+ setTaxIdCode(String): void&lt;br/&gt;+ setEmail(String): void&lt;br/&gt;+ getSurname(): String&lt;br/&gt;+ getTaxIdCode(): String&lt;br/&gt;+ isNull(): boolean&lt;br/&gt;+ toString(): String&lt;br/&gt;+ setName(String): void&lt;br/&gt;+ setSurname(String): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" parent="1" vertex="1">
+          <mxGeometry x="427" y="1236" width="213" height="353" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#A8201A;exitX=0.000;exitY=0.471;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node6" target="node3" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge6" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=diamondThinstartSize=12;endArrow=openThin;endSize=12;strokeColor=#A8201A;exitX=0.557;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node7" target="node3" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="523" y="572" />
+              <mxPoint x="133" y="572" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label36" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#0F8B8D;labelBackgroundColor=none;fontColor=#143642;" parent="edge6" vertex="1" connectable="0">
+          <mxGeometry x="137" y="493" as="geometry" />
+        </mxCell>
+        <mxCell id="label40" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#0F8B8D;labelBackgroundColor=none;fontColor=#143642;" parent="edge6" vertex="1" connectable="0">
+          <mxGeometry x="137" y="548" as="geometry" />
+        </mxCell>
+        <mxCell id="label41" value="book" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#0F8B8D;labelBackgroundColor=none;fontColor=#143642;" parent="edge6" vertex="1" connectable="0">
+          <mxGeometry x="90" y="493" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#A8201A;exitX=0.000;exitY=0.547;exitDx=0;exitDy=0;entryX=1.000;entryY=0.641;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node7" target="node4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge7" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=diamondThinstartSize=12;endArrow=openThin;endSize=12;strokeColor=#A8201A;exitX=0.000;exitY=0.890;exitDx=0;exitDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="109" y="1070.48" />
+            </Array>
+            <mxPoint x="377" y="1069.9999999999998" as="sourcePoint" />
+            <mxPoint x="109" y="1250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label42" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#0F8B8D;labelBackgroundColor=none;fontColor=#143642;" parent="edge7" vertex="1" connectable="0">
+          <mxGeometry x="113" y="1210" as="geometry" />
+        </mxCell>
+        <mxCell id="label46" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#0F8B8D;labelBackgroundColor=none;fontColor=#143642;" parent="edge7" vertex="1" connectable="0">
+          <mxGeometry x="350" y="1070" as="geometry" />
+        </mxCell>
+        <mxCell id="label47" value="user" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#0F8B8D;labelBackgroundColor=none;fontColor=#143642;" parent="edge7" vertex="1" connectable="0">
+          <mxGeometry x="80" y="1210" as="geometry" />
+        </mxCell>
+        <mxCell id="edge0" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#A8201A;exitX=1.000;exitY=0.442;exitDx=0;exitDy=0;entryX=0.000;entryY=0.500;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node1" target="node3" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge1" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#A8201A;exitX=1.000;exitY=0.587;exitDx=0;exitDy=0;entryX=0.000;entryY=0.641;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node2" target="node4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge2" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#A8201A;exitX=1.000;exitY=0.533;exitDx=0;exitDy=0;entryX=0.000;entryY=0.500;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node0" target="node5" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge5" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=none;endArrow=block;endSize=12;strokeColor=#A8201A;exitX=0.000;exitY=0.500;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node8" target="node5" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

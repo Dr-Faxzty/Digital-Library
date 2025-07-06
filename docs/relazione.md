@@ -258,6 +258,12 @@ Questo pattern ha migliorato la robustezza del sistema e semplificato il codice 
 
 ---
 
+📌 **Diagramma UML**
+
+![nullObject UML](img/pattern/nullObject.drawio.png)
+
+---
+
 ### 3. Template Method
 
 ![Template](img/pattern/template.png)
@@ -293,6 +299,12 @@ Ognuna specifica solo:
 Il resto (logica di lettura/scrittura) è ereditato automaticamente.
 
 In questo modo, la logica di persistenza rimane modulare, coerente e facilmente estendibile a nuovi tipi di dati.
+
+---
+
+📌 **Diagramma UML**
+
+![Template UML](img/pattern/template.drawio.png)
 
 ---
 
@@ -336,6 +348,12 @@ Le classi che implementano `LoanState` sono:
 Ognuno di questi stati implementa in modo diverso i metodi della super-interfaccia, permettendo al contesto (`Loan`) di comportarsi in maniera coerente e priva di `if`.
 
 In questo modo, la logica di gestione degli stati rimane **pulita, chiara** e facilmente **estendibile** a nuovi scenari (es. prenotazione, sospensione, ecc.).
+
+---
+
+📌 **Diagramma UML**
+
+![State UML](img/pattern/state.drawio.png)
 
 ---
 
@@ -397,6 +415,12 @@ La separazione tra filtro e strategia rimane, ma l'applicazione concreta avviene
 
 ---
 
+📌 **Diagramma UML**
+
+![Strategy UML](img/pattern/strategy.drawio.png)
+
+---
+
 ### 6. Adapter
 
 ![Adapter](img/pattern/adapter.png)
@@ -434,6 +458,12 @@ Gson gson = new GsonBuilder()
 ```
 
 ---
+
+---
+
+📌 **Diagramma UML**
+
+![Adapter UML](img/pattern/adapter.drawio.png)
 
 ### 7. Observer
 
@@ -479,6 +509,12 @@ Invece di aggiornare manualmente ogni componente, si è implementato un sistema 
   Ogni componente che implementa ViewSubject può quindi inviare notifiche.
 
 ---
+
+---
+
+📌 **Diagramma UML**
+
+![Observer UML](img/pattern/observer.drawio.png)
 
 ## 🧪 7. Testing
 
