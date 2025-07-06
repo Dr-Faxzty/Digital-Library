@@ -30,6 +30,58 @@ Sono stati individuati gli attori principali (utenti e amministratori), le funzi
 
 Abbiamo anche valutato le tecnologie da adottare (JavaFX per l’interfaccia grafica, JSON per la persistenza) e identificato la necessità di applicare almeno 7 design pattern classici GoF.
 
+### Analisi dei Requisiti
+
+Questa sezione presenta un’analisi dettagliata dei requisiti del sistema, suddivisi in categorie per facilitarne la comprensione e l’implementazione.
+
+---
+
+#### Requisiti Funzionali
+
+I requisiti funzionali descrivono le funzionalità specifiche che il sistema deve fornire:
+
+1. **Gestione degli Utenti**
+  - Il sistema deve consentire la registrazione e l’autenticazione degli utenti.
+  - Ogni utente deve avere un ruolo: normale o amministratore.
+  - Gli utenti devono poter visualizzare, ricercare e prendere in prestito i libri disponibili.
+
+2. **Gestione dei Libri**
+  - Il sistema deve permettere l’inserimento, la modifica e la rimozione di libri (solo per gli admin).
+  - I libri devono essere visualizzabili in una lista, filtrabili per titolo, autore e categoria.
+
+3. **Gestione dei Prestiti**
+  - Il sistema deve consentire agli utenti di prendere in prestito e restituire libri.
+  - I prestiti devono avere una durata limitata e uno stato (in corso, scaduto, restituito).
+  - Gli amministratori devono poter visualizzare tutti i prestiti effettuati.
+
+---
+
+#### Requisiti Non Funzionali
+
+I requisiti non funzionali descrivono aspetti qualitativi del sistema:
+
+- **Usabilità:** Interfaccia intuitiva e user-friendly tramite JavaFX.
+- **Modularità:** Architettura a componenti separati (MVC) e uso di design pattern.
+- **Portabilità:** Esecuzione multipiattaforma grazie a Java.
+- **Manutenibilità:** Codice documentato, organizzato per package e testato.
+- **Performance:** Caricamento asincrono dei dati per evitare blocchi nell’interfaccia.
+
+---
+
+#### Requisiti di Sistema
+
+1. Requisiti Software
+- **Linguaggio:** Java 23 o superiore.
+- **Ambiente di esecuzione:** Java Runtime Environment compatibile con JavaFX.
+- **Persistenza:** Archiviazione su file JSON (no database).
+- **Librerie esterne:** Gson (per la serializzazione JSON).
+
+2. Requisiti Hardware
+- **Sistema operativo:** Windows, macOS o Linux.
+- **Memoria RAM:** minimo 4 GB.
+- **Spazio su disco:** almeno 200 MB liberi per file applicazione e dati JSON.
+- **Risoluzione consigliata:** 1280x720 o superiore per una corretta visualizzazione della GUI.
+
 ---
 
 ### 🟨 2. Definizione
