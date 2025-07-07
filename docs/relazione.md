@@ -131,7 +131,7 @@ Per rappresentare visivamente l'avanzamento del lavoro e la suddivisione tempora
 
 ![Diagramma Gantt](img/gantt.png)
 
-> *Nota: il diagramma segue la pianificazione su 4 settimane suggerita dal docente.*
+---
 
 ## Architettura Generale
 
@@ -148,8 +148,8 @@ Digital-Library/
 ├── src/
 │ ├── main/
 │ │   ├── java/
-│ │   │   └── it/
-│ │   │       └── yellowradiators/
+│ │   │   └── com/
+│ │   │       └── example/
 │ │   │           ├── common/
 │ │   │           │   ├── adapter/
 │ │   │           │   ├── enums/
@@ -169,8 +169,7 @@ Digital-Library/
 │ │   │           │   └── user/
 │ │   │           └── MainApp.java
 │ │   └── resources/
-│ │       ├── style/
-│ │       └── view/
+│ │       └── style/
 │ └── test/
 ├── README.md
 └── .gitignore
@@ -203,12 +202,6 @@ Controller (Coordina l’azione)
     - richiama le classi di persistenza (`JsonLoanManager`, `JsonBookManager`) per **salvare** i cambiamenti nei file `loans.json` e `books.json`.
 
 4. La vista viene aggiornata per riflettere il nuovo stato del libro (non disponibile) e per mostrare il prestito tra quelli attivi dell’utente.
-
----
-
-### Diagramma UML della struttura del progetto
-
-![Diagramma UML](img/uml.png)
 
 ---
 
@@ -576,8 +569,8 @@ Questo ha permesso di validare il comportamento del sistema nel suo complesso e 
 Digital-Library/
 ├── test/
    └── java/
-       └── it/
-           └── yellowradiators/
+       └── com/
+           └── example/
                ├── common/
                │   ├── adapter/
                │   ├── nullObject/
